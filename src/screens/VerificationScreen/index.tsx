@@ -1,14 +1,13 @@
-import { useRef, useState } from "react";
 import {
   Text,
   Pressable,
-  StyleSheet,
   SafeAreaView,
   View,
   Image,
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Entypo } from "@expo/vector-icons";
 import { Colors } from "../../constants/Colors";
 import PhoneInput from "react-native-phone-input";
@@ -16,39 +15,38 @@ import imageBg from "../../assets/images/image_bg.png";
 import enterNumberImage from "../../assets/images/enter_number.png";
 import accountVerifiedImage from "../../assets/images/account_verified.png";
 import enterCodeImage from "../../assets/images/enter_code.png";
-import {
-  CodeField,
-  Cursor,
-  useBlurOnFulfill,
-  useClearByFocusCell,
-} from "react-native-confirmation-code-field";
-import Layout from "../../constants/Layout";
-import { customStyle } from "./style";
+import { CodeField, Cursor } from "react-native-confirmation-code-field";
+import { useVerificationScreen } from "./useVerificationScreen";
 
 const CELL_COUNT = 4;
-const { window } = Layout;
 
-export default function VerificationScreen() {
-  const styles = customStyle({ window });
-  const [value, setValue] = useState("");
-  const [countryCode, setCountryCode] = useState("+91");
-  const [codeSent, setCodeSent] = useState(false);
-  const [accountVerified, setAccountVerified] = useState(false);
-  const phoneInput = useRef<PhoneInput>(null);
-  const [validationCode, setValidationCode] = useState("");
-  const validCodeRef = useBlurOnFulfill({
-    value: validationCode,
-    cellCount: CELL_COUNT,
-  });
-  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
-    value: validationCode,
-    setValue: setValidationCode,
-  });
+const VerificationScreen = (props: any) => {
+  const {
+    accountVerified,
+    codeSent,
+    getCellOnLayoutHandler,
+    phoneInput,
+    codeProps,
+    setAccountVerified,
+    setCodeSent,
+    setCountryCode,
+    setValidationCode,
+    setPhNum,
+    styles,
+    validCodeRef,
+    validationCode,
+    phNum,
+  } = useVerificationScreen();
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerView}>
-        <Pressable style={styles.backButton}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() =>
+            props.navigation.navigate(accountVerified ? "Home" : "Landing")
+          }
+        >
           <Entypo name="chevron-left" size={20} color={Colors.darkGray} />
         </Pressable>
         {accountVerified ? (
@@ -68,12 +66,12 @@ export default function VerificationScreen() {
                 <View>
                   <View style={styles.numContainer}>
                     <Text style={styles.send}>Code sent to</Text>
-                    <Text style={styles.num}>{value}</Text>
+                    <Text style={styles.num}>{phNum}</Text>
                   </View>
-                  <View style={styles.numContainer}>
+                  {/* <View style={styles.numContainer}>
                     <Text style={styles.incorrect}>Incorrect code!</Text>
                     <Text style={styles.send}>Please try again</Text>
-                  </View>
+                  </View> */}
                 </View>
               ) : (
                 <Text style={styles.title}>
@@ -85,7 +83,7 @@ export default function VerificationScreen() {
               <View style={styles.centerContainer}>
                 <CodeField
                   ref={validCodeRef}
-                  {...props}
+                  {...codeProps}
                   value={validationCode}
                   onChangeText={setValidationCode}
                   cellCount={CELL_COUNT}
@@ -106,20 +104,26 @@ export default function VerificationScreen() {
                   <Text style={styles.send}>Didn't receive code ?</Text>
                   <Text style={styles.num}>Resend</Text>
                 </View>
-                <View style={[styles.numContainer, styles.mt43]}>
+                {/* <View style={[styles.numContainer, styles.mt43]}>
                   <Text style={styles.send}>OR</Text>
-                </View>
-                <TouchableOpacity style={styles.createBtn}>
+                </View> */}
+                <TouchableOpacity
+                  style={[
+                    styles.createBtn,
+                    validationCode.length !== 4 && styles.disabledBtn,
+                  ]}
+                  onPress={() => setAccountVerified((preState) => !preState)}
+                >
                   <Text style={styles.buttonText}>
                     Verify and create account
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={styles.createBtn}
                   onPress={() => setAccountVerified((preState) => !preState)}
                 >
                   <Text style={styles.buttonText}>Resend Code</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             ) : (
               <View style={styles.bottomContainer}>
@@ -127,18 +131,19 @@ export default function VerificationScreen() {
                   <Text style={styles.fieldLabel}>Enter your phone number</Text>
                   <PhoneInput
                     ref={phoneInput}
-                    initialValue={value}
+                    initialValue={phNum}
                     initialCountry="in"
                     onChangePhoneNumber={(phNum, iso) => {
-                      setValue(phNum);
+                      setPhNum(phNum);
                       setCountryCode(iso);
                     }}
                     flagStyle={{ display: "none" }}
                   />
                 </View>
                 <TouchableOpacity
-                  style={styles.button}
+                  style={[styles.button, !phNum && styles.disabledBtn]}
                   onPress={() => setCodeSent((preState) => !preState)}
+                  disabled={!phNum}
                 >
                   <Text style={styles.buttonText}>Continue</Text>
                 </TouchableOpacity>
@@ -149,4 +154,6 @@ export default function VerificationScreen() {
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default VerificationScreen;

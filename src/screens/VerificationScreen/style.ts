@@ -159,4 +159,7 @@ export const customStyle = ({ window }: { window: any }) =>
       lineHeight: 17,
       marginBottom: 76,
     },
+    disabledBtn: {
+      opacity: 0.5,
+    },
   });
