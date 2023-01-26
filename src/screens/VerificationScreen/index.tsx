@@ -36,6 +36,11 @@ const VerificationScreen = (props: any) => {
     validCodeRef,
     validationCode,
     phNum,
+    isPhNumValid,
+    isEnterCodeValid,
+    handleCreateAccount,
+    invalidCode,
+    setInvalidCode,
   } = useVerificationScreen();
 
   return (
@@ -64,14 +69,17 @@ const VerificationScreen = (props: any) => {
               </ImageBackground>
               {codeSent ? (
                 <View>
-                  <View style={styles.numContainer}>
-                    <Text style={styles.send}>Code sent to</Text>
-                    <Text style={styles.num}>{phNum}</Text>
-                  </View>
-                  {/* <View style={styles.numContainer}>
-                    <Text style={styles.incorrect}>Incorrect code!</Text>
-                    <Text style={styles.send}>Please try again</Text>
-                  </View> */}
+                  {invalidCode ? (
+                    <View style={styles.numContainer}>
+                      <Text style={styles.incorrect}>Incorrect code!</Text>
+                      <Text style={styles.send}>Please try again</Text>
+                    </View>
+                  ) : (
+                    <View style={styles.numContainer}>
+                      <Text style={styles.send}>Code sent to</Text>
+                      <Text style={styles.num}>{phNum}</Text>
+                    </View>
+                  )}
                 </View>
               ) : (
                 <Text style={styles.title}>
@@ -100,30 +108,36 @@ const VerificationScreen = (props: any) => {
                     </Text>
                   )}
                 />
-                <View style={[styles.numContainer, styles.mt43]}>
-                  <Text style={styles.send}>Didn't receive code ?</Text>
-                  <Text style={styles.num}>Resend</Text>
-                </View>
-                {/* <View style={[styles.numContainer, styles.mt43]}>
-                  <Text style={styles.send}>OR</Text>
-                </View> */}
-                <TouchableOpacity
-                  style={[
-                    styles.createBtn,
-                    validationCode.length !== 4 && styles.disabledBtn,
-                  ]}
-                  onPress={() => setAccountVerified((preState) => !preState)}
-                >
-                  <Text style={styles.buttonText}>
-                    Verify and create account
-                  </Text>
-                </TouchableOpacity>
-                {/* <TouchableOpacity
-                  style={styles.createBtn}
-                  onPress={() => setAccountVerified((preState) => !preState)}
-                >
-                  <Text style={styles.buttonText}>Resend Code</Text>
-                </TouchableOpacity> */}
+                {invalidCode ? (
+                  <View style={[styles.numContainer, styles.mt43]}>
+                    <Text style={styles.send}>OR</Text>
+                  </View>
+                ) : (
+                  <View style={[styles.numContainer, styles.mt43]}>
+                    <Text style={styles.send}>Didn't receive code ?</Text>
+                    <Text style={styles.num}>Resend</Text>
+                  </View>
+                )}
+                {invalidCode ? (
+                  <TouchableOpacity
+                    style={styles.createBtn}
+                    onPress={() => setInvalidCode((preState) => !preState)}
+                  >
+                    <Text style={styles.buttonText}>Resend Code</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={[
+                      styles.createBtn,
+                      validationCode.length !== 4 && styles.disabledBtn,
+                    ]}
+                    onPress={handleCreateAccount}
+                  >
+                    <Text style={styles.buttonText}>
+                      Verify and create account
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             ) : (
               <View style={styles.bottomContainer}>
@@ -141,7 +155,7 @@ const VerificationScreen = (props: any) => {
                   />
                 </View>
                 <TouchableOpacity
-                  style={[styles.button, !phNum && styles.disabledBtn]}
+                  style={[styles.button, !isPhNumValid() && styles.disabledBtn]}
                   onPress={() => setCodeSent((preState) => !preState)}
                   disabled={!phNum}
                 >

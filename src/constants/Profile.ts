@@ -17,32 +17,38 @@ export const mockUser = {
   image: "http://dummyimage.com/128x100.png/cc0000/ffffff",
 };
 
-export const userDetails = [
-  {
-    title: "Phone",
-    value: mockUser.phone,
-    icon: phoneIcon,
-  },
-  {
-    title: "E-Mail",
-    value: mockUser.email,
-    icon: emailIcon,
-  },
-  {
-    title: "Date of Birth",
-    value: mockUser.dob,
-    icon: calendarIcon,
-  },
-  {
-    title: "Gender",
-    value: mockUser.gender,
-    icon: crownIcon,
-  },
-];
+export const UserDetailsFields = (user: any) =>
+  !!user.id
+    ? [
+        {
+          title: "Phone",
+          value: user.phNum,
+          icon: phoneIcon,
+        },
+        {
+          title: "E-Mail",
+          value: user.email,
+          icon: emailIcon,
+        },
+        {
+          title: "Date of Birth",
+          value: user.dob,
+          icon: calendarIcon,
+        },
+        {
+          title: "Gender",
+          value: user.gender,
+          icon: crownIcon,
+        },
+      ]
+    : [];
 
-export const locations = [
-  {
-    value: `${mockUser.city}, ${mockUser.state}`,
-    icon: locationIcon,
-  },
-];
+export const locations = (user: any) =>
+  user?.id
+    ? [
+        {
+          value: `${user.city}, ${user.state}`,
+          icon: locationIcon,
+        },
+      ]
+    : [];

@@ -11,9 +11,18 @@ import {
 } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { styles } from "./styles";
-import { locations, mockUser, userDetails } from "../../constants/Profile";
+import {
+  locations,
+  mockUser,
+  UserDetailsFields,
+} from "../../constants/Profile";
+import useProfilePage from "./useProfilePage";
 
 const ProfileScreen = () => {
+  const { userDetails } = useProfilePage();
+  const userFields = UserDetailsFields(userDetails);
+  const userLocationFields = locations(userDetails);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -29,7 +38,7 @@ const ProfileScreen = () => {
           <View style={styles.headerContainer}>
             <Image source={{ uri: mockUser.image }} style={styles.avatar} />
             <Text style={styles.username}>
-              {`${mockUser.Name}, ${mockUser.age}`}
+              {`${userDetails?.name}, ${userDetails?.age}`}
             </Text>
             <TouchableOpacity style={styles.editBtn}>
               <View style={styles.flexRow}>
@@ -41,7 +50,7 @@ const ProfileScreen = () => {
         </View>
         <View style={styles.divider} />
         <View style={styles.containerView}>
-          {userDetails.map((detail, detailIndex) => (
+          {userFields.map((detail, detailIndex) => (
             <View style={styles.listItem} key={detailIndex}>
               <View style={styles.listItemImage}>
                 <Image source={detail.icon} />
@@ -57,7 +66,7 @@ const ProfileScreen = () => {
           <Text>Location</Text>
         </View>
         <View style={styles.containerView}>
-          {locations.map((location, locationIndex) => (
+          {userLocationFields.map((location, locationIndex) => (
             <View style={styles.listItem} key={locationIndex}>
               <View style={styles.listItemLocationImage}>
                 <Image source={location.icon} />
