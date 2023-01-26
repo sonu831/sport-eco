@@ -1,13 +1,12 @@
 import React from "react";
-import { Text, View, SafeAreaView } from "react-native";
+import { Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { styles } from "./styles";
-import ProfileScreen from "../ProfilePage";
-import AddPlayerScreen from "../AddPlayer";
 import { NavigationContainer } from "@react-navigation/native";
 import LandingScreen from "../LandingScreen";
 import VerificationScreen from "../VerificationScreen";
+import { BottomTabBar } from "../../constants/BottomTabBar";
+import { styles } from "./styles";
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,11 +26,25 @@ const Navigation = () => {
 const BottomTabNavigation = () => {
   return (
     <BottomTab.Navigator
-      initialRouteName="Profile"
-      screenOptions={{ headerShown: false }}
+      initialRouteName="Main"
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: styles.tabBarStyle,
+      }}
     >
-      <BottomTab.Screen name="Profile" component={ProfileScreen} />
-      <BottomTab.Screen name="AddPlayer" component={AddPlayerScreen} />
+      {BottomTabBar.map((tab, tabIndex) => {
+        return (
+          <BottomTab.Screen
+            key={tabIndex}
+            name={tab.name}
+            component={tab.component}
+            options={() => ({
+              title: tab.title,
+              tabBarIcon: () => <Image source={tab.tabBarIcon} />,
+            })}
+          />
+        );
+      })}
     </BottomTab.Navigator>
   );
 };
