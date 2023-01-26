@@ -52,8 +52,6 @@ export const useVerificationScreen = () => {
     }
   };
 
-  console.log("userDetails --> ", userDetails);
-
   return {
     validCodeRef,
     codeProps,

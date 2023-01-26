@@ -26,7 +26,6 @@ export const UserSlice = createSlice({
         );
       })
       .addCase(fetchUserById.fulfilled, (s, a) => {
-        console.log("a", a);
         s.user = a.payload;
         storeDataInStorage(
           StorageKeys.userDetails,

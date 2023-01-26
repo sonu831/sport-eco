@@ -16,7 +16,6 @@ const useNavigation = () => {
     fetchFromStorage(StorageKeys.userDetails).then((user) => {
       if (!!user) {
         const value = JSON.parse(user);
-        console.log("value", value);
         dispatch(fetchUserById(value));
       }
     });
