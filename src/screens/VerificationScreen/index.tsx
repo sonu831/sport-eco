@@ -7,9 +7,9 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Entypo from "react-native-vector-icons/Entypo";
 import { Colors } from "../../constants/Colors";
+import { Input } from 'react-native-elements'
 // import PhoneInput from "react-native-phone-input";
 import imageBg from "../../assets/images/image_bg.png";
 import enterNumberImage from "../../assets/images/enter_number.png";
@@ -41,6 +41,7 @@ const VerificationScreen = (props: any) => {
     handleCreateAccount,
     invalidCode,
     setInvalidCode,
+    handlePhNumChange
   } = useVerificationScreen();
 
   return (
@@ -142,17 +143,18 @@ const VerificationScreen = (props: any) => {
             ) : (
               <View style={styles.bottomContainer}>
                 <View style={styles.fieldContainer}>
-                  <Text style={styles.fieldLabel}>Enter your phone number</Text>
-                  {/* <PhoneInput
+                  <Input
                     ref={phoneInput}
-                    initialValue={phNum}
-                    initialCountry="in"
-                    onChangePhoneNumber={(phNum, iso) => {
-                      setPhNum(phNum);
-                      setCountryCode(iso);
-                    }}
-                    flagStyle={{ display: "none" }}
-                  /> */}
+                    keyboardType="number-pad"
+                    onChangeText={handlePhNumChange}
+                    value={phNum}
+                    containerStyle={styles.mt15}
+                    inputContainerStyle={styles.fieldInputContainer}
+                    inputStyle={styles.fieldInput}
+                    label="Enter your phone number"
+                    labelStyle={styles.fieldLabel}
+
+                  />
                 </View>
                 <TouchableOpacity
                   style={[styles.button, !isPhNumValid() && styles.disabledBtn]}

@@ -18,7 +18,7 @@ export const useVerificationScreen = () => {
   const dispatch = useDispatch();
   const styles = customStyle({ window });
   const userDetails = useSelector(userDetails$);
-  const [phNum, setPhNum] = useState("");
+  const [phNum, setPhNum] = useState("+");
   const [countryCode, setCountryCode] = useState("+91");
   const [codeSent, setCodeSent] = useState(false);
   const [accountVerified, setAccountVerified] = useState(false);
@@ -51,6 +51,14 @@ export const useVerificationScreen = () => {
     }
   };
 
+  const handlePhNumChange = (phone: string) => {
+    if(phone.length === 0) {
+      setPhNum('+')
+    } else {
+      setPhNum(phone)
+    }
+  }
+
   return {
     validCodeRef,
     codeProps,
@@ -72,5 +80,6 @@ export const useVerificationScreen = () => {
     handleCreateAccount,
     invalidCode,
     setInvalidCode,
+    handlePhNumChange
   };
 };

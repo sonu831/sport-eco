@@ -1,6 +1,6 @@
-// import { StorageKeys } from "./../../constants/storageKeys";
-// import { storeDataInStorage } from "./../../utils/storage";
-// import { registerUser, fetchUserById } from "./../../services/users";
+import { StorageKeys } from "./../../constants/storageKeys";
+import { storeDataInStorage } from "./../../utils/storage";
+import { registerUser, fetchUserById } from "./../../services/users";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -18,23 +18,23 @@ export const UserSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // .addCase(registerUser.fulfilled, (s, a) => {
-      //   s.user = a.payload;
-      //   storeDataInStorage(
-      //     StorageKeys.userDetails,
-      //     JSON.stringify(a.payload.id)
-      //   );
-      // })
-      // .addCase(fetchUserById.fulfilled, (s, a) => {
-      //   s.user = a.payload;
-      //   storeDataInStorage(
-      //     StorageKeys.userDetails,
-      //     JSON.stringify(a.payload.id)
-      //   );
-      // })
-      // .addCase(registerUser.rejected, (s, a) => {
-      //   s.error = JSON.stringify(a.payload);
-      // });
+      .addCase(registerUser.fulfilled, (s, a) => {
+        s.user = a.payload;
+        storeDataInStorage(
+          StorageKeys.userDetails,
+          JSON.stringify(a.payload.id)
+        );
+      })
+      .addCase(fetchUserById.fulfilled, (s, a) => {
+        s.user = a.payload;
+        storeDataInStorage(
+          StorageKeys.userDetails,
+          JSON.stringify(a.payload.id)
+        );
+      })
+      .addCase(registerUser.rejected, (s, a) => {
+        s.error = JSON.stringify(a.payload);
+      });
   },
 });
 
