@@ -1,5 +1,6 @@
 import axios from "axios";
 import { hideLoader, showLoader } from "../../store/common/reducers";
+import config from "../../../config";
 
 let store: any;
 
@@ -8,7 +9,7 @@ export const initializeStore = (initialStore: any) => {
 };
 
 const instance = axios.create({
-  baseURL: "https://5202-2401-4900-1c5e-9bc5-60e8-490c-ad8c-be8f.ngrok.io",
+  baseURL: config.apiUrl,
 });
 
 const requestHandler = (request: any) => {

@@ -12,7 +12,7 @@ import MainScreen from "../MainScreen";
 import ProfileScreen from "../ProfilePage";
 import Confirmation from "../Confirmation";
 import Spinner from "react-native-loading-spinner-overlay";
-
+import NotReady from "../NotReady";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
@@ -26,8 +26,8 @@ const Navigation = () => {
           <Stack.Group>
             {/* <Stack.Screen name="Home" component={BottomTabNavigation} /> */}
             <Stack.Screen name="Main" component={MainScreen} />
-            <Stack.Screen name="Calendar" component={ProfileScreen} />
-            <Stack.Screen name="Message" component={ProfileScreen} />
+            <Stack.Screen name="Calendar" component={NotReady} />
+            <Stack.Screen name="Message" component={NotReady} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="CommonScreen" component={CommonScreen} />
