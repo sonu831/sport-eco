@@ -1,34 +1,51 @@
-import ProfileScreen from "../screens/ProfilePage";
-import AddPlayerScreen from "../screens/AddPlayer";
-import MainScreen from "../screens/MainScreen";
-import homeIcon from "../assets/images/home.png";
-import calendarIcon from "../assets/images/calender.png";
-import messageIcon from "../assets/images/message.png";
-import profileIcon from "../assets/images/profile.png";
+import ProfileScreen from '../screens/ProfilePage';
+import MainScreen from '../screens/MainScreen';
+import AddScreen from '../screens/CommonScreen';
+import homeIcon from '../assets/images/home.png';
+import calendarIcon from '../assets/images/calender.png';
+import messageIcon from '../assets/images/message.png';
+import profileIcon from '../assets/images/profile.png';
+import {RootBottomTabParamList} from '../screens/Navigation/types';
 
-export const BottomTabBar = [
+type BottomTabBarProps = {
+  name: keyof RootBottomTabParamList;
+  onPress: any;
+  title: string;
+  tabBarIcon: any;
+  component: any;
+};
+
+export const BottomTabBar: ({
+  navigation,
+}: {
+  navigation: any;
+}) => BottomTabBarProps[] = ({navigation}) => [
   {
-    name: "Main",
+    name: 'Main',
+    onPress: () => navigation.navigate('Main'),
     component: MainScreen,
-    title: "",
+    title: '',
     tabBarIcon: homeIcon,
   },
   {
-    name: "Calendar",
-    component: AddPlayerScreen,
-    title: "",
+    name: 'Calendar',
+    onPress: () => navigation.navigate('Profile'),
+    component: ProfileScreen,
+    title: '',
     tabBarIcon: calendarIcon,
   },
   {
-    name: "Message",
+    name: 'Message',
+    onPress: () => navigation.navigate('Profile'),
     component: ProfileScreen,
-    title: "",
+    title: '',
     tabBarIcon: messageIcon,
   },
   {
-    name: "Profile",
+    name: 'Profile',
+    onPress: () => navigation.navigate('Profile'),
     component: ProfileScreen,
-    title: "",
+    title: '',
     tabBarIcon: profileIcon,
   },
 ];
