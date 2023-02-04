@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 export const customStyle = ({ window }: { window: any }) =>
   StyleSheet.create({
     mt43: { marginTop: 43 },
+    mt15: { marginTop: 15 },
     container: {
       flex: 1,
       backgroundColor: Colors.white,
@@ -45,7 +46,7 @@ export const customStyle = ({ window }: { window: any }) =>
       alignItems: "center",
     },
     fieldContainer: {
-      width: 150,
+      width: 180,
     },
     bottomContainer: {
       flexDirection: "row",
@@ -60,14 +61,12 @@ export const customStyle = ({ window }: { window: any }) =>
     },
     fieldLabel: {
       fontSize: 12,
+      fontWeight: '500',
       color: Colors.darkGray,
-      marginBottom: 8,
     },
+    fieldInputContainer: { borderColor: 'transparent', height: 30 },
     fieldInput: {
-      fontSize: 12,
-      width: 114,
-      height: 21,
-      borderWidth: 1,
+      fontSize: 14,
     },
     button: {
       backgroundColor: Colors.darkGray,

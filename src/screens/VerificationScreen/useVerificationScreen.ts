@@ -1,32 +1,32 @@
-import { StorageKeys } from "./../../constants/storageKeys";
-import { storeDataInStorage } from "./../../utils/storage";
-import { registerUser } from "./../../services/users";
-import { phNumRegex, mockCode } from "./../../constants/index";
-import { useRef, useState } from "react";
-import PhoneInput from "react-native-phone-input";
+import {registerUser} from './../../services/users';
+import {phNumRegex, mockCode} from './../../constants/index';
+import {useRef, useState} from 'react';
+// import PhoneInput from "react-native-phone-input";
 import {
   useBlurOnFulfill,
   useClearByFocusCell,
-} from "react-native-confirmation-code-field";
-import { customStyle } from "./style";
-import Layout from "../../constants/Layout";
-import { useDispatch, useSelector } from "react-redux";
-import { userDetails$ } from "../../store/users/selectors";
+} from 'react-native-confirmation-code-field';
+import {customStyle} from './style';
+import Layout from '../../constants/Layout';
+import {useDispatch, useSelector} from 'react-redux';
+import {userDetails$} from '../../store/users/selectors';
+import {AppDispatch} from '../../store';
 
 const CELL_COUNT = 4;
-const { window } = Layout;
+const {window} = Layout;
 
 export const useVerificationScreen = () => {
-  const dispatch = useDispatch();
-  const styles = customStyle({ window });
+  const dispatch = useDispatch<AppDispatch>();
+  const styles = customStyle({window});
   const userDetails = useSelector(userDetails$);
-  const [phNum, setPhNum] = useState("");
-  const [countryCode, setCountryCode] = useState("+91");
+  const [phNum, setPhNum] = useState('+');
+  const [countryCode, setCountryCode] = useState('+91');
   const [codeSent, setCodeSent] = useState(false);
   const [accountVerified, setAccountVerified] = useState(false);
   const [invalidCode, setInvalidCode] = useState(false);
-  const phoneInput = useRef<PhoneInput>(null);
-  const [validationCode, setValidationCode] = useState("");
+  // const phoneInput = useRef<PhoneInput>(null);
+  const phoneInput = useRef(null);
+  const [validationCode, setValidationCode] = useState('');
   const validCodeRef = useBlurOnFulfill({
     value: validationCode,
     cellCount: CELL_COUNT,
@@ -48,7 +48,15 @@ export const useVerificationScreen = () => {
       dispatch(registerUser(request));
     } else {
       setInvalidCode(true);
-      setValidationCode("");
+      setValidationCode('');
+    }
+  };
+
+  const handlePhNumChange = (phone: string) => {
+    if (phone.length === 0) {
+      setPhNum('+');
+    } else {
+      setPhNum(phone);
     }
   };
 
@@ -73,5 +81,6 @@ export const useVerificationScreen = () => {
     handleCreateAccount,
     invalidCode,
     setInvalidCode,
+    handlePhNumChange,
   };
 };

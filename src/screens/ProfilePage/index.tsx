@@ -1,5 +1,5 @@
-import React from "react";
-import { Entypo } from "@expo/vector-icons";
+import React from 'react';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {
   Text,
   View,
@@ -8,39 +8,42 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-} from "react-native";
-import { Colors } from "../../constants/Colors";
-import { styles } from "./styles";
-import {
-  locations,
-  mockUser,
-  UserDetailsFields,
-} from "../../constants/Profile";
-import useProfilePage from "./useProfilePage";
+} from 'react-native';
+import {Colors} from '../../constants/Colors';
+import {styles} from './styles';
+import {locations, UserDetailsFields} from '../../constants/Profile';
+import useProfilePage from './useProfilePage';
+import {RootStackScreenProps} from '../Navigation/types';
 
-const ProfileScreen = () => {
-  const { userDetails } = useProfilePage();
-  const userFields = UserDetailsFields(userDetails);
-  const userLocationFields = locations(userDetails);
+const ProfileScreen = ({
+  navigation,
+  route,
+}: RootStackScreenProps<'Profile'>) => {
+  const {dataToShow, handleGoBack} = useProfilePage({navigation, route});
+
+  const userFields = UserDetailsFields(dataToShow);
+  const userLocationFields = locations(dataToShow);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.containerView}>
-          <Pressable
-            style={styles.backButton}
-            // onPress={() =>
-            //   props.navigation.navigate(accountVerified ? "Home" : "Landing")
-            // }
-          >
+          <Pressable style={styles.backButton} onPress={handleGoBack}>
             <Entypo name="chevron-left" size={20} color={Colors.darkGray} />
           </Pressable>
           <View style={styles.headerContainer}>
-            <Image source={{ uri: mockUser.image }} style={styles.avatar} />
+            <Image
+              source={{uri: `data:image/jpeg;base64,${dataToShow.imageURl}`}}
+              style={styles.avatar}
+            />
             <Text style={styles.username}>
-              {`${userDetails?.name}, ${userDetails?.age}`}
+              {`${dataToShow?.fName} ${dataToShow?.lName} ${
+                dataToShow?.age ? `, ${dataToShow?.age}` : ''
+              }`}
             </Text>
-            <TouchableOpacity style={styles.editBtn}>
+            <TouchableOpacity
+              style={styles.editBtn}
+              onPress={() => navigation.navigate('EditProfile')}>
               <View style={styles.flexRow}>
                 <Text style={styles.btnText}>Edit Profile</Text>
                 <Entypo name="chevron-right" size={16} color={Colors.white} />

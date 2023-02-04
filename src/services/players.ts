@@ -1,12 +1,12 @@
-import {endpoints} from './utils/endpoints';
 import axios from './utils/axios';
+import {endpoints} from './utils/endpoints';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 
-export const registerUser = createAsyncThunk(
-  'registerUser',
+export const addPlayer = createAsyncThunk(
+  'addPlayer',
   async (request: {[key: string]: any}, {rejectWithValue}) => {
     return axios
-      .post(endpoints.addUser, request)
+      .post(endpoints.addPlayer, request)
       .then(res => res.data)
       .catch(err => {
         rejectWithValue(err);
@@ -14,23 +14,26 @@ export const registerUser = createAsyncThunk(
   },
 );
 
-export const updateUserProfile = createAsyncThunk(
-  'updateUserProfile',
-  async (request: {[key: string]: any}, {rejectWithValue}) => {
+export const fetchPlayers = createAsyncThunk(
+  'fetchPlayers',
+  async (_, {rejectWithValue}) => {
     return axios
-      .put(endpoints.fetchUserById(request?.id), request)
-      .then(res => res.data)
+      .get(endpoints.addPlayer)
+      .then(res => {
+        console.log('res.data', res.data);
+        return res.data;
+      })
       .catch(err => {
         rejectWithValue(err);
       });
   },
 );
 
-export const fetchUserById = createAsyncThunk(
-  'fetchUserById',
+export const fetchPlayerById = createAsyncThunk(
+  'fetchPlayerById',
   async (id: string, {rejectWithValue}) => {
     return axios
-      .get(endpoints.fetchUserById(id))
+      .get(endpoints.fetchPlayerById(id))
       .then(res => res.data)
       .catch(err => {
         rejectWithValue(err);
