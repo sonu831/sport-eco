@@ -23,7 +23,6 @@ const useCommonScreen = ({
   const players: any[] = useSelector(players$);
 
   const showPlayers = title.toLowerCase() === "players";
-  console.log("showPlayers", showPlayers);
 
   const handleGoBack = () => navigation.goBack();
 
@@ -36,7 +35,7 @@ const useCommonScreen = ({
     dispatch(fetchPlayers());
   }, [dispatch, shouldRefresh]);
 
-  return { handleGoBack, players, title, handleClickOnProfile };
+  return { handleGoBack, players, title, handleClickOnProfile, showPlayers };
 };
 
 export default useCommonScreen;

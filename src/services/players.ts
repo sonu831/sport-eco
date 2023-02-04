@@ -20,7 +20,6 @@ export const fetchPlayers = createAsyncThunk(
     return axios
       .get(endpoints.addPlayer)
       .then((res) => {
-        console.log("res.data", res.data);
         return res.data;
       })
       .catch((err) => {
