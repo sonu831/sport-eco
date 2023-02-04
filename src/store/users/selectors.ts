@@ -1,6 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { UserSlice } from "./reducers";
+import { RootState } from "../index";
 
-const users$ = (s: any) => s[UserSlice.name];
+const users$ = (s: RootState) => s[UserSlice.name];
 
 export const userDetails$ = createSelector([users$], (users) => users.user);

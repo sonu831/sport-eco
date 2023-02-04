@@ -1,11 +1,12 @@
-import {createSelector} from '@reduxjs/toolkit';
-import {PlayerSlice} from './reducers';
+import { createSelector } from "@reduxjs/toolkit";
+import { PlayerSlice } from "./reducers";
+import { RootState } from "../index";
 
-const player$ = (s: any) => s[PlayerSlice.name];
+const player$ = (s: RootState) => s[PlayerSlice.name];
 
-export const players$ = createSelector([player$], players => players.players);
+export const players$ = createSelector([player$], (players) => players.players);
 
 export const playerDetails$ = createSelector(
   [player$],
-  players => players.playerDetails,
+  (players) => players.playerDetails
 );
