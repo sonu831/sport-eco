@@ -1,25 +1,26 @@
-import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer} from '@react-navigation/native';
-import LandingScreen from '../LandingScreen';
-import VerificationScreen from '../VerificationScreen';
-import BottomTabNavigation from './BottomTabNavigation';
-import useNavigation from './useNavigation';
-import EditProfile from '../EditProfile';
-import CommonScreen from '../CommonScreen';
-import {RootStackParamList} from './types';
-import MainScreen from '../MainScreen';
-import ProfileScreen from '../ProfilePage';
-import {View} from 'react-native';
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import LandingScreen from "../LandingScreen";
+import VerificationScreen from "../VerificationScreen";
+import BottomTabNavigation from "./BottomTabNavigation";
+import useNavigation from "./useNavigation";
+import EditProfile from "../EditProfile";
+import CommonScreen from "../CommonScreen";
+import { RootStackParamList } from "./types";
+import MainScreen from "../MainScreen";
+import ProfileScreen from "../ProfilePage";
+import { View } from "react-native";
+import Confirmation from "../Confirmation";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
-  const {userData} = useNavigation();
+  const { userData } = useNavigation();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!!userData?.phNum ? (
           <Stack.Group>
             {/* <Stack.Screen name="Home" component={BottomTabNavigation} /> */}
@@ -29,6 +30,7 @@ const Navigation = () => {
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="CommonScreen" component={CommonScreen} />
+            <Stack.Screen name="Confirmation" component={Confirmation} />
           </Stack.Group>
         ) : (
           <Stack.Group>

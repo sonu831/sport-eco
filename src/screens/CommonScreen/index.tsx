@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   SafeAreaView,
@@ -6,38 +6,41 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
-import SearchBar from '../../components/SearchBar';
-import {styles} from './styles';
-import noPlayer from '../../assets/images/no-player.png';
-import addIcon from '../../assets/images/floating-icon-add.png';
-import {RootStackScreenProps} from '../Navigation/types';
-import useCommonScreen from './useCommonScreen';
-import {Colors} from '../../constants/Colors';
+} from "react-native";
+import Entypo from "react-native-vector-icons/Entypo";
+import SearchBar from "../../components/SearchBar";
+import { styles } from "./styles";
+import noPlayer from "../../assets/images/no-player.png";
+import addIcon from "../../assets/images/floating-icon-add.png";
+import { RootStackScreenProps } from "../Navigation/types";
+import useCommonScreen from "./useCommonScreen";
+import { Colors } from "../../constants/Colors";
 
-const Players = ({navigation, route}: RootStackScreenProps<'CommonScreen'>) => {
+const Players = ({
+  navigation,
+  route,
+}: RootStackScreenProps<"CommonScreen">) => {
   const {
     title,
     players = [],
     handleGoBack,
-  } = useCommonScreen({navigation, route});
-
-  console.log('players', players);
+    handleClickOnProfile,
+  } = useCommonScreen({ navigation, route });
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.mainContainer}>
         <TouchableOpacity
           style={styles.menuIconContainer}
-          onPress={handleGoBack}>
+          onPress={handleGoBack}
+        >
           <Entypo name="chevron-left" size={20} color={Colors.darkGray} />
         </TouchableOpacity>
         <View style={styles.mx40}>
           <SearchBar
             onChange={
               (searchString: string) =>
-                console.log('searchString', searchString)
+                console.log("searchString", searchString)
               // updateState({ key: "searchedText", value: searchString })
             }
           />
@@ -51,17 +54,18 @@ const Players = ({navigation, route}: RootStackScreenProps<'CommonScreen'>) => {
                 style={[
                   styles.playerListItem,
                   playerIndex !== players.length - 1 && styles.pb60,
-                ]}>
+                ]}
+                onPress={() => handleClickOnProfile(player.id)}
+              >
                 <Image
                   source={{
-                    uri: 'https://pinnacle.works/wp-content/uploads/2022/06/dummy-image.jpg',
+                    uri: "https://pinnacle.works/wp-content/uploads/2022/06/dummy-image.jpg",
                   }}
                   style={styles.playerAvatar}
                 />
                 <Text
-                  style={
-                    styles.playerName
-                  }>{`${player?.fName} ${player?.lName}`}</Text>
+                  style={styles.playerName}
+                >{`${player?.fName} ${player?.lName}`}</Text>
               </TouchableOpacity>
             ))
           ) : (
@@ -78,10 +82,11 @@ const Players = ({navigation, route}: RootStackScreenProps<'CommonScreen'>) => {
       <TouchableOpacity
         style={styles.floatingBtn}
         onPress={() =>
-          navigation.navigate('EditProfile', {
-            isAddPlayer: title.toLowerCase() === 'players',
+          navigation.navigate("EditProfile", {
+            isAddPlayer: title.toLowerCase() === "players",
           })
-        }>
+        }
+      >
         <Image source={addIcon} />
       </TouchableOpacity>
     </SafeAreaView>
