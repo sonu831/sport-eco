@@ -4,8 +4,11 @@ import { StyleSheet } from "react-native";
 import Navigation from "./src/screens/Navigation";
 import { Provider } from "react-redux";
 import { store } from "./src/store";
+import { initializeStore } from "./src/services/utils/axios";
 
 export default function App() {
+  initializeStore(store);
+
   return (
     <Provider store={store}>
       <SafeAreaProvider style={styles.container}>

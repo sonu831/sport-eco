@@ -10,16 +10,17 @@ import CommonScreen from "../CommonScreen";
 import { RootStackParamList } from "./types";
 import MainScreen from "../MainScreen";
 import ProfileScreen from "../ProfilePage";
-import { View } from "react-native";
 import Confirmation from "../Confirmation";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
-  const { userData } = useNavigation();
+  const { userData, isLoading } = useNavigation();
 
   return (
     <NavigationContainer>
+      <Spinner visible={isLoading} />
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!!userData?.phNum ? (
           <Stack.Group>
