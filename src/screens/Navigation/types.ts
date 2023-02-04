@@ -1,6 +1,7 @@
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { CompositeScreenProps } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { GestureResponderEvent } from "react-native";
 
 declare global {
   namespace ReactNavigation {
@@ -10,14 +11,20 @@ declare global {
 
 export type RootStackParamList = {
   Home: undefined;
-  EditProfile: {isAddPlayer?: boolean} | undefined;
-  CommonScreen: {title: string};
+  EditProfile: { isAddPlayer?: boolean } | undefined;
+  CommonScreen: { title: string; shouldRefresh?: boolean };
   Landing: undefined;
   Verification: undefined;
   Main: undefined;
   Calendar: undefined;
   Message: undefined;
-  Profile: {playerId?: string} | undefined;
+  Profile: { playerId?: string } | undefined;
+  Confirmation:
+    | {
+        label?: string;
+        onPress?: ((event: GestureResponderEvent) => void) | undefined;
+      }
+    | undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

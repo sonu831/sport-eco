@@ -1,25 +1,29 @@
-import React from 'react';
-import Entypo from 'react-native-vector-icons/Entypo';
+import React from "react";
+import Entypo from "react-native-vector-icons/Entypo";
 import {
   Text,
   View,
   SafeAreaView,
   Pressable,
   Image,
-  TouchableOpacity,
   ScrollView,
-} from 'react-native';
-import {Colors} from '../../constants/Colors';
-import {styles} from './styles';
-import {locations, UserDetailsFields} from '../../constants/Profile';
-import useProfilePage from './useProfilePage';
-import {RootStackScreenProps} from '../Navigation/types';
+} from "react-native";
+import { Colors } from "../../constants/Colors";
+import { styles } from "./styles";
+import { locations, UserDetailsFields } from "../../constants/Profile";
+import useProfilePage from "./useProfilePage";
+import { RootStackScreenProps } from "../Navigation/types";
+import Button from "../../components/Button";
 
 const ProfileScreen = ({
   navigation,
   route,
-}: RootStackScreenProps<'Profile'>) => {
-  const {dataToShow, handleGoBack} = useProfilePage({navigation, route});
+}: RootStackScreenProps<"Profile">) => {
+  const { dataToShow, handleGoBack, showPlayerDetails, handlePlayerDeletion } =
+    useProfilePage({
+      navigation,
+      route,
+    });
 
   const userFields = UserDetailsFields(dataToShow);
   const userLocationFields = locations(dataToShow);
@@ -33,22 +37,31 @@ const ProfileScreen = ({
           </Pressable>
           <View style={styles.headerContainer}>
             <Image
-              source={{uri: `data:image/jpeg;base64,${dataToShow.imageURl}`}}
+              source={{ uri: `data:image/jpeg;base64,${dataToShow.imageURl}` }}
               style={styles.avatar}
             />
             <Text style={styles.username}>
               {`${dataToShow?.fName} ${dataToShow?.lName} ${
-                dataToShow?.age ? `, ${dataToShow?.age}` : ''
+                dataToShow?.age ? `, ${dataToShow?.age}` : ""
               }`}
             </Text>
-            <TouchableOpacity
-              style={styles.editBtn}
-              onPress={() => navigation.navigate('EditProfile')}>
-              <View style={styles.flexRow}>
-                <Text style={styles.btnText}>Edit Profile</Text>
-                <Entypo name="chevron-right" size={16} color={Colors.white} />
-              </View>
-            </TouchableOpacity>
+            <View style={styles.flexRow}>
+              <Button
+                label="Edit Profile"
+                icon="chevron-right"
+                onPress={() => navigation.navigate("EditProfile")}
+              />
+              {showPlayerDetails && (
+                <Button
+                  type="cancel"
+                  label="Delete Profile"
+                  icon="chevron-right"
+                  iconColor={Colors.orange}
+                  onPress={() => handlePlayerDeletion()}
+                  style={styles.ml10}
+                />
+              )}
+            </View>
           </View>
         </View>
         <View style={styles.divider} />

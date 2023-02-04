@@ -87,4 +87,5 @@ export const styles = StyleSheet.create({
     lineHeight: 17,
     fontSize: 14,
   },
+  ml10: { marginLeft: 10 },
 });
