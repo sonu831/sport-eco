@@ -3,4 +3,6 @@ export const endpoints = {
   fetchUserById: (id: string) => `/users/${id}`,
   addPlayer: `/players`,
   fetchPlayerById: (id: string) => `/players/${id}`,
+  addBatch: `/batches`,
+  fetchBatchById: (id: string) => `/batches/${id}`,
 };

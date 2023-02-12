@@ -13,6 +13,8 @@ import ProfileScreen from "../ProfilePage";
 import Confirmation from "../Confirmation";
 import Spinner from "react-native-loading-spinner-overlay";
 import NotReady from "../NotReady";
+import AddBatch from "../AddBatch";
+import SelectPlayer from "../SelectPlayers";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
@@ -32,6 +34,8 @@ const Navigation = () => {
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="CommonScreen" component={CommonScreen} />
             <Stack.Screen name="Confirmation" component={Confirmation} />
+            <Stack.Screen name="AddBatch" component={AddBatch} />
+            <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
           </Stack.Group>
         ) : (
           <Stack.Group>

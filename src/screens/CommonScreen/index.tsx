@@ -25,6 +25,7 @@ const Players = ({
     players = [],
     handleGoBack,
     handleClickOnProfile,
+    showPlayers,
   } = useCommonScreen({ navigation, route });
 
   return (
@@ -45,8 +46,8 @@ const Players = ({
             }
           />
         </View>
-        <View style={styles.playerListContainer}>
-          {players?.length > 0 ? (
+        <View style={[showPlayers && styles.playerListContainer]}>
+          {showPlayers && players?.length > 0 ? (
             Array.isArray(players) &&
             players?.map((player: any, playerIndex) => (
               <TouchableOpacity
@@ -81,11 +82,15 @@ const Players = ({
 
       <TouchableOpacity
         style={styles.floatingBtn}
-        onPress={() =>
-          navigation.navigate("EditProfile", {
-            isAddPlayer: title.toLowerCase() === "players",
-          })
-        }
+        onPress={() => {
+          const route = showPlayers ? "EditProfile" : "AddBatch";
+          const option = showPlayers
+            ? {
+                isAddPlayer: title.toLowerCase() === "players",
+              }
+            : {};
+          navigation.navigate(route, option);
+        }}
       >
         <Image source={addIcon} />
       </TouchableOpacity>

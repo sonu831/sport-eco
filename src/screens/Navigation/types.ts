@@ -18,6 +18,8 @@ export type RootStackParamList = {
   Main: undefined;
   Calendar: undefined;
   Message: undefined;
+  AddBatch: any;
+  SelectPlayer: any;
   Profile: { playerId?: string } | undefined;
   Confirmation:
     | {

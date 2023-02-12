@@ -4,7 +4,10 @@ import { RootState } from "../index";
 
 const player$ = (s: RootState) => s[PlayerSlice.name];
 
-export const players$ = createSelector([player$], (players) => players.players);
+export const players$ = createSelector(
+  [player$],
+  (players) => players.players || []
+);
 
 export const playerDetails$ = createSelector(
   [player$],
