@@ -15,6 +15,8 @@ import addIcon from "../../assets/images/floating-icon-add.png";
 import { RootStackScreenProps } from "../Navigation/types";
 import useCommonScreen from "./useCommonScreen";
 import { Colors } from "../../constants/Colors";
+import RenderPlayerList from "./RenderPlayerList";
+import RenderBatchList from "./RenderbatchList";
 
 const Players = ({
   navigation,
@@ -26,6 +28,8 @@ const Players = ({
     handleGoBack,
     handleClickOnProfile,
     showPlayers,
+    dataToShow,
+    showBatches,
   } = useCommonScreen({ navigation, route });
 
   return (
@@ -46,38 +50,27 @@ const Players = ({
             }
           />
         </View>
-        <View style={[showPlayers && styles.playerListContainer]}>
-          {showPlayers && players?.length > 0 ? (
-            Array.isArray(players) &&
-            players?.map((player: any, playerIndex) => (
-              <TouchableOpacity
-                key={playerIndex}
-                style={[
-                  styles.playerListItem,
-                  playerIndex !== players.length - 1 && styles.pb60,
-                ]}
-                onPress={() => handleClickOnProfile(player.id)}
-              >
-                <Image
-                  source={{
-                    uri: "https://pinnacle.works/wp-content/uploads/2022/06/dummy-image.jpg",
-                  }}
-                  style={styles.playerAvatar}
-                />
-                <Text
-                  style={styles.playerName}
-                >{`${player?.fName} ${player?.lName}`}</Text>
-              </TouchableOpacity>
-            ))
-          ) : (
-            <View style={styles.noPlayerContainer}>
-              <Image source={noPlayer} />
-              <Text style={styles.noPlayerText}>
-                No {title.toLowerCase()} displayed
-              </Text>
-            </View>
-          )}
-        </View>
+        {dataToShow?.length > 0 ? (
+          Array.isArray(dataToShow) &&
+          (showPlayers ? (
+            <RenderPlayerList
+              data={dataToShow}
+              handleClickOnProfile={handleClickOnProfile}
+            />
+          ) : showBatches ? (
+            <RenderBatchList
+              data={dataToShow}
+              handleClickOnProfile={handleClickOnProfile}
+            />
+          ) : null)
+        ) : (
+          <View style={styles.noPlayerContainer}>
+            <Image source={noPlayer} />
+            <Text style={styles.noPlayerText}>
+              No {title.toLowerCase()} displayed
+            </Text>
+          </View>
+        )}
       </ScrollView>
 
       <TouchableOpacity
@@ -86,7 +79,7 @@ const Players = ({
           const route = showPlayers ? "EditProfile" : "AddBatch";
           const option = showPlayers
             ? {
-                isAddPlayer: title.toLowerCase() === "players",
+                isAddPlayer: showPlayers,
               }
             : {};
           navigation.navigate(route, option);

@@ -8,6 +8,7 @@ type TextFieldProps = {
   classNames?: StyleProp<TextStyle>;
   placeholder?: string | undefined;
   isMultiline?: boolean | undefined;
+  isEditable?: boolean | undefined;
 };
 
 const TextField = ({
@@ -16,6 +17,7 @@ const TextField = ({
   classNames,
   placeholder,
   isMultiline,
+  isEditable = true,
 }: TextFieldProps) => {
   return (
     <TextInput
@@ -24,6 +26,7 @@ const TextField = ({
       style={[styles.fieldInput, classNames]}
       placeholder={placeholder}
       multiline={isMultiline}
+      editable={isEditable}
     />
   );
 };

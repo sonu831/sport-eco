@@ -15,6 +15,9 @@ export const BatchSlice = createSlice({
     setSelectedPlayers: (s, a) => {
       s.selectedPlayers = a.payload;
     },
+    setSelectedBatch: (s, a) => {
+      s.batchDetails = a.payload;
+    },
     deletePlayer: (s, a) => {
       s.selectedPlayers = s.selectedPlayers.filter(
         (item) => item.id !== a.payload.id
@@ -32,4 +35,5 @@ export const BatchSlice = createSlice({
   },
 });
 
-export const { setSelectedPlayers, deletePlayer } = BatchSlice.actions;
+export const { setSelectedPlayers, deletePlayer, setSelectedBatch } =
+  BatchSlice.actions;

@@ -15,6 +15,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import NotReady from "../NotReady";
 import AddBatch from "../AddBatch";
 import SelectPlayer from "../SelectPlayers";
+import BatchScreen from "../BatchDetails";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
@@ -36,6 +37,7 @@ const Navigation = () => {
             <Stack.Screen name="Confirmation" component={Confirmation} />
             <Stack.Screen name="AddBatch" component={AddBatch} />
             <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
+            <Stack.Screen name="BatchScreen" component={BatchScreen} />
           </Stack.Group>
         ) : (
           <Stack.Group>

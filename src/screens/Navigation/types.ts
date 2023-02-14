@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Message: undefined;
   AddBatch: any;
   SelectPlayer: any;
+  BatchScreen: any;
   Profile: { playerId?: string } | undefined;
   Confirmation:
     | {

@@ -5,7 +5,10 @@ import { RootStackParamList } from "../Navigation/types";
 import { RouteProp } from "@react-navigation/native";
 import { AppDispatch } from "../../store";
 import { fetchPlayers } from "../../services/players";
+import { fetchBatches } from "../../services/batches";
 import { players$ } from "../../store/players/selectors";
+import { batches$ } from "../../store/batches/selectors";
+import { setSelectedBatch } from "../../store/batches/reducers";
 
 const useCommonScreen = ({
   navigation,
@@ -21,21 +24,39 @@ const useCommonScreen = ({
   const { title, shouldRefresh = false } = route.params;
   const dispatch = useDispatch<AppDispatch>();
   const players: any[] = useSelector(players$);
+  const batchList: any[] = useSelector(batches$);
 
   const showPlayers = title.toLowerCase() === "players";
+  const showBatches = title.toLowerCase() === "batches";
 
   const handleGoBack = () => navigation.goBack();
 
-  const handleClickOnProfile = (playerId: string) =>
-    navigation.navigate("Profile", {
+  const handleClickOnProfile = (playerId: string) => {
+    const navigateToScreen = showPlayers ? "Profile" : "BatchScreen";
+
+    dispatch(setSelectedBatch(playerId));
+
+    navigation.navigate(navigateToScreen, {
       playerId,
     });
+  };
+
+  const dataToShow = showPlayers ? players : batchList;
 
   useEffect(() => {
-    dispatch(fetchPlayers());
+    if (showPlayers) dispatch(fetchPlayers());
+    else if (showBatches) dispatch(fetchBatches());
   }, [dispatch, shouldRefresh]);
 
-  return { handleGoBack, players, title, handleClickOnProfile, showPlayers };
+  return {
+    handleGoBack,
+    players,
+    title,
+    handleClickOnProfile,
+    showPlayers,
+    showBatches,
+    dataToShow,
+  };
 };
 
 export default useCommonScreen;
