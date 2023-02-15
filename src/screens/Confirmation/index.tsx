@@ -7,15 +7,26 @@ import { styles } from "./styles";
 import { RootStackScreenProps } from "../Navigation/types";
 import VerifiedIcon from "../../assets/images/account_verified.png";
 
-const Confirmation = ({ route }: RootStackScreenProps<"Confirmation">) => {
+const Confirmation = ({
+  route,
+  navigation,
+}: RootStackScreenProps<"Confirmation">) => {
   const label = route.params?.label || "";
-  const onPress = route.params?.onPress;
+  const navigateTo = route.params?.navigateTo;
+  const navigateOption = route.params?.navigateOption;
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.containerView}>
-          <TouchableOpacity style={styles.backButton} onPress={onPress}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => {
+              if (navigateTo) {
+                navigation.navigate(navigateTo, navigateOption);
+              }
+            }}
+          >
             <Entypo name="chevron-left" size={20} color={Colors.darkGray} />
           </TouchableOpacity>
         </View>

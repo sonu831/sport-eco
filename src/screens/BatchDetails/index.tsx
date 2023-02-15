@@ -20,7 +20,7 @@ const BatchScreen = ({
   navigation,
   route,
 }: RootStackScreenProps<"BatchScreen">) => {
-  const { handleGoBack, handlePlayerDeletion, batchDetails } = useBatchPage({
+  const { handleGoBack, handleBatchDeletion, batchDetails } = useBatchPage({
     navigation,
     route,
   });
@@ -42,14 +42,18 @@ const BatchScreen = ({
               <Button
                 label="Edit Batch"
                 icon="chevron-right"
-                // onPress={() => navigation.navigate("EditProfile")}
+                onPress={() =>
+                  navigation.navigate("AddBatch", {
+                    isEdit: true,
+                  })
+                }
               />
               <Button
                 type="cancel"
                 label="Delete Batch"
                 icon="chevron-right"
                 iconColor={Colors.orange}
-                //   onPress={() => handlePlayerDeletion()}
+                onPress={handleBatchDeletion}
                 style={styles.ml10}
               />
             </View>

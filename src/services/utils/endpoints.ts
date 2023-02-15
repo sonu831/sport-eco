@@ -4,5 +4,5 @@ export const endpoints = {
   addPlayer: `/players`,
   fetchPlayerById: (id: string) => `/players/${id}`,
   addBatch: `/batches`,
-  fetchBatchById: (id: string) => `/batches/${id}`,
+  fetchBatchById: (id: any) => `/batches/${id}`,
 };

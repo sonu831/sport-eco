@@ -33,11 +33,11 @@ const useProfilePage = ({
       if (!!res)
         navigation.navigate("Confirmation", {
           label: "Deleted !",
-          onPress: () =>
-            navigation.navigate("CommonScreen", {
-              title: "Players",
-              shouldRefresh: true,
-            }),
+          navigateTo: "CommonScreen",
+          navigateOption: {
+            title: "Players",
+            shouldRefresh: true,
+          },
         });
     });
   };

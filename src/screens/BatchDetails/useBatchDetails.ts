@@ -5,6 +5,7 @@ import { RouteProp } from "@react-navigation/native";
 import { AppDispatch } from "../../store";
 import { batchDetails$ } from "../../store/batches/selectors";
 import { batchDefinition } from "../../types/batch";
+import { deleteBatch } from "../../services/batches";
 
 const useBatchPage = ({
   navigation,
@@ -21,24 +22,25 @@ const useBatchPage = ({
 
   const handleGoBack = () => navigation.goBack();
 
-  const handlePlayerDeletion = () => {
-    // dispatch(deletePlayer(playerId)).then((res) => {
-    //   if (!!res)
-    //     navigation.navigate("Confirmation", {
-    //       label: "Deleted !",
-    //       onPress: () =>
-    //         navigation.navigate("CommonScreen", {
-    //           title: "Players",
-    //           shouldRefresh: true,
-    //         }),
-    //     });
-    // });
+  const handleBatchDeletion = () => {
+    if (batchDetails.id)
+      dispatch(deleteBatch(batchDetails.id)).then((res) => {
+        if (!!res)
+          navigation.navigate("Confirmation", {
+            label: "Deleted !",
+            navigateTo: "CommonScreen",
+            navigateOption: {
+              title: "Batches",
+              shouldRefresh: true,
+            },
+          });
+      });
   };
 
   return {
     batchDetails,
     handleGoBack,
-    handlePlayerDeletion,
+    handleBatchDeletion,
   };
 };
 
