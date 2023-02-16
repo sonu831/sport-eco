@@ -33,6 +33,7 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
   username: {
+    fontFamily: "Avenir-Regular",
     fontWeight: "700",
     fontSize: 14,
     color: Colors.darkGray,
@@ -86,6 +87,7 @@ export const styles = StyleSheet.create({
     color: Colors.darkGray,
     lineHeight: 17,
     fontSize: 14,
+    fontFamily: "Avenir-Regular",
   },
   ml10: { marginLeft: 10 },
 });

@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
   username: {
+    fontFamily: "Avenir-Regular",
     fontWeight: "700",
     fontSize: 14,
     color: Colors.darkGray,
@@ -88,6 +89,7 @@ export const styles = StyleSheet.create({
     color: Colors.darkGray,
     lineHeight: 17,
     fontSize: 14,
+    fontFamily: "Avenir-Regular",
   },
   ml10: { marginLeft: 10 },
   flex: { display: "flex", flexDirection: "row", alignItems: "center" },
@@ -98,6 +100,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 25,
   },
   fieldRowLabel: {
+    fontFamily: "Avenir-Regular",
     fontSize: 14,
     marginLeft: 8,
   },
@@ -124,6 +127,7 @@ export const styles = StyleSheet.create({
   },
   playerName: {
     marginLeft: 20,
+    fontFamily: "Avenir-Regular",
     fontSize: 12,
     lineHeight: 14,
   },

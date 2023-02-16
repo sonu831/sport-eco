@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     lineHeight: 29,
+    fontFamily: "Avenir-Regular",
     fontWeight: "400",
   },
   button: {
@@ -31,6 +32,7 @@ export const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 14,
     lineHeight: 17,
+    fontFamily: "Avenir-Regular",
     fontWeight: "400",
   },
 });
