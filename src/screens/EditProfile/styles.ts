@@ -107,4 +107,10 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   px25: { paddingHorizontal: 25 },
+  uploadedImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    resizeMode: "cover",
+  },
 });

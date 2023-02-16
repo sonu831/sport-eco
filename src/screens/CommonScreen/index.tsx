@@ -79,7 +79,7 @@ const Players = ({
           const route = showPlayers ? "EditProfile" : "AddBatch";
           const option = showPlayers
             ? {
-                isAddPlayer: showPlayers,
+                isAddPlayer: true,
               }
             : {};
           navigation.navigate(route, option);

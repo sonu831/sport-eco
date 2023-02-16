@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React from "react";
 import {
   Text,
   View,
@@ -8,33 +8,39 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-} from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
-import userProfile from '../../assets/images/user-profile.png';
-import uploadIcon from '../../assets/images/upload.png';
-import uploadSuccessIcon from '../../assets/images/upload-success.png';
-import loadingIcon from '../../assets/images/loading.png';
-import {Colors} from '../../constants/Colors';
-import {styles} from './styles';
-import useEditProfile from './useEditProfile';
+} from "react-native";
+import Entypo from "react-native-vector-icons/Entypo";
+import uploadSuccessIcon from "../../assets/images/upload-success.png";
+import { Colors } from "../../constants/Colors";
+import { styles } from "./styles";
+import useEditProfile from "./useEditProfile";
 import {
   CITY_OPTIONS,
   DATE_OPTIONS,
   GENDER_OPTIONS,
   MONTH_OPTIONS,
   STATE_OPTIONS,
-} from '../../constants/EditProfile';
-import CustomDropdown from '../../components/Dropdown';
-import {RootStackScreenProps} from '../Navigation/types';
+} from "../../constants/EditProfile";
+import CustomDropdown from "../../components/Dropdown";
+import { RootStackScreenProps } from "../Navigation/types";
+import ImagePicker from "../../components/ImagePicker";
+import FilePicker from "../../components/FilePicker";
 
 const EditProfile = ({
   navigation,
   route,
-}: RootStackScreenProps<'EditProfile'>) => {
+}: RootStackScreenProps<"EditProfile">) => {
   const isAddPlayer = route?.params?.isAddPlayer || false;
 
-  const {uploadImage, state, updateState, handleSave, response, handleGoBack} =
-    useEditProfile({navigation});
+  const {
+    uploadImage,
+    state,
+    updateState,
+    handleSave,
+    response,
+    handleGoBack,
+    handleUploadID,
+  } = useEditProfile({ navigation, route });
   const {
     fName,
     lName,
@@ -47,9 +53,9 @@ const EditProfile = ({
     category,
     gender,
     state: userState,
+    image,
+    idProof,
   } = state;
-
-  const image = useMemo(() => response?.assets[0]?.base64 || '', [response]);
 
   const dateOptions = DATE_OPTIONS();
   const monthOptions = MONTH_OPTIONS();
@@ -63,28 +69,23 @@ const EditProfile = ({
           </Pressable>
           <View>
             <Text style={styles.headingText}>
-              {isAddPlayer ? 'Add Player' : 'Update your profile'}
+              {isAddPlayer ? "Add Player" : "Update your profile"}
             </Text>
           </View>
         </View>
         <View style={styles.containerView}>
           <View style={[styles.fieldRow, styles.py16]}>
             <Text style={styles.fieldRowLabel}>Photo</Text>
-            <TouchableOpacity style={styles.uploadImage} onPress={uploadImage}>
-              <Image
-                source={
-                  !!image
-                    ? {uri: `data:image/jpeg;base64,${image}`}
-                    : userProfile
-                }
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 50,
-                  resizeMode: 'cover',
-                }}
-              />
-            </TouchableOpacity>
+            <View style={styles.uploadImage}>
+              {!!image ? (
+                <Image
+                  source={{ uri: `data:image/jpeg;base64,${image}` }}
+                  style={styles.uploadedImage}
+                />
+              ) : (
+                <ImagePicker handleImage={uploadImage} />
+              )}
+            </View>
           </View>
           <View style={[styles.fieldRow, styles.py16]}>
             <View style={styles.flex}>
@@ -94,16 +95,16 @@ const EditProfile = ({
             <View style={[styles.flex, styles.w195]}>
               <TextInput
                 value={fName}
-                onChangeText={newName =>
-                  updateState({key: 'fName', value: newName})
+                onChangeText={(newName) =>
+                  updateState({ key: "fName", value: newName })
                 }
                 style={[styles.fieldInput, styles.mr10]}
                 placeholder="First Name"
               />
               <TextInput
                 value={lName}
-                onChangeText={newName =>
-                  updateState({key: 'lName', value: newName})
+                onChangeText={(newName) =>
+                  updateState({ key: "lName", value: newName })
                 }
                 style={styles.fieldInput}
                 placeholder="Last Name"
@@ -114,8 +115,8 @@ const EditProfile = ({
             <Text style={styles.fieldRowLabel}>Middle Name</Text>
             <TextInput
               value={mName}
-              onChangeText={newName =>
-                updateState({key: 'mName', value: newName})
+              onChangeText={(newName) =>
+                updateState({ key: "mName", value: newName })
               }
               style={[styles.fieldInput, styles.w195]}
               placeholder="Middle Name"
@@ -128,8 +129,8 @@ const EditProfile = ({
             </View>
             <TextInput
               value={email}
-              onChangeText={newName =>
-                updateState({key: 'email', value: newName})
+              onChangeText={(newName) =>
+                updateState({ key: "email", value: newName })
               }
               style={[styles.fieldInput, styles.w195]}
               placeholder="E-mail ID"
@@ -145,8 +146,8 @@ const EditProfile = ({
                 <CustomDropdown
                   options={dateOptions}
                   value={dobDate}
-                  onChange={item => {
-                    updateState({key: 'dobDate', value: item.value});
+                  onChange={(item) => {
+                    updateState({ key: "dobDate", value: item.value });
                   }}
                   containerStyle={styles.w60}
                   isPlaceholderHidden={true}
@@ -156,8 +157,8 @@ const EditProfile = ({
                 <CustomDropdown
                   options={monthOptions}
                   value={dobMonth}
-                  onChange={item => {
-                    updateState({key: 'dobMonth', value: item.value});
+                  onChange={(item) => {
+                    updateState({ key: "dobMonth", value: item.value });
                   }}
                   containerStyle={styles.w60}
                   isPlaceholderHidden={true}
@@ -165,8 +166,8 @@ const EditProfile = ({
               </View>
               <TextInput
                 value={dobYear}
-                onChangeText={newName =>
-                  updateState({key: 'dobYear', value: newName})
+                onChangeText={(newName) =>
+                  updateState({ key: "dobYear", value: newName })
                 }
                 style={[styles.fieldInput, styles.w60]}
               />
@@ -180,8 +181,8 @@ const EditProfile = ({
             <CustomDropdown
               options={GENDER_OPTIONS}
               value={gender}
-              onChange={item => {
-                updateState({key: 'gender', value: item.value});
+              onChange={(item) => {
+                updateState({ key: "gender", value: item.value });
               }}
             />
           </View>
@@ -193,8 +194,8 @@ const EditProfile = ({
             <CustomDropdown
               options={CITY_OPTIONS}
               value={city}
-              onChange={item => {
-                updateState({key: 'city', value: item.value});
+              onChange={(item) => {
+                updateState({ key: "city", value: item.value });
               }}
             />
           </View>
@@ -206,8 +207,8 @@ const EditProfile = ({
             <CustomDropdown
               options={STATE_OPTIONS}
               value={userState}
-              onChange={item => {
-                updateState({key: 'state', value: item.value});
+              onChange={(item) => {
+                updateState({ key: "state", value: item.value });
               }}
             />
           </View>
@@ -219,15 +220,15 @@ const EditProfile = ({
                   style={[
                     styles.category,
                     styles.mr27,
-                    category === 'player' && styles.categorySelected,
+                    category === "player" && styles.categorySelected,
                   ]}
                   onPress={() =>
-                    updateState({key: 'category', value: 'player'})
-                  }>
+                    updateState({ key: "category", value: "player" })
+                  }
+                >
                   <Text
-                    style={
-                      category === 'player' && styles.categorySelectedText
-                    }>
+                    style={category === "player" && styles.categorySelectedText}
+                  >
                     Player
                   </Text>
                 </TouchableOpacity>
@@ -235,28 +236,30 @@ const EditProfile = ({
                   style={[
                     styles.category,
                     styles.mr27,
-                    category === 'coach' && styles.categorySelected,
+                    category === "coach" && styles.categorySelected,
                   ]}
                   onPress={() =>
-                    updateState({key: 'category', value: 'coach'})
-                  }>
+                    updateState({ key: "category", value: "coach" })
+                  }
+                >
                   <Text
-                    style={category === 'coach' && styles.categorySelectedText}>
+                    style={category === "coach" && styles.categorySelectedText}
+                  >
                     Coach
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
                     styles.category,
-                    category === 'parent' && styles.categorySelected,
+                    category === "parent" && styles.categorySelected,
                   ]}
                   onPress={() =>
-                    updateState({key: 'category', value: 'parent'})
-                  }>
+                    updateState({ key: "category", value: "parent" })
+                  }
+                >
                   <Text
-                    style={
-                      category === 'parent' && styles.categorySelectedText
-                    }>
+                    style={category === "parent" && styles.categorySelectedText}
+                  >
                     Parent
                   </Text>
                 </TouchableOpacity>
@@ -275,8 +278,13 @@ const EditProfile = ({
                 </View>
                 <Text>{`(Aadhar Card)`}</Text>
               </View>
+
               <View style={styles.uploadIcon}>
-                <Image source={uploadIcon} />
+                {idProof?.mimeType ? (
+                  <Image source={uploadSuccessIcon} />
+                ) : (
+                  <FilePicker handleUpload={handleUploadID} />
+                )}
               </View>
             </View>
           )}
