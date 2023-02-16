@@ -7,6 +7,7 @@ import { fetchFromStorage } from "./../../utils/storage";
 import { userDetails$ } from "../../store/users/selectors";
 import { AppDispatch } from "../../store";
 import { isLoading$ } from "../../store/common/selectors";
+import * as SplashScreen from "expo-splash-screen";
 
 type UserDataProps = {
   phNum: string;
@@ -23,8 +24,11 @@ type UserDataProps = {
   imageURl: string;
 };
 
+SplashScreen.preventAutoHideAsync();
+
 const useNavigation = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [appReady, isAppReady] = useState(false);
   const [userData, setUserData] = useState<Partial<UserDataProps>>();
   const userDetails = useSelector(userDetails$);
   const isLoading = useSelector(isLoading$);
@@ -33,7 +37,9 @@ const useNavigation = () => {
     fetchFromStorage(StorageKeys.userDetails).then((user) => {
       if (!!user) {
         const value = JSON.parse(user);
-        dispatch(fetchUserById(value));
+        dispatch(fetchUserById(value)).then(() => isAppReady(true));
+      } else {
+        isAppReady(true);
       }
     });
   }, []);
@@ -42,9 +48,18 @@ const useNavigation = () => {
     setUserData(userDetails);
   }, [userDetails]);
 
+  useEffect(() => {
+    const hideSplashScreen = async () => {
+      await SplashScreen.hideAsync();
+    };
+
+    if (appReady) hideSplashScreen();
+  }, [appReady]);
+
   return {
     userData,
     isLoading,
+    appReady,
   };
 };
 

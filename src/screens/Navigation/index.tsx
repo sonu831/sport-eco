@@ -16,10 +16,13 @@ import NotReady from "../NotReady";
 import AddBatch from "../AddBatch";
 import SelectPlayer from "../SelectPlayers";
 import BatchScreen from "../BatchDetails";
+import { View } from "react-native";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
-  const { userData, isLoading } = useNavigation();
+  const { userData, isLoading, appReady } = useNavigation();
+
+  if (!appReady) return <View />;
 
   return (
     <NavigationContainer>
