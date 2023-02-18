@@ -1,32 +1,52 @@
-import {registerUser} from './../../services/users';
-import {phNumRegex, mockCode} from './../../constants/index';
-import {useRef, useState} from 'react';
-// import PhoneInput from "react-native-phone-input";
+import { registerUser, validateOtp } from "./../../services/users";
+import { phNumRegex, mockCode } from "./../../constants/index";
+import { useRef, useState } from "react";
 import {
   useBlurOnFulfill,
   useClearByFocusCell,
-} from 'react-native-confirmation-code-field';
-import {customStyle} from './style';
-import Layout from '../../constants/Layout';
-import {useDispatch, useSelector} from 'react-redux';
-import {userDetails$} from '../../store/users/selectors';
-import {AppDispatch} from '../../store';
+} from "react-native-confirmation-code-field";
+import { customStyle } from "./style";
+import Layout from "../../constants/Layout";
+import { useDispatch, useSelector } from "react-redux";
+import { userDetails$ } from "../../store/users/selectors";
+import { AppDispatch } from "../../store";
+import { UpdateStateRequest } from "../../types/UpdateState";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../Navigation/types";
 
 const CELL_COUNT = 4;
-const {window} = Layout;
+const { window } = Layout;
 
-export const useVerificationScreen = () => {
+type InitialStateType = {
+  phNum: string;
+  codeSent: boolean;
+  accountVerified: boolean;
+  invalidCode: boolean;
+  codeToValidate: string;
+};
+
+const initialState = {
+  phNum: "",
+  codeSent: false,
+  accountVerified: false,
+  invalidCode: false,
+  codeToValidate: "",
+};
+
+export const useVerificationScreen = ({
+  navigation,
+}: {
+  navigation: NativeStackNavigationProp<
+    RootStackParamList,
+    keyof RootStackParamList,
+    undefined
+  >;
+}) => {
   const dispatch = useDispatch<AppDispatch>();
-  const styles = customStyle({window});
-  const userDetails = useSelector(userDetails$);
-  const [phNum, setPhNum] = useState('+');
-  const [countryCode, setCountryCode] = useState('+91');
-  const [codeSent, setCodeSent] = useState(false);
-  const [accountVerified, setAccountVerified] = useState(false);
-  const [invalidCode, setInvalidCode] = useState(false);
-  // const phoneInput = useRef<PhoneInput>(null);
+  const styles = customStyle({ window });
+  const [state, setState] = useState<InitialStateType>(initialState);
   const phoneInput = useRef(null);
-  const [validationCode, setValidationCode] = useState('');
+  const [validationCode, setValidationCode] = useState("");
   const validCodeRef = useBlurOnFulfill({
     value: validationCode,
     cellCount: CELL_COUNT,
@@ -35,28 +55,63 @@ export const useVerificationScreen = () => {
     value: validationCode,
     setValue: setValidationCode,
   });
+  const { phNum, codeToValidate } = state;
 
-  const isPhNumValid = () => phNumRegex.test(phNum);
-
-  const isEnterCodeValid = () => validationCode === mockCode;
-
-  const handleCreateAccount = () => {
-    if (isEnterCodeValid()) {
-      const request = {
-        phNum,
-      };
-      dispatch(registerUser(request));
+  const updateState = (request: UpdateStateRequest<keyof InitialStateType>) => {
+    if (Array.isArray(request)) {
+      request.forEach(({ key, value }) =>
+        setState((preState) => ({ ...preState, [key]: value }))
+      );
     } else {
-      setInvalidCode(true);
-      setValidationCode('');
+      const { key, value } = request;
+      setState((preState) => ({ ...preState, [key]: value }));
     }
   };
 
-  const handlePhNumChange = (phone: string) => {
-    if (phone.length === 0) {
-      setPhNum('+');
+  const isPhNumValid = () => phNumRegex.test(phNum);
+
+  const isEnterCodeValid = () => validationCode === codeToValidate;
+
+  const handleCreateAccount = () => {
+    const request = {
+      phNum,
+    };
+    dispatch(registerUser(request)).then((res) => {
+      const { data = {} } = res.payload;
+      console.log("data", data);
+      if (!!data.otp)
+        updateState([
+          {
+            key: "codeToValidate",
+            value: JSON.stringify(data.otp),
+          },
+          {
+            key: "codeSent",
+            value: true,
+          },
+        ]);
+    });
+  };
+
+  const handleOTPValidation = () => {
+    if (isEnterCodeValid()) {
+      const request = {
+        contact_no: phNum,
+        otp: codeToValidate,
+      };
+      dispatch(validateOtp(request)).then((res) => {
+        navigation.navigate("Confirmation", {
+          label: "Account verified!",
+          navigateTo: "EditProfile",
+          isNewUser: !res.payload.redirecttodashboard,
+        });
+      });
     } else {
-      setPhNum(phone);
+      updateState({
+        key: "invalidCode",
+        value: true,
+      });
+      setValidationCode("");
     }
   };
 
@@ -66,21 +121,13 @@ export const useVerificationScreen = () => {
     getCellOnLayoutHandler,
     validationCode,
     setValidationCode,
-    accountVerified,
-    setAccountVerified,
     phoneInput,
-    codeSent,
-    setCodeSent,
-    countryCode,
-    setCountryCode,
-    phNum,
-    setPhNum,
     styles,
     isPhNumValid,
     isEnterCodeValid,
     handleCreateAccount,
-    invalidCode,
-    setInvalidCode,
-    handlePhNumChange,
+    updateState,
+    state,
+    handleOTPValidation,
   };
 };

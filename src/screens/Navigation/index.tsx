@@ -17,6 +17,7 @@ import AddBatch from "../AddBatch";
 import SelectPlayer from "../SelectPlayers";
 import BatchScreen from "../BatchDetails";
 import { View } from "react-native";
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
@@ -28,26 +29,26 @@ const Navigation = () => {
     <NavigationContainer>
       <Spinner visible={isLoading} />
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!!userData?.phNum ? (
-          <Stack.Group>
-            {/* <Stack.Screen name="Home" component={BottomTabNavigation} /> */}
-            <Stack.Screen name="Main" component={MainScreen} />
-            <Stack.Screen name="Calendar" component={NotReady} />
-            <Stack.Screen name="Message" component={NotReady} />
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-            <Stack.Screen name="EditProfile" component={EditProfile} />
-            <Stack.Screen name="CommonScreen" component={CommonScreen} />
-            <Stack.Screen name="Confirmation" component={Confirmation} />
-            <Stack.Screen name="AddBatch" component={AddBatch} />
-            <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
-            <Stack.Screen name="BatchScreen" component={BatchScreen} />
-          </Stack.Group>
+        {/* {!!userData?.phNum ? ( */}
+        {/* <Stack.Group> */}
+        {/* <Stack.Screen name="Home" component={BottomTabNavigation} /> */}
+        <Stack.Screen name="Landing" component={LandingScreen} />
+        <Stack.Screen name="Verification" component={VerificationScreen} />
+        <Stack.Screen name="Main" component={MainScreen} />
+        <Stack.Screen name="Calendar" component={NotReady} />
+        <Stack.Screen name="Message" component={NotReady} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="CommonScreen" component={CommonScreen} />
+        <Stack.Screen name="AddBatch" component={AddBatch} />
+        <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
+        <Stack.Screen name="BatchScreen" component={BatchScreen} />
+        <Stack.Screen name="Confirmation" component={Confirmation} />
+        {/* </Stack.Group>
         ) : (
-          <Stack.Group>
-            <Stack.Screen name="Landing" component={LandingScreen} />
-            <Stack.Screen name="Verification" component={VerificationScreen} />
-          </Stack.Group>
-        )}
+          <Stack.Group> */}
+        {/* </Stack.Group> */}
+        {/* )} */}
       </Stack.Navigator>
 
       {!!userData?.phNum && <BottomTabNavigation />}

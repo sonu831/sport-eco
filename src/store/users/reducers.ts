@@ -10,6 +10,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: {},
   error: "",
+  isNewUser: false,
 };
 
 export const UserSlice = createSlice({
@@ -23,25 +24,25 @@ export const UserSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.fulfilled, (s, a) => {
-        s.user = a.payload;
+        s.user = a.payload?.data;
         storeDataInStorage(
           StorageKeys.userDetails,
-          JSON.stringify(a.payload.id)
+          JSON.stringify(a.payload?.data?._id)
         );
       })
       .addCase(updateUserProfile.fulfilled, (s, a) => {
         s.user = a.payload;
-        storeDataInStorage(
-          StorageKeys.userDetails,
-          JSON.stringify(a.payload.id)
-        );
+        // storeDataInStorage(
+        //   StorageKeys.userDetails,
+        //   JSON.stringify(a.payload.id)
+        // );
       })
       .addCase(fetchUserById.fulfilled, (s, a) => {
         s.user = a.payload;
-        storeDataInStorage(
-          StorageKeys.userDetails,
-          JSON.stringify(a.payload.id)
-        );
+        // storeDataInStorage(
+        //   StorageKeys.userDetails,
+        //   JSON.stringify(a.payload.id)
+        // );
       })
       .addCase(registerUser.rejected, (s, a) => {
         s.error = JSON.stringify(a.payload);

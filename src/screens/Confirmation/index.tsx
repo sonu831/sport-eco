@@ -14,13 +14,14 @@ const Confirmation = ({
   const label = route.params?.label || "";
   const navigateTo = route.params?.navigateTo;
   const navigateOption = route.params?.navigateOption;
+  const isLogin = label === "Account verified!";
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.containerView}>
           <TouchableOpacity
-            style={styles.backButton}
+            style={[styles.backButton, isLogin && styles.bgBlue]}
             onPress={() => {
               if (navigateTo) {
                 navigation.navigate(navigateTo, navigateOption);

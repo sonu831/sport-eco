@@ -24,7 +24,12 @@ const responseHandler = (response: any) => {
   return response;
 };
 
+const errorHandler = (error: any) => {
+  store.dispatch(hideLoader());
+  return error;
+};
+
 instance.interceptors.request.use(requestHandler);
-instance.interceptors.response.use(responseHandler);
+instance.interceptors.response.use(responseHandler, errorHandler);
 
 export default instance;

@@ -8,6 +8,7 @@ import { userDetails$ } from "../../store/users/selectors";
 import { AppDispatch } from "../../store";
 import { isLoading$ } from "../../store/common/selectors";
 import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from "expo-font";
 
 type UserDataProps = {
   phNum: string;
@@ -32,17 +33,21 @@ const useNavigation = () => {
   const [userData, setUserData] = useState<Partial<UserDataProps>>();
   const userDetails = useSelector(userDetails$);
   const isLoading = useSelector(isLoading$);
+  const [fontsLoaded] = useFonts({
+    "Avenir-Regular": require("../../assets/fonts/Avenir-Regular.ttf"),
+  });
 
   useEffect(() => {
-    fetchFromStorage(StorageKeys.userDetails).then((user) => {
-      if (!!user) {
-        const value = JSON.parse(user);
-        dispatch(fetchUserById(value)).then(() => isAppReady(true));
-      } else {
-        isAppReady(true);
-      }
-    });
-  }, []);
+    if (fontsLoaded)
+      fetchFromStorage(StorageKeys.userDetails).then((user) => {
+        if (!!user) {
+          const value = JSON.parse(user);
+          dispatch(fetchUserById(value)).then(() => isAppReady(true));
+        } else {
+          isAppReady(true);
+        }
+      });
+  }, [fontsLoaded]);
 
   useEffect(() => {
     setUserData(userDetails);

@@ -31,6 +31,7 @@ export type RootStackParamList = {
         label?: string;
         navigateTo?: keyof RootStackParamList;
         navigateOption?: any;
+        isNewUser?: boolean;
       }
     | undefined;
 };

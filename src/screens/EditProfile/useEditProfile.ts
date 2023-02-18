@@ -9,6 +9,7 @@ import { AppDispatch } from "../../store";
 import { RouteProp } from "@react-navigation/native";
 import { FileUploadResponse } from "../../types/FileUpload";
 import { User } from "../../types/User";
+import { UpdateStateRequest } from "../../types/UpdateState";
 
 type InitialState = {
   fName: string;
@@ -21,7 +22,7 @@ type InitialState = {
   gender: string;
   city: string;
   state: string;
-  category: string;
+  role: string[];
   image: string;
   idProof?: FileUploadResponse;
 };
@@ -37,7 +38,7 @@ const initialState = {
   gender: "",
   city: "",
   state: "",
-  category: "",
+  role: [],
   image: "",
   idProof: undefined,
 };
@@ -62,7 +63,7 @@ const useEditProfile = ({
 
   const handleGoBack = () => navigation.goBack();
 
-  const updateState = (request: any) => {
+  const updateState = (request: UpdateStateRequest<keyof InitialState>) => {
     if (Array.isArray(request)) {
       request.forEach(({ key, value }) =>
         setState((preState) => ({ ...preState, [key]: value }))
@@ -88,26 +89,26 @@ const useEditProfile = ({
     });
   }, []);
 
-  useEffect(() => {
-    if (!isAddPlayer && !!userDetails?.id) {
-      const { fName, lName, mName, email, gender, category, state, city, dob } =
-        userDetails;
+  // useEffect(() => {
+  //   if (!isAddPlayer && !!userDetails?.id) {
+  //     const { fName, lName, mName, email, gender, role, state, city, dob } =
+  //       userDetails;
 
-      updateState([
-        { key: "email", value: email || "" },
-        { key: "fName", value: fName || "" },
-        { key: "lName", value: lName || "" },
-        { key: "mName", value: mName || "" },
-        { key: "gender", value: gender || "" },
-        { key: "category", value: category || "" },
-        { key: "state", value: state || "" },
-        { key: "city", value: city || "" },
-        { key: "dobMonth", value: dob ? moment(dob).format("MMM") : "" },
-        { key: "dobDate", value: dob ? moment(dob).format("DD") : "" },
-        { key: "dobYear", value: dob ? moment(dob).format("YYYY") : "" },
-      ]);
-    }
-  }, [userDetails]);
+  //     updateState([
+  //       { key: "email", value: email || "" },
+  //       { key: "fName", value: fName || "" },
+  //       { key: "lName", value: lName || "" },
+  //       { key: "mName", value: mName || "" },
+  //       { key: "gender", value: gender || "" },
+  //       { key: "role", value: role || [] },
+  //       { key: "state", value: state || "" },
+  //       { key: "city", value: city || "" },
+  //       { key: "dobMonth", value: dob ? moment(dob).format("MMM") : "" },
+  //       { key: "dobDate", value: dob ? moment(dob).format("DD") : "" },
+  //       { key: "dobYear", value: dob ? moment(dob).format("YYYY") : "" },
+  //     ]);
+  //   }
+  // }, [userDetails]);
 
   const handleSave = () => {
     const {
@@ -116,29 +117,28 @@ const useEditProfile = ({
       lName,
       mName,
       gender,
-      category,
+      role,
       state: userState,
       city,
       dobMonth,
       dobDate,
       dobYear,
-      image,
     } = state;
 
     const request = {
-      ...userDetails,
-      fName,
-      lName,
-      mName,
+      first_name: fName,
+      last_name: lName,
+      middle_name: mName,
+      DOB: {
+        date: dobDate,
+        month: dobMonth,
+        year: dobYear,
+      },
       email: email?.toLowerCase(),
-      gender,
-      category,
+      gender: gender,
+      city: city,
       state: userState,
-      city,
-      dob: `${moment(`${dobYear}-${dobMonth}-${dobDate}`, "YYYY-MMM-DD")
-        .startOf("day")
-        .format("YYYY-MM-DDTHH:mm:ss")}Z`,
-      imageURl: image,
+      role: ["player", "coach"],
     };
 
     dispatch(updateUserProfile(request));

@@ -37,7 +37,7 @@ export const customStyle = ({ window }: { window: any }) =>
       marginBottom: 75,
     },
     backButton: {
-      backgroundColor: Colors.lightGray,
+      backgroundColor: Colors.blue1,
       width: 46,
       height: 40,
       borderRadius: 10,
@@ -72,7 +72,7 @@ export const customStyle = ({ window }: { window: any }) =>
       fontFamily: "Avenir-Regular",
     },
     button: {
-      backgroundColor: Colors.darkGray,
+      backgroundColor: Colors.blue1,
       fontSize: 14,
       fontFamily: "Avenir-Regular",
       width: 115,
@@ -83,7 +83,7 @@ export const customStyle = ({ window }: { window: any }) =>
       alignItems: "center",
     },
     buttonText: {
-      color: Colors.white,
+      color: Colors.darkGray,
     },
     numContainer: {
       flexDirection: "row",
@@ -150,7 +150,7 @@ export const customStyle = ({ window }: { window: any }) =>
       height: 48,
       width: 342,
       borderRadius: 10,
-      backgroundColor: Colors.darkGray,
+      backgroundColor: Colors.blue1,
       justifyContent: "center",
       alignItems: "center",
     },

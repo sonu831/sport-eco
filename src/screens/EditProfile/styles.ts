@@ -113,4 +113,7 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     resizeMode: "cover",
   },
+  textCapitalize: {
+    textTransform: "capitalize",
+  },
 });

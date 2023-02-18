@@ -19,6 +19,7 @@ import {
   DATE_OPTIONS,
   GENDER_OPTIONS,
   MONTH_OPTIONS,
+  ROLE_OPTIONS,
   STATE_OPTIONS,
 } from "../../constants/EditProfile";
 import CustomDropdown from "../../components/Dropdown";
@@ -50,7 +51,7 @@ const EditProfile = ({
     dobMonth,
     dobYear,
     city,
-    category,
+    role,
     gender,
     state: userState,
     image,
@@ -215,58 +216,52 @@ const EditProfile = ({
           {!isAddPlayer && (
             <View style={[styles.py16, styles.fieldColumn]}>
               <Text style={styles.fieldRowLabel}>I am a...</Text>
-              <View style={[styles.flex, styles.mt10]}>
-                <TouchableOpacity
-                  style={[
-                    styles.category,
-                    styles.mr27,
-                    category === "player" && styles.categorySelected,
-                  ]}
-                  onPress={() =>
-                    updateState({ key: "category", value: "player" })
-                  }
-                >
-                  <Text
-                    style={category === "player" && styles.categorySelectedText}
+              <View style={[styles.fieldRow, styles.mt21]}>
+                {ROLE_OPTIONS.map((roleOption, i) => (
+                  <TouchableOpacity
+                    key={i}
+                    style={[
+                      styles.category,
+                      i !== ROLE_OPTIONS.length - 1 && styles.mr27,
+                      role.includes(roleOption) && styles.categorySelected,
+                    ]}
+                    onPress={() => {
+                      if (role.includes(roleOption)) {
+                        updateState({
+                          key: "role",
+                          value: role.filter((e) => e !== roleOption),
+                        });
+                      } else {
+                        updateState({
+                          key: "role",
+                          value: [...role, roleOption],
+                        });
+                      }
+                    }}
                   >
-                    Player
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.category,
-                    styles.mr27,
-                    category === "coach" && styles.categorySelected,
-                  ]}
-                  onPress={() =>
-                    updateState({ key: "category", value: "coach" })
-                  }
-                >
-                  <Text
-                    style={category === "coach" && styles.categorySelectedText}
-                  >
-                    Coach
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.category,
-                    category === "parent" && styles.categorySelected,
-                  ]}
-                  onPress={() =>
-                    updateState({ key: "category", value: "parent" })
-                  }
-                >
-                  <Text
-                    style={category === "parent" && styles.categorySelectedText}
-                  >
-                    Parent
-                  </Text>
-                </TouchableOpacity>
+                    <Text
+                      style={[
+                        styles.textCapitalize,
+                        role.includes(roleOption) &&
+                          styles.categorySelectedText,
+                      ]}
+                    >
+                      {roleOption}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
               </View>
-              <View style={styles.alignEnd}>
+              <TouchableOpacity
+                style={[styles.alignEnd, styles.mt10]}
+                onPress={() =>
+                  updateState({
+                    key: "role",
+                    value: ROLE_OPTIONS,
+                  })
+                }
+              >
                 <Text style={styles.selectAll}>Select All</Text>
-              </View>
+              </TouchableOpacity>
             </View>
           )}
           {isAddPlayer && (
