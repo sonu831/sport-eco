@@ -1,6 +1,7 @@
 import axios from "axios";
 import { hideLoader, showLoader } from "../../store/common/reducers";
 import config from "../../../config";
+import { setToast } from "../../store/Toast/reducers";
 
 let store: any;
 
@@ -13,22 +14,29 @@ const instance = axios.create({
 });
 
 const requestHandler = (request: any) => {
-  console.log("request", request);
   store.dispatch(showLoader());
 
   return request;
 };
 
 const responseHandler = (response: any) => {
-  console.log("response", response);
   store.dispatch(hideLoader());
 
   return response;
 };
 
 const errorHandler = (error: any) => {
-  console.log("error", error);
   store.dispatch(hideLoader());
+
+  if (error.response.status === 401) {
+    store.dispatch(
+      setToast({
+        type: "error",
+        message: "User not authorized",
+      })
+    );
+  }
+
   throw error;
 };
 
