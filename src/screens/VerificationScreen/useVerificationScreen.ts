@@ -13,6 +13,7 @@ import { AppDispatch } from "../../store";
 import { UpdateStateRequest } from "../../types/UpdateState";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../Navigation/types";
+import { setIsVerified } from "../../store/users/reducers";
 
 const CELL_COUNT = 4;
 const { window } = Layout;
@@ -100,6 +101,7 @@ export const useVerificationScreen = ({
         otp: codeToValidate,
       };
       dispatch(validateOtp(request)).then((res) => {
+        dispatch(setIsVerified(true));
         navigation.navigate("Confirmation", {
           label: "Account verified!",
           navigateTo: "EditProfile",

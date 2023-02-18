@@ -11,6 +11,7 @@ const initialState = {
   user: {},
   error: "",
   isNewUser: false,
+  isVerified: false,
 };
 
 export const UserSlice = createSlice({
@@ -19,6 +20,9 @@ export const UserSlice = createSlice({
   reducers: {
     setUser: (s, a) => {
       s.user = a.payload;
+    },
+    setIsVerified: (s, a) => {
+      s.isVerified = a.payload;
     },
   },
   extraReducers: (builder) => {
@@ -50,4 +54,4 @@ export const UserSlice = createSlice({
   },
 });
 
-export const { setUser } = UserSlice.actions;
+export const { setUser, setIsVerified } = UserSlice.actions;

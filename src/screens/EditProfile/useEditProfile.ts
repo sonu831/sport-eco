@@ -10,6 +10,8 @@ import { RouteProp } from "@react-navigation/native";
 import { FileUploadResponse } from "../../types/FileUpload";
 import { User } from "../../types/User";
 import { UpdateStateRequest } from "../../types/UpdateState";
+import { fetchFromStorage } from "../../utils/storage";
+import { StorageKeys } from "../../constants/storageKeys";
 
 type InitialState = {
   fName: string;
@@ -138,10 +140,19 @@ const useEditProfile = ({
       gender: gender,
       city: city,
       state: userState,
-      role: ["player", "coach"],
+      role: role,
     };
 
-    dispatch(updateUserProfile(request));
+    fetchFromStorage(StorageKeys.tokenKey).then((token) => {
+      if (!!token) {
+        dispatch(
+          updateUserProfile({
+            data: request,
+            token,
+          })
+        ).then(() => navigation.navigate("Main"));
+      }
+    });
   };
 
   return {

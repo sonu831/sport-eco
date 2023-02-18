@@ -1,16 +1,16 @@
 import moment from "moment";
 
 export const GENDER_OPTIONS = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-  { label: "Other", value: "other" },
+  { label: "Male", value: "M" },
+  { label: "Female", value: "F" },
+  { label: "Other", value: "O" },
 ];
 
 export const CITY_OPTIONS = [
-  { label: "Ghaziabad", value: "gzb" },
-  { label: "Meerut", value: "meerut" },
-  { label: "Muzaffarnagar", value: "mzf" },
-  { label: "Hapur", value: "hapur" },
+  { label: "Ghaziabad", value: "Ghaziabad" },
+  { label: "Meerut", value: "Meerut" },
+  { label: "Muzaffarnagar", value: "Muzaffarnagar" },
+  { label: "Hapur", value: "Hapur" },
 ];
 
 export const STATE_OPTIONS = [

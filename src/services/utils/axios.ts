@@ -13,20 +13,23 @@ const instance = axios.create({
 });
 
 const requestHandler = (request: any) => {
+  console.log("request", request);
   store.dispatch(showLoader());
 
   return request;
 };
 
 const responseHandler = (response: any) => {
+  console.log("response", response);
   store.dispatch(hideLoader());
 
   return response;
 };
 
 const errorHandler = (error: any) => {
+  console.log("error", error);
   store.dispatch(hideLoader());
-  return error;
+  throw error;
 };
 
 instance.interceptors.request.use(requestHandler);
