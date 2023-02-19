@@ -1,8 +1,11 @@
 export const endpoints = {
-  addUser: `/users`,
-  fetchUserById: (id: string) => `/users/${id}`,
-  addPlayer: `/players`,
+  userCreation: `/api/masteruser/usercreation`,
+  validateOtp: `/api/user/verifyotp`,
+  updateUserProfile: `/api/user/updateuserprofile`,
+  fetchUserById: `/api/user/getuserdetailbyid`,
+  fetchPlayers: `/api/player/listofplayers`,
+  addPlayer: `/api/player/addplayerprofile`,
   fetchPlayerById: (id: string) => `/players/${id}`,
   addBatch: `/batches`,
-  fetchBatchById: (id: string) => `/batches/${id}`,
+  fetchBatchById: (id: any) => `/batches/${id}`,
 };

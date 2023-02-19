@@ -2,11 +2,22 @@ import axios from "./utils/axios";
 import { endpoints } from "./utils/endpoints";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+type AddPlayerProps = {
+  data: { [key: string]: any };
+  token: string;
+};
+
 export const addPlayer = createAsyncThunk(
   "addPlayer",
-  async (request: { [key: string]: any }, { rejectWithValue }) => {
+  async (request: AddPlayerProps, { rejectWithValue }) => {
+    const { data, token } = request;
+
     return axios
-      .post(endpoints.addPlayer, request)
+      .post(endpoints.addPlayer, data, {
+        headers: {
+          token,
+        },
+      })
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);
@@ -16,10 +27,15 @@ export const addPlayer = createAsyncThunk(
 
 export const fetchPlayers = createAsyncThunk(
   "fetchPlayers",
-  async (_, { rejectWithValue }) => {
+  async ({ token }: { token: string }, { rejectWithValue }) => {
     return axios
-      .get(endpoints.addPlayer)
+      .get(endpoints.fetchPlayers, {
+        headers: {
+          token,
+        },
+      })
       .then((res) => {
+        console.log("res.data", res.data);
         return res.data;
       })
       .catch((err) => {

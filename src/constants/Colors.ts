@@ -14,4 +14,5 @@ export const Colors = {
   lightOrange1: "#FF4F00B2",
   shadowGray1: "#DEDDDD",
   green: "#0BD273",
+  blue1: "#A1E2FF",
 };

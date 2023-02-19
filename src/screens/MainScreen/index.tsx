@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Text,
   View,
@@ -6,19 +6,20 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {styles} from './styles';
-import useMainScreen from './useMainScreen';
-import {Colors} from '../../constants/Colors';
-import SearchBar from '../../components/SearchBar';
-import moment from 'moment';
-import {tabs, dummyEvent} from '../../constants/MainScreen';
-import {RootBottomTabProps} from '../Navigation/types';
+} from "react-native";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { styles } from "./styles";
+import useMainScreen from "./useMainScreen";
+import { Colors } from "../../constants/Colors";
+import SearchBar from "../../components/SearchBar";
+import moment from "moment";
+import { tabs, dummyEvent } from "../../constants/MainScreen";
+import { RootBottomTabProps } from "../Navigation/types";
 
-const MainScreen = ({navigation}: RootBottomTabProps<'Main'>) => {
-  const {updateState} = useMainScreen();
+const MainScreen = ({ navigation }: RootBottomTabProps<"Main">) => {
+  const { updateState } = useMainScreen();
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.mainContainer}>
@@ -27,7 +28,7 @@ const MainScreen = ({navigation}: RootBottomTabProps<'Main'>) => {
         </TouchableOpacity>
         <SearchBar
           onChange={(searchString: string) =>
-            updateState({key: 'searchedText', value: searchString})
+            updateState({ key: "searchedText", value: searchString })
           }
         />
         <View style={styles.headingContainer}>
@@ -41,17 +42,18 @@ const MainScreen = ({navigation}: RootBottomTabProps<'Main'>) => {
         <ScrollView
           horizontal={true}
           contentContainerStyle={styles.scrollView}
-          showsHorizontalScrollIndicator={false}>
+          showsHorizontalScrollIndicator={false}
+        >
           {dummyEvent.map((event, eventIndex) => (
             <View key={eventIndex} style={styles.eventContainer}>
               <Text style={styles.eventHeading}>{event.title}</Text>
               <Text style={styles.eventDateTime}>
-                {moment(event.startTime).format('DD MMM, dddd')}
+                {moment(event.startTime).format("DD MMM, dddd")}
               </Text>
               <Text style={[styles.eventDateTime, styles.mt11]}>{`${moment(
-                event.startTime,
-              ).format('HH:MM A')} - ${moment(event.endTime).format(
-                'HH:MM A',
+                event.startTime
+              ).format("HH:MM A")} - ${moment(event.endTime).format(
+                "HH:MM A"
               )}`}</Text>
             </View>
           ))}
@@ -62,10 +64,11 @@ const MainScreen = ({navigation}: RootBottomTabProps<'Main'>) => {
               key={tabIndex}
               style={[styles.navigatorItem, tabIndex % 2 === 0 && styles.mr42]}
               onPress={() =>
-                navigation.navigate('CommonScreen', {
+                navigation.navigate("CommonScreen", {
                   title: tab.title,
                 })
-              }>
+              }
+            >
               <Image source={tab.icon} />
               <Text style={styles.navigatorItemText}>{tab.title}</Text>
             </TouchableOpacity>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { hideLoader, showLoader } from "../../store/common/reducers";
 import config from "../../../config";
+import { setToast } from "../../store/Toast/reducers";
 
 let store: any;
 
@@ -24,7 +25,22 @@ const responseHandler = (response: any) => {
   return response;
 };
 
+const errorHandler = (error: any) => {
+  store.dispatch(hideLoader());
+
+  if (error.response.status === 401) {
+    store.dispatch(
+      setToast({
+        type: "error",
+        message: "User not authorized",
+      })
+    );
+  }
+
+  throw error;
+};
+
 instance.interceptors.request.use(requestHandler);
-instance.interceptors.response.use(responseHandler);
+instance.interceptors.response.use(responseHandler, errorHandler);
 
 export default instance;

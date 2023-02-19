@@ -15,8 +15,9 @@ import { styles } from "./styles";
 import TextField from "../../components/TextField";
 import useAddBatch from "./useAddBatch";
 import { RootStackScreenProps } from "../Navigation/types";
+import { PlayerDefinition } from "../../types/player";
 
-const AddBatch = ({ navigation }: RootStackScreenProps<"AddBatch">) => {
+const AddBatch = ({ navigation, route }: RootStackScreenProps<"AddBatch">) => {
   const {
     state,
     updateState,
@@ -24,7 +25,7 @@ const AddBatch = ({ navigation }: RootStackScreenProps<"AddBatch">) => {
     selectedPlayers,
     handleGoBack,
     handleSaveBatches,
-  } = useAddBatch({ navigation });
+  } = useAddBatch({ navigation, route });
 
   const { batchName = "", description = "" } = state;
 
@@ -80,7 +81,7 @@ const AddBatch = ({ navigation }: RootStackScreenProps<"AddBatch">) => {
             </TouchableOpacity>
           </View>
           <View style={styles.m42}>
-            {selectedPlayers.map((player, i) => {
+            {selectedPlayers.map((player: PlayerDefinition, i) => {
               return (
                 <View
                   key={i}

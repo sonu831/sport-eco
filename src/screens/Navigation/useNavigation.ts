@@ -4,9 +4,12 @@ import { useState } from "react";
 import { StorageKeys } from "./../../constants/storageKeys";
 import { useEffect } from "react";
 import { fetchFromStorage } from "./../../utils/storage";
-import { userDetails$ } from "../../store/users/selectors";
+import { isAccountVerified$, userDetails$ } from "../../store/users/selectors";
 import { AppDispatch } from "../../store";
 import { isLoading$ } from "../../store/common/selectors";
+import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from "expo-font";
+import { setIsVerified } from "../../store/users/reducers";
 
 type UserDataProps = {
   phNum: string;
@@ -23,28 +26,53 @@ type UserDataProps = {
   imageURl: string;
 };
 
+SplashScreen.preventAutoHideAsync();
+
 const useNavigation = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [appReady, isAppReady] = useState(false);
   const [userData, setUserData] = useState<Partial<UserDataProps>>();
+  const [token, setToken] = useState(false);
   const userDetails = useSelector(userDetails$);
+  const isAccountVerified = useSelector(isAccountVerified$);
   const isLoading = useSelector(isLoading$);
+  const [fontsLoaded] = useFonts({
+    "Avenir-Regular": require("../../assets/fonts/Avenir-Regular.ttf"),
+  });
 
   useEffect(() => {
-    fetchFromStorage(StorageKeys.userDetails).then((user) => {
-      if (!!user) {
-        const value = JSON.parse(user);
-        dispatch(fetchUserById(value));
-      }
-    });
-  }, []);
+    if (fontsLoaded)
+      fetchFromStorage(StorageKeys.tokenKey).then((token) => {
+        if (!!token) {
+          setToken(true);
+          dispatch(setIsVerified(true));
+          // dispatch(fetchUserById({ token: JSON.parse(token) })).then((res) =>
+          isAppReady(true);
+          // );
+        } else {
+          isAppReady(true);
+        }
+      });
+  }, [fontsLoaded]);
 
   useEffect(() => {
     setUserData(userDetails);
   }, [userDetails]);
 
+  useEffect(() => {
+    const hideSplashScreen = async () => {
+      await SplashScreen.hideAsync();
+    };
+
+    if (appReady) hideSplashScreen();
+  }, [appReady]);
+
   return {
     userData,
     isLoading,
+    appReady,
+    token,
+    isAccountVerified,
   };
 };
 

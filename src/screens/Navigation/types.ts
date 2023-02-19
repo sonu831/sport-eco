@@ -18,14 +18,26 @@ export type RootStackParamList = {
   Main: undefined;
   Calendar: undefined;
   Message: undefined;
-  AddBatch: any;
+  AddBatch:
+    | {
+        isEdit?: boolean;
+      }
+    | any;
+  AddProgram:
+    | {
+        isEdit?: boolean;
+      }
+    | any;
   SelectPlayer: any;
+  AddSession: any;
   BatchScreen: any;
   Profile: { playerId?: string } | undefined;
   Confirmation:
     | {
         label?: string;
-        onPress?: ((event: GestureResponderEvent) => void) | undefined;
+        navigateTo?: keyof RootStackParamList;
+        navigateOption?: any;
+        isNewUser?: boolean;
       }
     | undefined;
 };

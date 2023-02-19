@@ -1,85 +1,116 @@
-import {useCallback, useEffect, useState} from 'react';
-import moment from 'moment';
-import * as ImagePicker from 'react-native-image-picker';
-import {useDispatch, useSelector} from 'react-redux';
-import {userDetails$} from '../../store/users/selectors';
-import {updateUserProfile} from '../../services/users';
-import {RootStackParamList, RootStackScreenProps} from '../Navigation/types';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {AppDispatch} from '../../store';
+import { useCallback, useEffect, useState } from "react";
+import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { userDetails$ } from "../../store/users/selectors";
+import { updateUserProfile } from "../../services/users";
+import { RootStackParamList } from "../Navigation/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppDispatch } from "../../store";
+import { RouteProp } from "@react-navigation/native";
+import { FileUploadResponse } from "../../types/FileUpload";
+import { User } from "../../types/User";
+import { UpdateStateRequest } from "../../types/UpdateState";
+import { fetchFromStorage } from "../../utils/storage";
+import { StorageKeys } from "../../constants/storageKeys";
+
+type InitialState = {
+  fName: string;
+  lName: string;
+  mName: string;
+  email: string;
+  dobMonth: string;
+  dobDate: string;
+  dobYear: string;
+  gender: string;
+  city: string;
+  state: string;
+  role: string[];
+  image: string;
+  idProof?: FileUploadResponse;
+};
 
 const initialState = {
-  fName: '',
-  lName: '',
-  mName: '',
-  email: '',
-  dobMonth: '',
-  dobDate: '',
-  dobYear: '',
-  gender: '',
-  city: '',
-  state: '',
-  category: '',
+  fName: "",
+  lName: "",
+  mName: "",
+  email: "",
+  dobMonth: "",
+  dobDate: "",
+  dobYear: "",
+  gender: "",
+  city: "",
+  state: "",
+  role: [],
+  image: "",
+  idProof: undefined,
 };
 
 const useEditProfile = ({
   navigation,
+  route,
 }: {
   navigation: NativeStackNavigationProp<
     RootStackParamList,
-    'EditProfile',
+    "EditProfile",
     undefined
   >;
+  route: RouteProp<RootStackParamList, "EditProfile">;
 }) => {
+  const isAddPlayer = route?.params?.isAddPlayer || false;
+
   const dispatch = useDispatch<AppDispatch>();
   const [response, setResponse] = useState<any>(null);
-  const userDetails = useSelector(userDetails$);
-  const [state, setState] = useState(initialState);
+  const userDetails: Partial<User> = useSelector(userDetails$);
+  const [state, setState] = useState<InitialState>(initialState);
 
   const handleGoBack = () => navigation.goBack();
 
-  const updateState = (request: any) => {
+  const updateState = (request: UpdateStateRequest<keyof InitialState>) => {
     if (Array.isArray(request)) {
-      request.forEach(({key, value}) =>
-        setState(preState => ({...preState, [key]: value})),
+      request.forEach(({ key, value }) =>
+        setState((preState) => ({ ...preState, [key]: value }))
       );
     } else {
-      const {key, value} = request;
-      setState(preState => ({...preState, [key]: value}));
+      const { key, value } = request;
+      setState((preState) => ({ ...preState, [key]: value }));
     }
   };
 
-  const uploadImage = useCallback(() => {
-    ImagePicker.launchImageLibrary(
-      {
-        selectionLimit: 1,
-        mediaType: 'photo',
-        includeBase64: true,
-      },
-      setResponse,
-    );
+  const uploadImage = useCallback((image: string) => {
+    updateState({
+      key: "image",
+      value: image,
+    });
   }, []);
 
-  useEffect(() => {
-    if (!!userDetails?.id) {
-      const {fName, lName, mName, email, gender, category, state, city, dob} =
-        userDetails;
+  const handleUploadID = useCallback((file: any) => {
+    console.log("file", file);
+    updateState({
+      key: "idProof",
+      value: file,
+    });
+  }, []);
 
-      updateState([
-        {key: 'email', value: email || ''},
-        {key: 'fName', value: fName || ''},
-        {key: 'lName', value: lName || ''},
-        {key: 'mName', value: mName || ''},
-        {key: 'gender', value: gender || ''},
-        {key: 'category', value: category || ''},
-        {key: 'state', value: state || ''},
-        {key: 'city', value: city || ''},
-        {key: 'dobMonth', value: dob ? moment(dob).format('MMM') : ''},
-        {key: 'dobDate', value: dob ? moment(dob).format('DD') : ''},
-        {key: 'dobYear', value: dob ? moment(dob).format('YYYY') : ''},
-      ]);
-    }
-  }, [userDetails]);
+  // useEffect(() => {
+  //   if (!isAddPlayer && !!userDetails?.id) {
+  //     const { fName, lName, mName, email, gender, role, state, city, dob } =
+  //       userDetails;
+
+  //     updateState([
+  //       { key: "email", value: email || "" },
+  //       { key: "fName", value: fName || "" },
+  //       { key: "lName", value: lName || "" },
+  //       { key: "mName", value: mName || "" },
+  //       { key: "gender", value: gender || "" },
+  //       { key: "role", value: role || [] },
+  //       { key: "state", value: state || "" },
+  //       { key: "city", value: city || "" },
+  //       { key: "dobMonth", value: dob ? moment(dob).format("MMM") : "" },
+  //       { key: "dobDate", value: dob ? moment(dob).format("DD") : "" },
+  //       { key: "dobYear", value: dob ? moment(dob).format("YYYY") : "" },
+  //     ]);
+  //   }
+  // }, [userDetails]);
 
   const handleSave = () => {
     const {
@@ -88,7 +119,7 @@ const useEditProfile = ({
       lName,
       mName,
       gender,
-      category,
+      role,
       state: userState,
       city,
       dobMonth,
@@ -96,25 +127,32 @@ const useEditProfile = ({
       dobYear,
     } = state;
 
-    const image = response?.assets[0].base64 || '';
-
     const request = {
-      ...userDetails,
-      fName,
-      lName,
-      mName,
+      first_name: fName,
+      last_name: lName,
+      middle_name: mName,
+      DOB: {
+        date: dobDate,
+        month: dobMonth,
+        year: dobYear,
+      },
       email: email?.toLowerCase(),
-      gender,
-      category,
+      gender: gender,
+      city: city,
       state: userState,
-      city,
-      dob: `${moment(`${dobYear}-${dobMonth}-${dobDate}`, 'YYYY-MMM-DD')
-        .startOf('day')
-        .format('YYYY-MM-DDTHH:mm:ss')}Z`,
-      imageURl: image,
+      role: role,
     };
 
-    dispatch(updateUserProfile(request));
+    fetchFromStorage(StorageKeys.tokenKey).then((token) => {
+      if (!!token) {
+        dispatch(
+          updateUserProfile({
+            data: request,
+            token,
+          })
+        ).then(() => navigation.navigate("Main"));
+      }
+    });
   };
 
   return {
@@ -125,6 +163,7 @@ const useEditProfile = ({
     handleSave,
     response,
     handleGoBack,
+    handleUploadID,
   };
 };
 

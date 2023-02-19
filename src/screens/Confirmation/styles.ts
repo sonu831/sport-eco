@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: Colors.white,
   },
+  bgBlue: { backgroundColor: Colors.blue1 },
   backButton: {
     backgroundColor: Colors.lightOrange,
     width: 46,

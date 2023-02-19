@@ -1,15 +1,21 @@
 import { endpoints } from "./utils/endpoints";
 import axios from "./utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { storeDataInStorage } from "../utils/storage";
+import { StorageKeys } from "../constants/storageKeys";
 
 export const registerUser = createAsyncThunk(
   "registerUser",
   async (
-    request: { [key: string]: any },
+    { phNum }: { phNum: string },
     { rejectWithValue, fulfillWithValue }
   ) => {
     return axios
-      .post(endpoints.addUser, request)
+      .get(endpoints.userCreation, {
+        headers: {
+          contact_no: phNum,
+        },
+      })
       .then((res) => fulfillWithValue(res.data))
       .catch((err) => {
         rejectWithValue(err);
@@ -17,11 +23,43 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const validateOtp = createAsyncThunk(
+  "validateOtp",
+  async (
+    request: { [key: string]: string },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    return axios
+      .post(endpoints.validateOtp, request)
+      .then((res) => {
+        if (res?.headers?.token)
+          storeDataInStorage(
+            StorageKeys.tokenKey,
+            JSON.stringify(res?.headers?.token)
+          );
+        return fulfillWithValue(res.data);
+      })
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);
+
+type updateUserProfileProps = {
+  data: { [key: string]: any };
+  token: string;
+};
+
 export const updateUserProfile = createAsyncThunk(
   "updateUserProfile",
-  async (request: { [key: string]: any }, { rejectWithValue }) => {
+  async (request: updateUserProfileProps, { rejectWithValue }) => {
+    const { data, token } = request;
     return axios
-      .put(endpoints.fetchUserById(request?.id), request)
+      .post(endpoints.updateUserProfile, data, {
+        headers: {
+          token,
+        },
+      })
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);
@@ -31,9 +69,9 @@ export const updateUserProfile = createAsyncThunk(
 
 export const fetchUserById = createAsyncThunk(
   "fetchUserById",
-  async (id: string, { rejectWithValue }) => {
+  async ({ token }: { token: string }, { rejectWithValue }) => {
     return axios
-      .get(endpoints.fetchUserById(id))
+      .get(endpoints.fetchUserById, { headers: { token } })
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);

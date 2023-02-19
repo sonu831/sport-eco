@@ -9,6 +9,8 @@ import { fetchBatches } from "../../services/batches";
 import { players$ } from "../../store/players/selectors";
 import { batches$ } from "../../store/batches/selectors";
 import { setSelectedBatch } from "../../store/batches/reducers";
+import { fetchFromStorage } from "../../utils/storage";
+import { StorageKeys } from "../../constants/storageKeys";
 
 const useCommonScreen = ({
   navigation,
@@ -28,6 +30,7 @@ const useCommonScreen = ({
 
   const showPlayers = title.toLowerCase() === "players";
   const showBatches = title.toLowerCase() === "batches";
+  const showPrograms = title.toLowerCase() === "programs";
 
   const handleGoBack = () => navigation.goBack();
 
@@ -41,10 +44,29 @@ const useCommonScreen = ({
     });
   };
 
+  const handleAddIcon = () => {
+    const route = showPlayers
+      ? "EditProfile"
+      : showPrograms
+      ? "AddProgram"
+      : "AddBatch";
+    const option = showPlayers
+      ? {
+          isAddPlayer: true,
+        }
+      : {};
+    navigation.navigate(route, option);
+  };
+
   const dataToShow = showPlayers ? players : batchList;
 
   useEffect(() => {
-    if (showPlayers) dispatch(fetchPlayers());
+    if (showPlayers)
+      fetchFromStorage(StorageKeys.tokenKey).then((token) => {
+        if (!!token) {
+          dispatch(fetchPlayers({ token: JSON.parse(token) }));
+        }
+      });
     else if (showBatches) dispatch(fetchBatches());
   }, [dispatch, shouldRefresh]);
 
@@ -56,6 +78,8 @@ const useCommonScreen = ({
     showPlayers,
     showBatches,
     dataToShow,
+    showPrograms,
+    handleAddIcon,
   };
 };
 

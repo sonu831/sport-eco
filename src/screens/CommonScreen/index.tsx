@@ -30,6 +30,8 @@ const Players = ({
     showPlayers,
     dataToShow,
     showBatches,
+    showPrograms,
+    handleAddIcon,
   } = useCommonScreen({ navigation, route });
 
   return (
@@ -73,18 +75,7 @@ const Players = ({
         )}
       </ScrollView>
 
-      <TouchableOpacity
-        style={styles.floatingBtn}
-        onPress={() => {
-          const route = showPlayers ? "EditProfile" : "AddBatch";
-          const option = showPlayers
-            ? {
-                isAddPlayer: showPlayers,
-              }
-            : {};
-          navigation.navigate(route, option);
-        }}
-      >
+      <TouchableOpacity style={styles.floatingBtn} onPress={handleAddIcon}>
         <Image source={addIcon} />
       </TouchableOpacity>
     </SafeAreaView>

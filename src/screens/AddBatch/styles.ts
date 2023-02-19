@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   headingText: {
+    fontFamily: "Avenir-Regular",
     fontWeight: "700",
     fontSize: 14,
   },
@@ -40,6 +41,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 25,
   },
   fieldRowLabel: {
+    fontFamily: "Avenir-Regular",
     fontSize: 14,
     marginLeft: 8,
   },
@@ -59,6 +61,7 @@ export const styles = StyleSheet.create({
   },
   addPlayerBtnText: {
     color: Colors.white,
+    fontFamily: "Avenir-Regular",
     fontSize: 12,
     lineHeight: 14,
     fontWeight: "700",
@@ -73,6 +76,7 @@ export const styles = StyleSheet.create({
   },
   listItemText: {
     color: Colors.darkGray,
+    fontFamily: "Avenir-Regular",
     fontSize: 12,
     lineHeight: 14,
     marginLeft: 21,
@@ -94,6 +98,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   saveBtnText: {
+    fontFamily: "Avenir-Regular",
     fontWeight: "700",
     color: Colors.white,
   },

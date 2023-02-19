@@ -16,39 +16,54 @@ import NotReady from "../NotReady";
 import AddBatch from "../AddBatch";
 import SelectPlayer from "../SelectPlayers";
 import BatchScreen from "../BatchDetails";
+import { View } from "react-native";
+import Toast from "../../components/Toast";
+import AddProgram from "../AddProgram";
+import AddSession from "../AddSession";
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
-  const { userData, isLoading } = useNavigation();
+  const { userData, isLoading, appReady, token, isAccountVerified } =
+    useNavigation();
+
+  if (!appReady) return <View />;
 
   return (
-    <NavigationContainer>
-      <Spinner visible={isLoading} />
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!!userData?.phNum ? (
-          <Stack.Group>
-            {/* <Stack.Screen name="Home" component={BottomTabNavigation} /> */}
-            <Stack.Screen name="Main" component={MainScreen} />
-            <Stack.Screen name="Calendar" component={NotReady} />
-            <Stack.Screen name="Message" component={NotReady} />
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-            <Stack.Screen name="EditProfile" component={EditProfile} />
-            <Stack.Screen name="CommonScreen" component={CommonScreen} />
-            <Stack.Screen name="Confirmation" component={Confirmation} />
-            <Stack.Screen name="AddBatch" component={AddBatch} />
-            <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
-            <Stack.Screen name="BatchScreen" component={BatchScreen} />
-          </Stack.Group>
-        ) : (
-          <Stack.Group>
-            <Stack.Screen name="Landing" component={LandingScreen} />
-            <Stack.Screen name="Verification" component={VerificationScreen} />
-          </Stack.Group>
-        )}
-      </Stack.Navigator>
+    <>
+      <NavigationContainer>
+        <Spinner visible={isLoading} />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {!!(token || isAccountVerified) ? (
+            <Stack.Group>
+              <Stack.Screen name="Main" component={MainScreen} />
+              <Stack.Screen name="Calendar" component={NotReady} />
+              <Stack.Screen name="Message" component={NotReady} />
+              <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen name="EditProfile" component={EditProfile} />
+              <Stack.Screen name="CommonScreen" component={CommonScreen} />
+              <Stack.Screen name="AddBatch" component={AddBatch} />
+              <Stack.Screen name="AddProgram" component={AddProgram} />
+              <Stack.Screen name="AddSession" component={AddSession} />
+              <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
+              <Stack.Screen name="BatchScreen" component={BatchScreen} />
+            </Stack.Group>
+          ) : (
+            <Stack.Group>
+              <Stack.Screen name="Landing" component={LandingScreen} />
+              <Stack.Screen
+                name="Verification"
+                component={VerificationScreen}
+              />
+            </Stack.Group>
+          )}
+          <Stack.Screen name="Confirmation" component={Confirmation} />
+        </Stack.Navigator>
 
-      {!!userData?.phNum && <BottomTabNavigation />}
-    </NavigationContainer>
+        {!!(token || isAccountVerified) && <BottomTabNavigation />}
+      </NavigationContainer>
+      <Toast />
+    </>
   );
 };
 

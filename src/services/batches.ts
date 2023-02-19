@@ -14,6 +14,18 @@ export const addBatch = createAsyncThunk(
   }
 );
 
+export const updateBatch = createAsyncThunk(
+  "updateBatch",
+  async (request: { [key: string]: any }, { rejectWithValue }) => {
+    return axios
+      .put(endpoints.fetchBatchById(request?.id), request)
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);
+
 export const fetchBatches = createAsyncThunk(
   "fetchBatches",
   async (_, { rejectWithValue }) => {
@@ -31,6 +43,18 @@ export const fetchBatchById = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     return axios
       .get(endpoints.fetchBatchById(id))
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);
+
+export const deleteBatch = createAsyncThunk(
+  "deleteBatch",
+  async (id: number, { rejectWithValue }) => {
+    return axios
+      .delete(endpoints.fetchBatchById(id))
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);

@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {Colors} from '../../constants/Colors';
+import { StyleSheet } from "react-native";
+import { Colors } from "../../constants/Colors";
 
 export const styles = StyleSheet.create({
   dropdown: {
@@ -12,9 +12,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   placeholderStyle: {
+    fontFamily: "Avenir-Regular",
     fontSize: 12,
   },
   selectedTextStyle: {
+    fontFamily: "Avenir-Regular",
     fontSize: 12,
   },
   selectedDropdownItemContainer: {
@@ -22,12 +24,14 @@ export const styles = StyleSheet.create({
   },
   selectedDropdownItem: {
     color: Colors.white,
-    fontWeight: '700',
+    fontFamily: "Avenir-Regular",
+    fontWeight: "700",
   },
   dropdownItemContainer: {
     padding: 10,
   },
   dropdownItem: {
+    fontFamily: "Avenir-Regular",
     fontSize: 12,
   },
 });

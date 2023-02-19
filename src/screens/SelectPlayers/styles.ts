@@ -30,6 +30,7 @@ export const styles = StyleSheet.create({
   headingText: {
     color: Colors.darkGray,
     fontSize: 12,
+    fontFamily: "Avenir-Regular",
     fontWeight: "700",
     lineHeight: 14,
   },
@@ -47,6 +48,7 @@ export const styles = StyleSheet.create({
   listItemText: {
     color: Colors.darkGray,
     fontSize: 12,
+    fontFamily: "Avenir-Regular",
     lineHeight: 14,
     marginLeft: 21,
   },
@@ -69,6 +71,7 @@ export const styles = StyleSheet.create({
   },
   saveBtnText: {
     fontWeight: "700",
+    fontFamily: "Avenir-Regular",
     color: Colors.white,
   },
   opacity50: { opacity: 0.5 },
