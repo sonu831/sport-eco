@@ -12,14 +12,12 @@ type InitialState = {
   sessionName: string | undefined;
   description: string | undefined;
   sessionDuration: Moment | undefined;
-  showDatePicker: boolean;
 };
 
 const initialState = {
   programName: "",
   description: "",
   sessionDuration: moment(),
-  showDatePicker: false,
 };
 
 const useAddSession = ({
@@ -48,28 +46,6 @@ const useAddSession = ({
     }
   };
 
-  const handleShowDatePicker = () => {
-    updateState({
-      key: "showDatePicker",
-      value: true,
-    });
-  };
-
-  const hideDatePicker = () => {
-    updateState({
-      key: "showDatePicker",
-      value: false,
-    });
-  };
-
-  const handleConfirm = (date: any) => {
-    updateState({
-      key: "sessionDuration",
-      value: moment(date),
-    });
-    hideDatePicker();
-  };
-
   const handleSaveSession = () => {
     const { description, sessionDuration, sessionName } = state;
     const request = {
@@ -86,9 +62,6 @@ const useAddSession = ({
     state,
     updateState,
     handleGoBack,
-    handleConfirm,
-    hideDatePicker,
-    handleShowDatePicker,
     handleSaveSession,
   };
 };

@@ -14,31 +14,21 @@ import { styles } from "./styles";
 import TextField from "../../components/TextField";
 import useAddSession from "./useAddSession";
 import { RootStackScreenProps } from "../Navigation/types";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePicker from "../../components/DateTimePicker";
+import moment from "moment";
 
 const AddSession = ({
   navigation,
   route,
 }: RootStackScreenProps<"AddSession">) => {
-  const {
-    state,
-    updateState,
-    handleGoBack,
-    handleConfirm,
-    hideDatePicker,
-    handleShowDatePicker,
-    handleSaveSession,
-  } = useAddSession({
-    navigation,
-    route,
-  });
+  const { state, updateState, handleGoBack, handleSaveSession } = useAddSession(
+    {
+      navigation,
+      route,
+    }
+  );
 
-  const {
-    description = "",
-    sessionDuration,
-    sessionName,
-    showDatePicker,
-  } = state;
+  const { description = "", sessionDuration, sessionName } = state;
 
   return (
     <SafeAreaView style={styles.safeView}>
@@ -89,18 +79,15 @@ const AddSession = ({
             <View style={styles.flex}>
               <Text style={styles.fieldRowLabel}>Session Duration</Text>
             </View>
-            <TouchableOpacity
-              style={[styles.w195, styles.timeInputContainer]}
-              onPress={handleShowDatePicker}
-            >
-              <Text>{sessionDuration?.format("HH:mm:ss")}</Text>
-            </TouchableOpacity>
-            <DateTimePickerModal
-              isVisible={showDatePicker}
-              mode="time"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-              date={sessionDuration?.toDate()}
+            <DateTimePicker
+              type="time"
+              value={moment(sessionDuration)}
+              onChange={(value: any) =>
+                updateState({
+                  key: "sessionDuration",
+                  value: moment(value),
+                })
+              }
             />
           </View>
           <View style={[styles.alignCenter, styles.mt85]}>
