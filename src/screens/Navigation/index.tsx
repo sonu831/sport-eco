@@ -18,6 +18,8 @@ import SelectPlayer from "../SelectPlayers";
 import BatchScreen from "../BatchDetails";
 import { View } from "react-native";
 import Toast from "../../components/Toast";
+import AddProgram from "../AddProgram";
+import AddSession from "../AddSession";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -41,6 +43,8 @@ const Navigation = () => {
               <Stack.Screen name="EditProfile" component={EditProfile} />
               <Stack.Screen name="CommonScreen" component={CommonScreen} />
               <Stack.Screen name="AddBatch" component={AddBatch} />
+              <Stack.Screen name="AddProgram" component={AddProgram} />
+              <Stack.Screen name="AddSession" component={AddSession} />
               <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
               <Stack.Screen name="BatchScreen" component={BatchScreen} />
             </Stack.Group>

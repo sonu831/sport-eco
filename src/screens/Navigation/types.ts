@@ -23,7 +23,13 @@ export type RootStackParamList = {
         isEdit?: boolean;
       }
     | any;
+  AddProgram:
+    | {
+        isEdit?: boolean;
+      }
+    | any;
   SelectPlayer: any;
+  AddSession: any;
   BatchScreen: any;
   Profile: { playerId?: string } | undefined;
   Confirmation:

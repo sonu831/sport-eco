@@ -4,6 +4,7 @@ import { PlayerSlice } from "./players/reducers";
 import { CommonSlice } from "./common/reducers";
 import { BatchSlice } from "./batches/reducers";
 import { ToastSlice } from "./Toast/reducers";
+import { ProgramSlice } from "./programs/reducers";
 
 const rootReducer = combineReducers({
   [UserSlice.name]: UserSlice.reducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   [CommonSlice.name]: CommonSlice.reducer,
   [BatchSlice.name]: BatchSlice.reducer,
   [ToastSlice.name]: ToastSlice.reducer,
+  [ProgramSlice.name]: ProgramSlice.reducer,
 });
 
 export default rootReducer;
