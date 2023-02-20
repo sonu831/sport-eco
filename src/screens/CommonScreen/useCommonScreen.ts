@@ -31,6 +31,7 @@ const useCommonScreen = ({
   const showPlayers = title.toLowerCase() === "players";
   const showBatches = title.toLowerCase() === "batches";
   const showPrograms = title.toLowerCase() === "programs";
+  const showVenues = title.toLowerCase() === "venues";
 
   const handleGoBack = () => navigation.goBack();
 
@@ -49,6 +50,8 @@ const useCommonScreen = ({
       ? "EditProfile"
       : showPrograms
       ? "AddProgram"
+      : showVenues
+      ? "AddVenue"
       : "AddBatch";
     const option = showPlayers
       ? {

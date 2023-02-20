@@ -20,6 +20,7 @@ import { View } from "react-native";
 import Toast from "../../components/Toast";
 import AddProgram from "../AddProgram";
 import AddSession from "../AddSession";
+import AddVenue from "../AddVenue";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -47,6 +48,7 @@ const Navigation = () => {
               <Stack.Screen name="AddSession" component={AddSession} />
               <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
               <Stack.Screen name="BatchScreen" component={BatchScreen} />
+              <Stack.Screen name="AddVenue" component={AddVenue} />
             </Stack.Group>
           ) : (
             <Stack.Group>
