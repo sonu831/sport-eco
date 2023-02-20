@@ -71,8 +71,7 @@ export const useVerificationScreen = ({
 
   const isPhNumValid = () => phNumRegex.test(phNum);
 
-  const isEnterCodeValid = () => validationCode === codeToValidate;
-
+  const isEnterCodeValid = () => validationCode.toString() === codeToValidate;
   const handleCreateAccount = () => {
     const request = {
       phNum,
@@ -84,7 +83,7 @@ export const useVerificationScreen = ({
         updateState([
           {
             key: "codeToValidate",
-            value: JSON.stringify(data.otp),
+            value: data.otp,
           },
           {
             key: "codeSent",
@@ -95,6 +94,8 @@ export const useVerificationScreen = ({
   };
 
   const handleOTPValidation = () => {
+    const isValid = isEnterCodeValid();
+
     if (isEnterCodeValid()) {
       const request = {
         contact_no: phNum,

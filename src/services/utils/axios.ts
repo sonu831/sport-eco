@@ -2,6 +2,8 @@ import axios from "axios";
 import { hideLoader, showLoader } from "../../store/common/reducers";
 import config from "../../../config";
 import { setToast } from "../../store/Toast/reducers";
+import { fetchFromStorage, storeDataInStorage } from "../../utils/storage";
+import { StorageKeys } from "../../constants/storageKeys";
 
 let store: any;
 
@@ -13,14 +15,22 @@ const instance = axios.create({
   baseURL: config.apiUrl,
 });
 
-const requestHandler = (request: any) => {
+const requestHandler = async (request: any) => {
+  const token = await fetchFromStorage(StorageKeys.tokenKey);
+  request.headers["token"] = token;
   store.dispatch(showLoader());
-
   return request;
 };
 
 const responseHandler = (response: any) => {
   store.dispatch(hideLoader());
+  console.log("token11", response?.headers);
+  if (response?.headers?.token) {
+    const token = response.headers.token;
+    // const authCookie = response?.headers["set-cookie"][0].split(";")[0];
+    console.log("token authCookie", token);
+    storeDataInStorage(StorageKeys.tokenKey, token);
+  }
 
   return response;
 };

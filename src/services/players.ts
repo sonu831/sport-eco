@@ -27,13 +27,9 @@ export const addPlayer = createAsyncThunk(
 
 export const fetchPlayers = createAsyncThunk(
   "fetchPlayers",
-  async ({ token }: { token: string }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     return axios
-      .get(endpoints.fetchPlayers, {
-        headers: {
-          token,
-        },
-      })
+      .get(endpoints.fetchPlayers)
       .then((res) => {
         console.log("res.data", res.data);
         return res.data;

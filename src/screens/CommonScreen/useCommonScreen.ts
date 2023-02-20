@@ -67,7 +67,7 @@ const useCommonScreen = ({
     if (showPlayers)
       fetchFromStorage(StorageKeys.tokenKey).then((token) => {
         if (!!token) {
-          dispatch(fetchPlayers({ token: JSON.parse(token) }));
+          dispatch(fetchPlayers());
         }
       });
     else if (showBatches) dispatch(fetchBatches());

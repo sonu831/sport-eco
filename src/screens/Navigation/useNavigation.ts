@@ -44,8 +44,8 @@ const useNavigation = () => {
     if (fontsLoaded)
       fetchFromStorage(StorageKeys.tokenKey).then((token) => {
         if (!!token) {
-          setToken(true);
-          dispatch(setIsVerified(true));
+          // setToken(true);
+          //dispatch(setIsVerified(true));
           // dispatch(fetchUserById({ token: JSON.parse(token) })).then((res) =>
           isAppReady(true);
           // );

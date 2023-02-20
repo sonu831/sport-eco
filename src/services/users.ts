@@ -32,11 +32,6 @@ export const validateOtp = createAsyncThunk(
     return axios
       .post(endpoints.validateOtp, request)
       .then((res) => {
-        if (res?.headers?.token)
-          storeDataInStorage(
-            StorageKeys.tokenKey,
-            JSON.stringify(res?.headers?.token)
-          );
         return fulfillWithValue(res.data);
       })
       .catch((err) => {
