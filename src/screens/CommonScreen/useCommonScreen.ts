@@ -11,6 +11,8 @@ import { batches$ } from "../../store/batches/selectors";
 import { setSelectedBatch } from "../../store/batches/reducers";
 import { fetchFromStorage } from "../../utils/storage";
 import { StorageKeys } from "../../constants/storageKeys";
+import { venueList$ } from "../../store/venue/selectors";
+import { setSelectedVenue } from "../../store/venue/reducers";
 
 const useCommonScreen = ({
   navigation,
@@ -27,6 +29,7 @@ const useCommonScreen = ({
   const dispatch = useDispatch<AppDispatch>();
   const players: any[] = useSelector(players$);
   const batchList: any[] = useSelector(batches$);
+  const venueList: any[] = useSelector(venueList$);
 
   const showPlayers = title.toLowerCase() === "players";
   const showBatches = title.toLowerCase() === "batches";
@@ -45,6 +48,11 @@ const useCommonScreen = ({
     });
   };
 
+  const handleVenueListItemClick = (venue: any) => {
+    dispatch(setSelectedVenue(venue));
+    navigation.navigate("VenueDetail");
+  };
+
   const handleAddIcon = () => {
     const route = showPlayers
       ? "EditProfile"
@@ -61,7 +69,7 @@ const useCommonScreen = ({
     navigation.navigate(route, option);
   };
 
-  const dataToShow = showPlayers ? players : batchList;
+  const dataToShow = showPlayers ? players : showVenues ? venueList : batchList;
 
   useEffect(() => {
     if (showPlayers)
@@ -83,6 +91,9 @@ const useCommonScreen = ({
     dataToShow,
     showPrograms,
     handleAddIcon,
+    showVenues,
+    venueList,
+    handleVenueListItemClick,
   };
 };
 

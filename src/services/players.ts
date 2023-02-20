@@ -35,7 +35,6 @@ export const fetchPlayers = createAsyncThunk(
         },
       })
       .then((res) => {
-        console.log("res.data", res.data);
         return res.data;
       })
       .catch((err) => {
