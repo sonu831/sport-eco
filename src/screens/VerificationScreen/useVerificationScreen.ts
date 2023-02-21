@@ -78,7 +78,6 @@ export const useVerificationScreen = ({
     };
     dispatch(registerUser(request)).then((res) => {
       const { data = {} } = res.payload;
-      console.log("data", data);
       if (!!data.otp)
         updateState([
           {

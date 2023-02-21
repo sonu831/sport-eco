@@ -32,6 +32,7 @@ export type RootStackParamList = {
   AddSession: any;
   AddVenue: any;
   BatchScreen: any;
+  VenueDetail: any;
   Profile: { playerId?: string } | undefined;
   Confirmation:
     | {
