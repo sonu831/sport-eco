@@ -1,8 +1,6 @@
 import { endpoints } from "./utils/endpoints";
 import axios from "./utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { storeDataInStorage } from "../utils/storage";
-import { StorageKeys } from "../constants/storageKeys";
 
 export const registerUser = createAsyncThunk(
   "registerUser",
@@ -42,19 +40,14 @@ export const validateOtp = createAsyncThunk(
 
 type updateUserProfileProps = {
   data: { [key: string]: any };
-  token: string;
 };
 
 export const updateUserProfile = createAsyncThunk(
   "updateUserProfile",
   async (request: updateUserProfileProps, { rejectWithValue }) => {
-    const { data, token } = request;
+    const { data } = request;
     return axios
-      .post(endpoints.updateUserProfile, data, {
-        headers: {
-          token,
-        },
-      })
+      .post(endpoints.updateUserProfile, data)
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);
@@ -64,11 +57,14 @@ export const updateUserProfile = createAsyncThunk(
 
 export const fetchUserById = createAsyncThunk(
   "fetchUserById",
-  async ({ token }: { token: string }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     return axios
-      .get(endpoints.fetchUserById, { headers: { token } })
-      .then((res) => res.data)
+      .get(endpoints.fetchUserById)
+      .then((res) => {
+        return res.data;
+      })
       .catch((err) => {
+        console.log("err", err);
         rejectWithValue(err);
       });
   }

@@ -71,13 +71,13 @@ export const useVerificationScreen = ({
 
   const isPhNumValid = () => phNumRegex.test(phNum);
 
-  const isEnterCodeValid = () => validationCode.toString() === codeToValidate;
   const handleCreateAccount = () => {
     const request = {
       phNum,
     };
     dispatch(registerUser(request)).then((res) => {
       const { data = {} } = res.payload;
+      console.log("data", data);
       if (!!data.otp)
         updateState([
           {
@@ -93,9 +93,9 @@ export const useVerificationScreen = ({
   };
 
   const handleOTPValidation = () => {
-    const isValid = isEnterCodeValid();
+    const isEnterCodeValid = validationCode === codeToValidate.toString();
 
-    if (isEnterCodeValid()) {
+    if (isEnterCodeValid) {
       const request = {
         contact_no: phNum,
         otp: codeToValidate,
@@ -126,7 +126,6 @@ export const useVerificationScreen = ({
     phoneInput,
     styles,
     isPhNumValid,
-    isEnterCodeValid,
     handleCreateAccount,
     updateState,
     state,

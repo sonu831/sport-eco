@@ -9,8 +9,6 @@ import { fetchBatches } from "../../services/batches";
 import { players$ } from "../../store/players/selectors";
 import { batches$ } from "../../store/batches/selectors";
 import { setSelectedBatch } from "../../store/batches/reducers";
-import { fetchFromStorage } from "../../utils/storage";
-import { StorageKeys } from "../../constants/storageKeys";
 import { venueList$ } from "../../store/venue/selectors";
 import { setSelectedVenue } from "../../store/venue/reducers";
 
@@ -72,12 +70,7 @@ const useCommonScreen = ({
   const dataToShow = showPlayers ? players : showVenues ? venueList : batchList;
 
   useEffect(() => {
-    if (showPlayers)
-      fetchFromStorage(StorageKeys.tokenKey).then((token) => {
-        if (!!token) {
-          dispatch(fetchPlayers());
-        }
-      });
+    if (showPlayers) dispatch(fetchPlayers());
     else if (showBatches) dispatch(fetchBatches());
   }, [dispatch, shouldRefresh]);
 

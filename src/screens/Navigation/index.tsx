@@ -26,8 +26,7 @@ import VenueDetail from "../VenueDetail";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
-  const { userData, isLoading, appReady, token, isAccountVerified } =
-    useNavigation();
+  const { userData, isLoading, appReady, isAccountVerified } = useNavigation();
 
   if (!appReady) return <View />;
 
@@ -36,7 +35,7 @@ const Navigation = () => {
       <NavigationContainer>
         <Spinner visible={isLoading} />
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {!!(token || isAccountVerified) ? (
+          {isAccountVerified ? (
             <Stack.Group>
               <Stack.Screen name="Main" component={MainScreen} />
               <Stack.Screen name="Calendar" component={NotReady} />
@@ -64,7 +63,7 @@ const Navigation = () => {
           <Stack.Screen name="Confirmation" component={Confirmation} />
         </Stack.Navigator>
 
-        {!!(token || isAccountVerified) && <BottomTabNavigation />}
+        {!!isAccountVerified && <BottomTabNavigation />}
       </NavigationContainer>
       <Toast />
     </>

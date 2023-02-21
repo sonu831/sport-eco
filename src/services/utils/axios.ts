@@ -17,18 +17,18 @@ const instance = axios.create({
 
 const requestHandler = async (request: any) => {
   const token = await fetchFromStorage(StorageKeys.tokenKey);
+
   request.headers["token"] = token;
+
   store.dispatch(showLoader());
   return request;
 };
 
 const responseHandler = (response: any) => {
   store.dispatch(hideLoader());
-  console.log("token11", response?.headers);
+
   if (response?.headers?.token) {
     const token = response.headers.token;
-    // const authCookie = response?.headers["set-cookie"][0].split(";")[0];
-    console.log("token authCookie", token);
     storeDataInStorage(StorageKeys.tokenKey, token);
   }
 

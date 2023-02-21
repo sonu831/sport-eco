@@ -4,20 +4,15 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 type AddPlayerProps = {
   data: { [key: string]: any };
-  token: string;
 };
 
 export const addPlayer = createAsyncThunk(
   "addPlayer",
   async (request: AddPlayerProps, { rejectWithValue }) => {
-    const { data, token } = request;
+    const { data } = request;
 
     return axios
-      .post(endpoints.addPlayer, data, {
-        headers: {
-          token,
-        },
-      })
+      .post(endpoints.addPlayer, data)
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);
