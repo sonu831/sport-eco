@@ -6,7 +6,7 @@ const player$ = (s: RootState) => s[PlayerSlice.name];
 
 export const players$ = createSelector(
   [player$],
-  (players) => players.players || []
+  (players) => players.players?.data || []
 );
 
 export const playerDetails$ = createSelector(

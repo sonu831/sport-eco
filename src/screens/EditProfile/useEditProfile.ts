@@ -12,6 +12,7 @@ import { RouteProp } from "@react-navigation/native";
 import { FileUploadResponse } from "../../types/FileUpload";
 import { User } from "../../types/User";
 import { UpdateStateRequest } from "../../types/UpdateState";
+import { addPlayer, fetchPlayers } from "../../services/players";
 
 type InitialState = {
   fName: string;
@@ -149,7 +150,7 @@ const useEditProfile = ({
       gender: gender,
       city: city,
       state: userState,
-      role: role,
+      ...(!isAddPlayer && { role: role }),
     };
 
     if (!!image) {
@@ -166,11 +167,17 @@ const useEditProfile = ({
         .catch((err) => console.log("err", err));
     }
 
-    dispatch(
-      updateUserProfile({
-        data: request,
-      })
-    ).then(() => navigation.navigate("Main"));
+    if (isAddPlayer) {
+      dispatch(addPlayer({ data: request })).then((res) =>
+        dispatch(fetchPlayers()).then(() => handleGoBack())
+      );
+    } else {
+      dispatch(
+        updateUserProfile({
+          data: request,
+        })
+      ).then(() => navigation.navigate("Main"));
+    }
   };
 
   return {

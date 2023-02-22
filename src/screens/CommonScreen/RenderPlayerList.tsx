@@ -18,7 +18,7 @@ const RenderPlayerList = ({
             styles.playerListItem,
             playerIndex !== data.length - 1 && styles.pb60,
           ]}
-          onPress={() => handleClickOnProfile(player.id)}
+          // onPress={() => handleClickOnProfile(player._id)}
         >
           <Image
             source={{
@@ -28,7 +28,7 @@ const RenderPlayerList = ({
           />
           <Text
             style={styles.playerName}
-          >{`${player?.fName} ${player?.lName}`}</Text>
+          >{`${player?.first_name} ${player?.last_name}`}</Text>
         </TouchableOpacity>
       ))}
     </View>
