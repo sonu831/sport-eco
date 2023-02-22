@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { userDetails$ } from "../../store/users/selectors";
-import { updateUserProfile } from "../../services/users";
+import {
+  updateUserProfile,
+  uploadUserProfilePicture,
+} from "../../services/users";
 import { RootStackParamList } from "../Navigation/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppDispatch } from "../../store";
@@ -131,6 +133,7 @@ const useEditProfile = ({
       dobMonth,
       dobDate,
       dobYear,
+      image,
     } = state;
 
     const request = {
@@ -148,6 +151,20 @@ const useEditProfile = ({
       state: userState,
       role: role,
     };
+
+    if (!!image) {
+      fetch(image)
+        .then(async (res) => {
+          const data = await res.blob();
+
+          const formData = new FormData();
+
+          formData.append("profile_pic", data);
+
+          dispatch(uploadUserProfilePicture({ formData }));
+        })
+        .catch((err) => console.log("err", err));
+    }
 
     dispatch(
       updateUserProfile({

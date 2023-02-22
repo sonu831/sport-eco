@@ -5,6 +5,9 @@ export const endpoints = {
   fetchUserById: `/api/user/getuserdetailbyid`,
   fetchPlayers: `/api/player/listofplayers`,
   addPlayer: `/api/player/addplayerprofile`,
+  uploadUserProfileImage: `/api/user/userprofilepicupload`,
+
+  // Previous Endpoints
   fetchPlayerById: (id: string) => `/players/${id}`,
   addBatch: `/batches`,
   fetchBatchById: (id: any) => `/batches/${id}`,

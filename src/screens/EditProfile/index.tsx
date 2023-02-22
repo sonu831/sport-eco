@@ -79,10 +79,7 @@ const EditProfile = ({
             <Text style={styles.fieldRowLabel}>Photo</Text>
             <View style={styles.uploadImage}>
               {!!image ? (
-                <Image
-                  source={{ uri: `data:image/jpeg;base64,${image}` }}
-                  style={styles.uploadedImage}
-                />
+                <Image source={{ uri: image }} style={styles.uploadedImage} />
               ) : (
                 <ImagePicker handleImage={uploadImage} />
               )}

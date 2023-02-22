@@ -69,3 +69,15 @@ export const fetchUserById = createAsyncThunk(
       });
   }
 );
+
+export const uploadUserProfilePicture = createAsyncThunk(
+  "uploadUserProfilePicture",
+  async (request: any, { rejectWithValue }) => {
+    return axios
+      .post(endpoints.uploadUserProfileImage, request?.formData)
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);
