@@ -89,26 +89,34 @@ const useEditProfile = ({
     });
   }, []);
 
-  // useEffect(() => {
-  //   if (!isAddPlayer && !!userDetails?.id) {
-  //     const { fName, lName, mName, email, gender, role, state, city, dob } =
-  //       userDetails;
+  useEffect(() => {
+    if (!isAddPlayer && !!userDetails?._id) {
+      const {
+        email,
+        gender,
+        role,
+        state,
+        city,
+        first_name,
+        last_name,
+        middle_name,
+      } = userDetails;
 
-  //     updateState([
-  //       { key: "email", value: email || "" },
-  //       { key: "fName", value: fName || "" },
-  //       { key: "lName", value: lName || "" },
-  //       { key: "mName", value: mName || "" },
-  //       { key: "gender", value: gender || "" },
-  //       { key: "role", value: role || [] },
-  //       { key: "state", value: state || "" },
-  //       { key: "city", value: city || "" },
-  //       { key: "dobMonth", value: dob ? moment(dob).format("MMM") : "" },
-  //       { key: "dobDate", value: dob ? moment(dob).format("DD") : "" },
-  //       { key: "dobYear", value: dob ? moment(dob).format("YYYY") : "" },
-  //     ]);
-  //   }
-  // }, [userDetails]);
+      updateState([
+        { key: "email", value: email || "" },
+        { key: "fName", value: first_name || "" },
+        { key: "lName", value: last_name || "" },
+        { key: "mName", value: middle_name || "" },
+        { key: "gender", value: gender || "" },
+        { key: "role", value: role || [] },
+        { key: "state", value: state || "" },
+        { key: "city", value: city || "" },
+        // { key: "dobMonth", value: dob ? moment(dob).format("MMM") : "" },
+        // { key: "dobDate", value: dob ? moment(dob).format("DD") : "" },
+        // { key: "dobYear", value: dob ? moment(dob).format("YYYY") : "" },
+      ]);
+    }
+  }, [userDetails]);
 
   const handleSave = () => {
     const {
