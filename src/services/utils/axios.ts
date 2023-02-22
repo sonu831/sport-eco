@@ -13,6 +13,7 @@ export const initializeStore = (initialStore: any) => {
 
 const instance = axios.create({
   baseURL: config.apiUrl,
+  withCredentials: true,
 });
 
 const requestHandler = async (request: any) => {

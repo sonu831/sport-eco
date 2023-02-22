@@ -40,7 +40,7 @@ const useNavigation = () => {
   useEffect(() => {
     if (fontsLoaded)
       dispatch(fetchUserById()).then((res) => {
-        if (res.payload.success) {
+        if (res?.payload?.success) {
           dispatch(setIsVerified(true));
           isAppReady(true);
         } else {

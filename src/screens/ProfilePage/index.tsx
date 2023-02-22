@@ -14,6 +14,7 @@ import { locations, UserDetailsFields } from "../../constants/Profile";
 import useProfilePage from "./useProfilePage";
 import { RootStackScreenProps } from "../Navigation/types";
 import Button from "../../components/Button";
+import dummyUser from "../../assets/images/dummy-user.png";
 
 const ProfileScreen = ({
   navigation,
@@ -36,14 +37,9 @@ const ProfileScreen = ({
             <Entypo name="chevron-left" size={20} color={Colors.darkGray} />
           </Pressable>
           <View style={styles.headerContainer}>
-            <Image
-              source={{ uri: `data:image/jpeg;base64,${dataToShow.imageURl}` }}
-              style={styles.avatar}
-            />
+            <Image source={dummyUser} style={styles.avatar} />
             <Text style={styles.username}>
-              {`${dataToShow?.fName} ${dataToShow?.lName} ${
-                dataToShow?.age ? `, ${dataToShow?.age}` : ""
-              }`}
+              {`${dataToShow?.first_name} ${dataToShow?.last_name}`}
             </Text>
             <View style={styles.flexRow}>
               <Button
