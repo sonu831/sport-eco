@@ -4,6 +4,7 @@ import config from "../../../config";
 import { setToast } from "../../store/Toast/reducers";
 import { fetchFromStorage, storeDataInStorage } from "../../utils/storage";
 import { StorageKeys } from "../../constants/storageKeys";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let store: any;
 
@@ -40,12 +41,14 @@ const errorHandler = (error: any) => {
   store.dispatch(hideLoader());
 
   if (error.response.status === 401) {
-    store.dispatch(
-      setToast({
-        type: "error",
-        message: "User not authorized",
-      })
-    );
+    AsyncStorage.clear().then(() => {
+      store.dispatch(
+        setToast({
+          type: "error",
+          message: "User not authorized",
+        })
+      );
+    });
   }
 
   throw error;

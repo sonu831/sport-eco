@@ -57,3 +57,35 @@ export const deletePlayer = createAsyncThunk(
       });
   }
 );
+
+export const uploadPlayerProfilePicture = createAsyncThunk(
+  "uploadPlayerProfilePicture",
+  async (request: any, { rejectWithValue }) => {
+    return axios
+      .post(endpoints.uploadPlayerProfileImage, request?.formData, {
+        headers: {
+          playerid: request.playerId,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);
+
+export const updatePlayerProfile = createAsyncThunk(
+  "updatePlayerProfile",
+  async (request: any, { rejectWithValue }) => {
+    return axios
+      .post(endpoints.updatePlayerProfile, request.data, {
+        headers: {
+          playerid: request.playerId,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);

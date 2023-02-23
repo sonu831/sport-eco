@@ -18,7 +18,7 @@ const RenderPlayerList = ({
             styles.playerListItem,
             playerIndex !== data.length - 1 && styles.pb60,
           ]}
-          // onPress={() => handleClickOnProfile(player._id)}
+          onPress={() => handleClickOnProfile(player)}
         >
           <Image
             source={{

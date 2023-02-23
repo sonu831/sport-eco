@@ -11,7 +11,7 @@ declare global {
 
 export type RootStackParamList = {
   Home: undefined;
-  EditProfile: { isAddPlayer?: boolean } | undefined;
+  EditProfile: { isAddPlayer?: boolean; isEdit?: boolean } | undefined;
   CommonScreen: { title: string; shouldRefresh?: boolean };
   Landing: undefined;
   Verification: undefined;
@@ -33,7 +33,7 @@ export type RootStackParamList = {
   AddVenue: any;
   BatchScreen: any;
   VenueDetail: any;
-  Profile: { playerId?: string } | undefined;
+  Profile: { player?: boolean } | undefined;
   Confirmation:
     | {
         label?: string;

@@ -20,11 +20,16 @@ const ProfileScreen = ({
   navigation,
   route,
 }: RootStackScreenProps<"Profile">) => {
-  const { dataToShow, handleGoBack, showPlayerDetails, handlePlayerDeletion } =
-    useProfilePage({
-      navigation,
-      route,
-    });
+  const {
+    dataToShow,
+    handleGoBack,
+    showPlayerDetails,
+    handlePlayerDeletion,
+    handleEditBtn,
+  } = useProfilePage({
+    navigation,
+    route,
+  });
 
   const userFields = UserDetailsFields(dataToShow);
   const userLocationFields = locations(dataToShow);
@@ -45,7 +50,7 @@ const ProfileScreen = ({
               <Button
                 label="Edit Profile"
                 icon="chevron-right"
-                onPress={() => navigation.navigate("EditProfile")}
+                onPress={handleEditBtn}
               />
               {showPlayerDetails && (
                 <Button

@@ -1,17 +1,21 @@
-import {fetchPlayerById, fetchPlayers} from './../../services/players';
-import {createSlice} from '@reduxjs/toolkit';
+import { fetchPlayerById, fetchPlayers } from "./../../services/players";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   players: [],
   playerDetails: {},
-  error: '',
+  error: "",
 };
 
 export const PlayerSlice = createSlice({
-  name: 'Player',
+  name: "Player",
   initialState,
-  reducers: {},
-  extraReducers: builder => {
+  reducers: {
+    setSelectedPlayer: (s, a) => {
+      s.playerDetails = a.payload;
+    },
+  },
+  extraReducers: (builder) => {
     builder
       .addCase(fetchPlayers.fulfilled, (s, a) => {
         s.players = a.payload;
@@ -21,3 +25,5 @@ export const PlayerSlice = createSlice({
       });
   },
 });
+
+export const { setSelectedPlayer } = PlayerSlice.actions;

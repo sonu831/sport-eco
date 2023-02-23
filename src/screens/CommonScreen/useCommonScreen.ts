@@ -9,6 +9,7 @@ import { fetchBatches } from "../../services/batches";
 import { players$ } from "../../store/players/selectors";
 import { batches$ } from "../../store/batches/selectors";
 import { setSelectedBatch } from "../../store/batches/reducers";
+import { setSelectedPlayer } from "../../store/players/reducers";
 import { venueList$ } from "../../store/venue/selectors";
 import { setSelectedVenue } from "../../store/venue/reducers";
 
@@ -36,14 +37,19 @@ const useCommonScreen = ({
 
   const handleGoBack = () => navigation.goBack();
 
-  const handleClickOnProfile = (playerId: string) => {
+  const handleClickOnProfile = (player: any) => {
+    console.log("player", player);
+
     const navigateToScreen = showPlayers ? "Profile" : "BatchScreen";
+    const navigateToScreenOption = showPlayers ? { player: true } : {};
 
-    dispatch(setSelectedBatch(playerId));
+    if (showPlayers) {
+      dispatch(setSelectedPlayer(player));
+    } else {
+      dispatch(setSelectedBatch(player));
+    }
 
-    navigation.navigate(navigateToScreen, {
-      playerId,
-    });
+    navigation.navigate(navigateToScreen, navigateToScreenOption);
   };
 
   const handleVenueListItemClick = (venue: any) => {
