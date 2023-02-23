@@ -10,8 +10,10 @@ export const endpoints = {
   updatePlayerProfile: `api/player/updateplayerprofile`,
   uploadPlayerProfileImage: `/api/player/playerprofilepicupload`,
 
-  // Previous Endpoints
-  fetchPlayerById: (id: string) => `/players/${id}`,
-  addBatch: `/batches`,
-  fetchBatchById: (id: any) => `/batches/${id}`,
+  addBatch: `api/batch/addbatch`,
+  fetchBatchById: `api/batch/getbatchdatabyid`,
+  deleteBatchById: `api/batch/deletebatchbyid`,
+  updateBatchDetails: `api/batch/updatebatchdetails`,
+  addPlayerInBatch: `api/batch/addplayerinbatch`,
+  deletePlayerFromBatch: `api/batch/removeplayerinbatch`,
 };

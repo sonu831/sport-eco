@@ -20,7 +20,7 @@ export const BatchSlice = createSlice({
     },
     deletePlayer: (s, a) => {
       s.selectedPlayers = s.selectedPlayers.filter(
-        (item) => item.id !== a.payload.id
+        (item) => item.playerid !== a.payload.playerid
       );
     },
   },

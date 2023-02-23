@@ -37,6 +37,7 @@ const Navigation = () => {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {isAccountVerified ? (
             <Stack.Group>
+              <Stack.Screen name="BatchScreen" component={BatchScreen} />
               <Stack.Screen name="Main" component={MainScreen} />
               <Stack.Screen name="Calendar" component={NotReady} />
               <Stack.Screen name="Message" component={NotReady} />
@@ -47,7 +48,6 @@ const Navigation = () => {
               <Stack.Screen name="AddProgram" component={AddProgram} />
               <Stack.Screen name="AddSession" component={AddSession} />
               <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
-              <Stack.Screen name="BatchScreen" component={BatchScreen} />
               <Stack.Screen name="AddVenue" component={AddVenue} />
               <Stack.Screen name="VenueDetail" component={VenueDetail} />
             </Stack.Group>

@@ -1,10 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../Navigation/types";
 import { AppDispatch } from "../../store";
 import { fetchPlayers } from "../../services/players";
 import { setSelectedPlayers } from "../../store/batches/reducers";
+import { players$ } from "../../store/players/selectors";
 
 type Player = {
   category: string;
@@ -13,7 +14,7 @@ type Player = {
   email: string;
   fName: string;
   gender: string;
-  id: number;
+  _id: string;
   imageURl: string;
   lName: string;
   mName: string;
@@ -31,19 +32,19 @@ const useSelectPlayer = ({
   >;
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const [players, setPlayers] = useState<Player[]>([]);
+  const players = useSelector(players$);
   const [selectedPlayers, setSelPlayers] = useState<Player[]>([]);
 
   const handleGoBack = () => navigation.goBack();
 
   const isPlayerSelected = (player: Player) =>
-    selectedPlayers.some((item) => item.id === player.id);
+    selectedPlayers.some((item) => item._id === player._id);
 
   const handleSelectPlayer = (player: Player) => {
     const isSelected = isPlayerSelected(player);
 
     if (isSelected) {
-      setSelPlayers((preState) => preState.filter((e) => e.id !== player.id));
+      setSelPlayers((preState) => preState.filter((e) => e._id !== player._id));
     } else {
       setSelPlayers((preState) => [...preState, player]);
     }
@@ -56,9 +57,7 @@ const useSelectPlayer = ({
   };
 
   useEffect(() => {
-    dispatch(fetchPlayers()).then((res) => {
-      setPlayers(res.payload);
-    });
+    dispatch(fetchPlayers());
   }, [dispatch]);
 
   return {

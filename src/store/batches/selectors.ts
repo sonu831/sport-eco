@@ -8,10 +8,10 @@ export const batches$ = createSelector([batch$], (batch) => batch.batches);
 
 export const batchDetails$ = createSelector(
   [batch$],
-  (batch) => batch.batchDetails
+  (batch) => batch.batchDetails?.data || {}
 );
 
 export const selectedPlayers$ = createSelector(
   [batch$],
-  (batch) => batch.selectedPlayers
+  (batch) => batch.selectedPlayers || []
 );

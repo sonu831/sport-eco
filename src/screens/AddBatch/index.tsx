@@ -25,6 +25,7 @@ const AddBatch = ({ navigation, route }: RootStackScreenProps<"AddBatch">) => {
     selectedPlayers,
     handleGoBack,
     handleSaveBatches,
+    isEdit,
   } = useAddBatch({ navigation, route });
 
   const { batchName = "", description = "" } = state;
@@ -81,7 +82,7 @@ const AddBatch = ({ navigation, route }: RootStackScreenProps<"AddBatch">) => {
             </TouchableOpacity>
           </View>
           <View style={styles.m42}>
-            {selectedPlayers.map((player: PlayerDefinition, i) => {
+            {selectedPlayers?.map((player: PlayerDefinition, i) => {
               return (
                 <View
                   key={i}
@@ -91,7 +92,10 @@ const AddBatch = ({ navigation, route }: RootStackScreenProps<"AddBatch">) => {
                   ]}
                 >
                   <Image source={dummyUserIcon} style={styles.playerImage} />
-                  <Text style={styles.listItemText}>{player.fName}</Text>
+                  <Text style={styles.listItemText}>
+                    {player.name ||
+                      `${player?.first_name} ${player?.last_name}`}
+                  </Text>
                   <TouchableOpacity
                     style={[styles.mlAuto, styles.mr30]}
                     onPress={() => removeSelectedPlayer(player)}
