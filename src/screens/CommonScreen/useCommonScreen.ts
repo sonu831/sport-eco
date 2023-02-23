@@ -38,8 +38,6 @@ const useCommonScreen = ({
   const handleGoBack = () => navigation.goBack();
 
   const handleClickOnProfile = (player: any) => {
-    console.log("player", player);
-
     const navigateToScreen = showPlayers ? "Profile" : "BatchScreen";
     const navigateToScreenOption = showPlayers ? { player: true } : {};
 
