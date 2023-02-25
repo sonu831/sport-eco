@@ -13,3 +13,8 @@ export const isAccountVerified$ = createSelector(
   [users$],
   (users) => users.isVerified
 );
+
+export const isLoginVerified$ = createSelector(
+  [users$],
+  (users) => users.isLoginVerified
+);

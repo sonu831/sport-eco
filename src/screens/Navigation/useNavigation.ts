@@ -2,7 +2,11 @@ import { fetchUserById } from "./../../services/users";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
-import { isAccountVerified$, userDetails$ } from "../../store/users/selectors";
+import {
+  isAccountVerified$,
+  isLoginVerified$,
+  userDetails$,
+} from "../../store/users/selectors";
 import { AppDispatch } from "../../store";
 import { isLoading$ } from "../../store/common/selectors";
 import * as SplashScreen from "expo-splash-screen";
@@ -32,6 +36,7 @@ const useNavigation = () => {
   const [userData, setUserData] = useState<Partial<UserDataProps>>();
   const userDetails = useSelector(userDetails$);
   const isAccountVerified = useSelector(isAccountVerified$);
+  const isLoginVerified = useSelector(isLoginVerified$);
   const isLoading = useSelector(isLoading$);
   const [fontsLoaded] = useFonts({
     "Avenir-Regular": require("../../assets/fonts/Avenir-Regular.ttf"),
@@ -66,6 +71,7 @@ const useNavigation = () => {
     isLoading,
     appReady,
     isAccountVerified,
+    isLoginVerified,
   };
 };
 

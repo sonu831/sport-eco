@@ -7,13 +7,12 @@ import {
 } from "react-native-confirmation-code-field";
 import { customStyle } from "./style";
 import Layout from "../../constants/Layout";
-import { useDispatch, useSelector } from "react-redux";
-import { userDetails$ } from "../../store/users/selectors";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
 import { UpdateStateRequest } from "../../types/UpdateState";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../Navigation/types";
-import { setIsVerified } from "../../store/users/reducers";
+import { setIsLoginVerified, setIsVerified } from "../../store/users/reducers";
 
 const CELL_COUNT = 4;
 const { window } = Layout;
@@ -105,6 +104,7 @@ export const useVerificationScreen = ({
       };
       dispatch(validateOtp(request)).then((res) => {
         dispatch(setIsVerified(true));
+        dispatch(setIsLoginVerified(true));
         navigation.navigate("Confirmation", {
           label: "Account verified!",
           navigateTo: "EditProfile",
