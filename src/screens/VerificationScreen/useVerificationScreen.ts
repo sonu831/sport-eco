@@ -78,7 +78,7 @@ export const useVerificationScreen = ({
     dispatch(registerUser(request)).then((res) => {
       const { data = {} } = res.payload;
       console.log("data", data);
-      if (!!data.otp)
+      if (!!data.otp) {
         updateState([
           {
             key: "codeToValidate",
@@ -89,6 +89,9 @@ export const useVerificationScreen = ({
             value: true,
           },
         ]);
+
+        setValidationCode(data.otp);
+      }
     });
   };
 
