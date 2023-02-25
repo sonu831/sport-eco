@@ -40,7 +40,20 @@
         {
           "photosPermission": "The app needs to access your photos."
         }
+      ],
+      "sentry-expo"
+    ],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "w2c-tech",
+            "project": "react-native",
+            "authToken": "2a6a7923c2a5487c9f23c921e60734e4ecd087e5f5b643818e0adcfb94f961cf"
+          }
+        }
       ]
-    ]
+    }
   }
 }

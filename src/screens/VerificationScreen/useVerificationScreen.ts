@@ -1,4 +1,5 @@
 import { registerUser, validateOtp } from "./../../services/users";
+import * as Sentry from "@sentry/react-native";
 import { phNumRegex, mockCode } from "./../../constants/index";
 import { useRef, useState } from "react";
 import {
@@ -57,6 +58,13 @@ export const useVerificationScreen = ({
   });
   const { phNum, codeToValidate } = state;
 
+  const transaction = Sentry.startTransaction({
+    name: "test-on-OTP-verification",
+  });
+  const span = transaction.startChild({
+    op: "on-otp-verification",
+  });
+
   const updateState = (request: UpdateStateRequest<keyof InitialStateType>) => {
     if (Array.isArray(request)) {
       request.forEach(({ key, value }) =>
@@ -77,6 +85,7 @@ export const useVerificationScreen = ({
     dispatch(registerUser(request)).then((res) => {
       const { data = {} } = res.payload;
       console.log("data", data);
+
       if (!!data.otp) {
         updateState([
           {
@@ -102,6 +111,8 @@ export const useVerificationScreen = ({
         contact_no: phNum,
         otp: codeToValidate,
       };
+      span.finish(); // Remember that only finished spans will be sent with the transaction
+      transaction.finish(); // Finishing the transaction will send it to Sentry
       dispatch(validateOtp(request)).then((res) => {
         dispatch(setIsVerified(true));
         dispatch(setIsLoginVerified(true));
