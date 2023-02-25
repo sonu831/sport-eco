@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as Sentry from "@sentry/react-native";
 import { hideLoader, showLoader } from "../../store/common/reducers";
 import config from "../../../config";
 import { setToast } from "../../store/Toast/reducers";
@@ -23,6 +24,7 @@ const requestHandler = async (request: any) => {
   request.headers["token"] = token;
 
   store.dispatch(showLoader());
+  Sentry.captureException("sport eco request", request);
   return request;
 };
 
@@ -33,7 +35,7 @@ const responseHandler = (response: any) => {
     const token = response.headers.token;
     storeDataInStorage(StorageKeys.tokenKey, token);
   }
-
+  Sentry.captureException("sport eco response", response);
   return response;
 };
 
@@ -51,6 +53,7 @@ const errorHandler = (error: any) => {
     });
   }
 
+  Sentry.captureException("sport eco error", error.response.message);
   throw error;
 };
 

@@ -1,4 +1,5 @@
 import React from "react";
+import * as Sentry from "sentry-expo";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import Navigation from "./src/screens/Navigation";
@@ -6,7 +7,13 @@ import { Provider } from "react-redux";
 import { store } from "./src/store";
 import { initializeStore } from "./src/services/utils/axios";
 
-export default function App() {
+Sentry.init({
+  dsn: "https://49ddde955e544dbfb13a2d3b4a6ccbd6@o4504739695689728.ingest.sentry.io/4504739706699776",
+  enableInExpoDevelopment: true,
+  debug: true, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+});
+
+const App = () => {
   initializeStore(store);
 
   return (
@@ -16,10 +23,12 @@ export default function App() {
       </SafeAreaProvider>
     </Provider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
   },
 });
+
+export default App;
