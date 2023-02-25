@@ -1,14 +1,17 @@
 export interface PlayerDefinition {
-  phNum: string;
-  id: number;
-  fName: string;
-  lName: string;
-  mName: string;
-  email: string;
-  gender: string;
-  category: string;
-  state: string;
+  __v: number;
+  _id: string;
+  account_createdAt: Date;
   city: string;
-  dob: Date;
-  imageURl: string;
+  contact_no: string;
+  email: string;
+  first_name: string;
+  gender: string;
+  last_name: string;
+  middle_name: string;
+  profile_pic: string;
+  role: string[];
+  state: string;
+  token: string;
+  name: string;
 }

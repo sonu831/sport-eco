@@ -4,6 +4,7 @@ import config from "../../../config";
 import { setToast } from "../../store/Toast/reducers";
 import { fetchFromStorage, storeDataInStorage } from "../../utils/storage";
 import { StorageKeys } from "../../constants/storageKeys";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let store: any;
 
@@ -13,22 +14,23 @@ export const initializeStore = (initialStore: any) => {
 
 const instance = axios.create({
   baseURL: config.apiUrl,
+  withCredentials: true,
 });
 
 const requestHandler = async (request: any) => {
   const token = await fetchFromStorage(StorageKeys.tokenKey);
+
   request.headers["token"] = token;
+
   store.dispatch(showLoader());
   return request;
 };
 
 const responseHandler = (response: any) => {
   store.dispatch(hideLoader());
-  console.log("token11", response?.headers);
+
   if (response?.headers?.token) {
     const token = response.headers.token;
-    // const authCookie = response?.headers["set-cookie"][0].split(";")[0];
-    console.log("token authCookie", token);
     storeDataInStorage(StorageKeys.tokenKey, token);
   }
 
@@ -39,12 +41,14 @@ const errorHandler = (error: any) => {
   store.dispatch(hideLoader());
 
   if (error.response.status === 401) {
-    store.dispatch(
-      setToast({
-        type: "error",
-        message: "User not authorized",
-      })
-    );
+    AsyncStorage.clear().then(() => {
+      store.dispatch(
+        setToast({
+          type: "error",
+          message: "User not authorized",
+        })
+      );
+    });
   }
 
   throw error;

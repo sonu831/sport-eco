@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { userDetails$ } from "../../store/users/selectors";
-import { updateUserProfile } from "../../services/users";
+import { playerDetails$ } from "../../store/players/selectors";
+import {
+  fetchUserById,
+  updateUserProfile,
+  uploadUserProfilePicture,
+} from "../../services/users";
 import { RootStackParamList } from "../Navigation/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppDispatch } from "../../store";
@@ -10,8 +14,12 @@ import { RouteProp } from "@react-navigation/native";
 import { FileUploadResponse } from "../../types/FileUpload";
 import { User } from "../../types/User";
 import { UpdateStateRequest } from "../../types/UpdateState";
-import { fetchFromStorage } from "../../utils/storage";
-import { StorageKeys } from "../../constants/storageKeys";
+import {
+  addPlayer,
+  fetchPlayers,
+  uploadPlayerProfilePicture,
+  updatePlayerProfile,
+} from "../../services/players";
 
 type InitialState = {
   fName: string;
@@ -57,10 +65,12 @@ const useEditProfile = ({
   route: RouteProp<RootStackParamList, "EditProfile">;
 }) => {
   const isAddPlayer = route?.params?.isAddPlayer || false;
+  const isEdit = route?.params?.isEdit || false;
 
   const dispatch = useDispatch<AppDispatch>();
   const [response, setResponse] = useState<any>(null);
   const userDetails: Partial<User> = useSelector(userDetails$);
+  const playerDetails: Partial<User> = useSelector(playerDetails$);
   const [state, setState] = useState<InitialState>(initialState);
 
   const handleGoBack = () => navigation.goBack();
@@ -91,26 +101,34 @@ const useEditProfile = ({
     });
   }, []);
 
-  // useEffect(() => {
-  //   if (!isAddPlayer && !!userDetails?.id) {
-  //     const { fName, lName, mName, email, gender, role, state, city, dob } =
-  //       userDetails;
+  useEffect(() => {
+    if (isEdit) {
+      const {
+        email,
+        gender,
+        role,
+        state,
+        city,
+        first_name,
+        last_name,
+        middle_name,
+      } = isAddPlayer ? playerDetails : userDetails;
 
-  //     updateState([
-  //       { key: "email", value: email || "" },
-  //       { key: "fName", value: fName || "" },
-  //       { key: "lName", value: lName || "" },
-  //       { key: "mName", value: mName || "" },
-  //       { key: "gender", value: gender || "" },
-  //       { key: "role", value: role || [] },
-  //       { key: "state", value: state || "" },
-  //       { key: "city", value: city || "" },
-  //       { key: "dobMonth", value: dob ? moment(dob).format("MMM") : "" },
-  //       { key: "dobDate", value: dob ? moment(dob).format("DD") : "" },
-  //       { key: "dobYear", value: dob ? moment(dob).format("YYYY") : "" },
-  //     ]);
-  //   }
-  // }, [userDetails]);
+      updateState([
+        { key: "email", value: email || "" },
+        { key: "fName", value: first_name || "" },
+        { key: "lName", value: last_name || "" },
+        { key: "mName", value: middle_name || "" },
+        { key: "gender", value: gender || "" },
+        { key: "role", value: role || [] },
+        { key: "state", value: state || "" },
+        { key: "city", value: city || "" },
+        // { key: "dobMonth", value: dob ? moment(dob).format("MMM") : "" },
+        // { key: "dobDate", value: dob ? moment(dob).format("DD") : "" },
+        // { key: "dobYear", value: dob ? moment(dob).format("YYYY") : "" },
+      ]);
+    }
+  }, [userDetails]);
 
   const handleSave = () => {
     const {
@@ -125,6 +143,7 @@ const useEditProfile = ({
       dobMonth,
       dobDate,
       dobYear,
+      image,
     } = state;
 
     const request = {
@@ -140,19 +159,89 @@ const useEditProfile = ({
       gender: gender,
       city: city,
       state: userState,
-      role: role,
+      ...(!isAddPlayer && { role: role }),
     };
 
-    fetchFromStorage(StorageKeys.tokenKey).then((token) => {
-      if (!!token) {
-        dispatch(
-          updateUserProfile({
-            data: request,
-            token,
-          })
-        ).then(() => navigation.navigate("Main"));
-      }
-    });
+    if (!!image && !isAddPlayer) {
+      fetch(image)
+        .then(async (res) => {
+          const data = await res.blob();
+
+          const formData = new FormData();
+
+          formData.append("profile_pic", data);
+
+          // if(isAddPlayer) {
+          // dispatch(uploadPlayerProfilePicture({ formData,  }));
+          // } else {
+          dispatch(uploadUserProfilePicture({ formData }));
+          // }
+        })
+        .catch((err) => console.log("err", err));
+    } else if (!!image && isAddPlayer && isEdit) {
+      fetch(image)
+        .then(async (imageRes) => {
+          const data = await imageRes.blob();
+
+          const formData = new FormData();
+
+          formData.append("profile_pic", data);
+
+          dispatch(
+            uploadPlayerProfilePicture({
+              formData,
+              playerId: playerDetails?._id,
+            })
+          );
+        })
+        .catch((err) => console.log("err", err));
+    }
+
+    if (isAddPlayer && !isEdit) {
+      dispatch(addPlayer({ data: request })).then((res) => {
+        const resData = res.payload?.data;
+
+        if (!!image) {
+          fetch(image)
+            .then(async (imageRes) => {
+              const data = await imageRes.blob();
+
+              const formData = new FormData();
+
+              formData.append("profile_pic", data);
+
+              dispatch(
+                uploadPlayerProfilePicture({
+                  formData,
+                  playerId: resData?._id,
+                })
+              ).then(() => dispatch(fetchPlayers()).then(() => handleGoBack()));
+            })
+            .catch((err) => console.log("err", err));
+        } else {
+          dispatch(fetchPlayers()).then(() => handleGoBack());
+        }
+      });
+    } else if (isAddPlayer && isEdit) {
+      dispatch(
+        updatePlayerProfile({ data: request, playerId: playerDetails._id })
+      ).then(() =>
+        navigation.navigate("CommonScreen", {
+          title: "Players",
+          shouldRefresh: true,
+        })
+      );
+    } else {
+      dispatch(
+        updateUserProfile({
+          data: request,
+        })
+      ).then((res) => {
+        dispatch(fetchUserById()).then(() =>
+          isEdit ? handleGoBack() : navigation.navigate("Main")
+        );
+      });
+    }
   };
 
   return {
@@ -164,6 +253,8 @@ const useEditProfile = ({
     response,
     handleGoBack,
     handleUploadID,
+    isAddPlayer,
+    isEdit,
   };
 };
 

@@ -2,10 +2,18 @@ export const endpoints = {
   userCreation: `/api/masteruser/usercreation`,
   validateOtp: `/api/user/verifyotp`,
   updateUserProfile: `/api/user/updateuserprofile`,
+  uploadUserProfileImage: `/api/user/userprofilepicupload`,
   fetchUserById: `/api/user/getuserdetailbyid`,
+
   fetchPlayers: `/api/player/listofplayers`,
   addPlayer: `/api/player/addplayerprofile`,
-  fetchPlayerById: (id: string) => `/players/${id}`,
-  addBatch: `/batches`,
-  fetchBatchById: (id: any) => `/batches/${id}`,
+  updatePlayerProfile: `api/player/updateplayerprofile`,
+  uploadPlayerProfileImage: `/api/player/playerprofilepicupload`,
+
+  addBatch: `api/batch/addbatch`,
+  fetchBatchById: `api/batch/getbatchdatabyid`,
+  deleteBatchById: `api/batch/deletebatchbyid`,
+  updateBatchDetails: `api/batch/updatebatchdetails`,
+  addPlayerInBatch: `api/batch/addplayerinbatch`,
+  deletePlayerFromBatch: `api/batch/removeplayerinbatch`,
 };

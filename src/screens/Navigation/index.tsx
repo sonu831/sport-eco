@@ -21,11 +21,12 @@ import Toast from "../../components/Toast";
 import AddProgram from "../AddProgram";
 import AddSession from "../AddSession";
 import AddVenue from "../AddVenue";
+import VenueDetail from "../VenueDetail";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
-  const { userData, isLoading, appReady, token, isAccountVerified } =
+  const { isLoading, appReady, isAccountVerified, isLoginVerified } =
     useNavigation();
 
   if (!appReady) return <View />;
@@ -35,7 +36,7 @@ const Navigation = () => {
       <NavigationContainer>
         <Spinner visible={isLoading} />
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {!!(token || isAccountVerified) ? (
+          {isAccountVerified ? (
             <Stack.Group>
               <Stack.Screen name="Main" component={MainScreen} />
               <Stack.Screen name="Calendar" component={NotReady} />
@@ -46,9 +47,10 @@ const Navigation = () => {
               <Stack.Screen name="AddBatch" component={AddBatch} />
               <Stack.Screen name="AddProgram" component={AddProgram} />
               <Stack.Screen name="AddSession" component={AddSession} />
-              <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
               <Stack.Screen name="BatchScreen" component={BatchScreen} />
+              <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
               <Stack.Screen name="AddVenue" component={AddVenue} />
+              <Stack.Screen name="VenueDetail" component={VenueDetail} />
             </Stack.Group>
           ) : (
             <Stack.Group>
@@ -62,7 +64,7 @@ const Navigation = () => {
           <Stack.Screen name="Confirmation" component={Confirmation} />
         </Stack.Navigator>
 
-        {!!(token || isAccountVerified) && <BottomTabNavigation />}
+        {!!isAccountVerified && !isLoginVerified && <BottomTabNavigation />}
       </NavigationContainer>
       <Toast />
     </>

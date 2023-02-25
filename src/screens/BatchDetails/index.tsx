@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { styles } from "./styles";
-import { locations, UserDetailsFields } from "../../constants/Profile";
 import useBatchPage from "./useBatchDetails";
 import { RootStackScreenProps } from "../Navigation/types";
 import Button from "../../components/Button";
@@ -35,7 +34,7 @@ const BatchScreen = ({
             <Pressable style={styles.backButton} onPress={handleGoBack}>
               <Entypo name="chevron-left" size={20} color={Colors.darkGray} />
             </Pressable>
-            <Text style={styles.username}>{batchDetails?.name}</Text>
+            <Text style={styles.username}>{batchDetails?.batch_name}</Text>
           </View>
           <View style={[styles.headerContainer, styles.py16]}>
             <View style={styles.flexRow}>
@@ -64,7 +63,7 @@ const BatchScreen = ({
               <Text style={styles.required}>*</Text>
             </View>
             <TextField
-              value={batchDetails?.name}
+              value={batchDetails?.batch_name}
               isEditable={false}
               classNames={styles.w195}
             />
@@ -95,9 +94,7 @@ const BatchScreen = ({
                     }}
                     style={styles.playerAvatar}
                   />
-                  <Text
-                    style={styles.playerName}
-                  >{`${player?.fName} ${player?.lName}`}</Text>
+                  <Text style={styles.playerName}>{player?.name}</Text>
                 </View>
               ))}
           </View>

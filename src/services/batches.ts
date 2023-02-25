@@ -18,7 +18,11 @@ export const updateBatch = createAsyncThunk(
   "updateBatch",
   async (request: { [key: string]: any }, { rejectWithValue }) => {
     return axios
-      .put(endpoints.fetchBatchById(request?.id), request)
+      .post(endpoints.updateBatchDetails, request.data, {
+        headers: {
+          batch_id: request.id,
+        },
+      })
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);
@@ -40,9 +44,13 @@ export const fetchBatches = createAsyncThunk(
 
 export const fetchBatchById = createAsyncThunk(
   "fetchBatchById",
-  async (id: string, { rejectWithValue }) => {
+  async (request: any, { rejectWithValue }) => {
     return axios
-      .get(endpoints.fetchBatchById(id))
+      .get(endpoints.fetchBatchById, {
+        headers: {
+          batch_id: request.id,
+        },
+      })
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);
@@ -52,9 +60,42 @@ export const fetchBatchById = createAsyncThunk(
 
 export const deleteBatch = createAsyncThunk(
   "deleteBatch",
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     return axios
-      .delete(endpoints.fetchBatchById(id))
+      .get(endpoints.deleteBatchById, {
+        headers: {
+          batch_id: id,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);
+
+export const addPlayersInBatch = createAsyncThunk(
+  "addPlayersInBatch",
+  async (request: { [key: string]: any }, { rejectWithValue }) => {
+    return axios
+      .post(endpoints.addPlayerInBatch, request)
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);
+
+export const deletePlayerFromBatch = createAsyncThunk(
+  "deletePlayerFromBatch",
+  async (request: any, { rejectWithValue }) => {
+    return axios
+      .get(endpoints.deletePlayerFromBatch, {
+        headers: {
+          batch_id: request.id,
+          player_id: request.playerId,
+        },
+      })
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);

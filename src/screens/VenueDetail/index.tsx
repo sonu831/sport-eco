@@ -1,73 +1,60 @@
 import React from "react";
-import Entypo from "react-native-vector-icons/Entypo";
 import {
-  Text,
   View,
+  Text,
   SafeAreaView,
-  Pressable,
-  Image,
   ScrollView,
+  TouchableOpacity,
+  Image,
 } from "react-native";
-import { Colors } from "../../constants/Colors";
-import { styles } from "./styles";
-import { locations, UserDetailsFields } from "../../constants/Profile";
-import useProfilePage from "./useProfilePage";
-import { RootStackScreenProps } from "../Navigation/types";
+import Entypo from "react-native-vector-icons/Entypo";
+import venueIcon from "../../assets/images/venues.png";
 import Button from "../../components/Button";
-import dummyUser from "../../assets/images/dummy-user.png";
+import { Colors } from "../../constants/Colors";
+import { venueDetails, venueLocationDetails } from "../../constants/venue";
+import { RootStackScreenProps } from "../Navigation/types";
+import { styles } from "./styles";
+import useVenueDetail from "./useVenueDetail";
 
-const ProfileScreen = ({
+const VenueDetail = ({
   navigation,
   route,
-}: RootStackScreenProps<"Profile">) => {
-  const {
-    dataToShow,
-    handleGoBack,
-    showPlayerDetails,
-    handlePlayerDeletion,
-    handleEditBtn,
-  } = useProfilePage({
-    navigation,
-    route,
-  });
+}: RootStackScreenProps<"VenueDetail">) => {
+  const { venueDetail, handleGoBack } = useVenueDetail({ navigation });
+  console.log("venueDetail", venueDetail);
 
-  const userFields = UserDetailsFields(dataToShow);
-  const userLocationFields = locations(dataToShow);
+  const venueFields = venueDetails(venueDetail);
+  const venueLocationFields = venueLocationDetails(venueDetail);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.containerView}>
-          <Pressable style={styles.backButton} onPress={handleGoBack}>
+          <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
             <Entypo name="chevron-left" size={20} color={Colors.darkGray} />
-          </Pressable>
+          </TouchableOpacity>
           <View style={styles.headerContainer}>
-            <Image source={dummyUser} style={styles.avatar} />
-            <Text style={styles.username}>
-              {`${dataToShow?.first_name} ${dataToShow?.last_name}`}
-            </Text>
+            <Image source={venueIcon} style={styles.avatar} />
             <View style={styles.flexRow}>
               <Button
-                label="Edit Profile"
+                label="Edit Venue"
                 icon="chevron-right"
-                onPress={handleEditBtn}
+                // onPress={() => navigation.navigate("EditProfile")}
               />
-              {showPlayerDetails && (
-                <Button
-                  type="cancel"
-                  label="Delete Profile"
-                  icon="chevron-right"
-                  iconColor={Colors.orange}
-                  onPress={() => handlePlayerDeletion()}
-                  style={styles.ml10}
-                />
-              )}
+              <Button
+                type="cancel"
+                label="Delete Venue"
+                icon="chevron-right"
+                iconColor={Colors.orange}
+                //   onPress={() => handlePlayerDeletion()}
+                style={styles.ml10}
+              />
             </View>
           </View>
         </View>
         <View style={styles.divider} />
         <View style={styles.containerView}>
-          {userFields.map((detail, detailIndex) => (
+          {venueFields.map((detail, detailIndex) => (
             <View style={styles.listItem} key={detailIndex}>
               <View style={styles.listItemImage}>
                 <Image source={detail.icon} />
@@ -83,7 +70,7 @@ const ProfileScreen = ({
           <Text>Location</Text>
         </View>
         <View style={styles.containerView}>
-          {userLocationFields.map((location, locationIndex) => (
+          {venueLocationFields.map((location, locationIndex) => (
             <View style={styles.listItem} key={locationIndex}>
               <View style={styles.listItemLocationImage}>
                 <Image source={location.icon} />
@@ -97,4 +84,4 @@ const ProfileScreen = ({
   );
 };
 
-export default ProfileScreen;
+export default VenueDetail;

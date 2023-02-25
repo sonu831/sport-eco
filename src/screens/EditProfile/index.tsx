@@ -31,8 +31,6 @@ const EditProfile = ({
   navigation,
   route,
 }: RootStackScreenProps<"EditProfile">) => {
-  const isAddPlayer = route?.params?.isAddPlayer || false;
-
   const {
     uploadImage,
     state,
@@ -41,6 +39,8 @@ const EditProfile = ({
     response,
     handleGoBack,
     handleUploadID,
+    isAddPlayer,
+    isEdit,
   } = useEditProfile({ navigation, route });
   const {
     fName,
@@ -70,7 +70,9 @@ const EditProfile = ({
           </Pressable>
           <View>
             <Text style={styles.headingText}>
-              {isAddPlayer ? "Add Player" : "Update your profile"}
+              {isAddPlayer
+                ? `${isEdit ? "Edit" : "Add"} Player`
+                : "Update your profile"}
             </Text>
           </View>
         </View>
@@ -79,10 +81,7 @@ const EditProfile = ({
             <Text style={styles.fieldRowLabel}>Photo</Text>
             <View style={styles.uploadImage}>
               {!!image ? (
-                <Image
-                  source={{ uri: `data:image/jpeg;base64,${image}` }}
-                  style={styles.uploadedImage}
-                />
+                <Image source={{ uri: image }} style={styles.uploadedImage} />
               ) : (
                 <ImagePicker handleImage={uploadImage} />
               )}

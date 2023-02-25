@@ -17,6 +17,7 @@ import useCommonScreen from "./useCommonScreen";
 import { Colors } from "../../constants/Colors";
 import RenderPlayerList from "./RenderPlayerList";
 import RenderBatchList from "./RenderbatchList";
+import RenderVenueList from "./RenderVenueList";
 
 const Players = ({
   navigation,
@@ -32,6 +33,9 @@ const Players = ({
     showBatches,
     showPrograms,
     handleAddIcon,
+    showVenues,
+    venueList,
+    handleVenueListItemClick,
   } = useCommonScreen({ navigation, route });
 
   return (
@@ -63,6 +67,11 @@ const Players = ({
             <RenderBatchList
               data={dataToShow}
               handleClickOnProfile={handleClickOnProfile}
+            />
+          ) : showVenues ? (
+            <RenderVenueList
+              data={venueList}
+              handleClick={handleVenueListItemClick}
             />
           ) : null)
         ) : (

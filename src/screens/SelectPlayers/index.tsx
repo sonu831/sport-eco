@@ -64,7 +64,9 @@ const SelectPlayer = ({ navigation }: RootStackScreenProps<"SelectPlayer">) => {
                     source={player.imageURl || dummyUserIcon}
                     style={styles.playerImage}
                   />
-                  <Text style={styles.listItemText}>{player.fName}</Text>
+                  <Text style={styles.listItemText}>
+                    {`${player?.first_name} ${player?.last_name}`}
+                  </Text>
                   <View style={styles.mlAuto}>
                     <CustomCheckbox
                       checked={isSelected}

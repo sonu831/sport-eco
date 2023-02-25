@@ -1,9 +1,14 @@
 import { PlayerDefinition } from "./player";
 
-export interface batchDefinition {
-  id: number;
+interface Player {
   name: string;
+  playerid: string;
+}
+
+export interface batchDefinition {
+  _id: string;
+  batch_name: string;
+  coach_id: string;
   description: string;
-  playerIds: number[];
-  players: PlayerDefinition[];
+  players: Player[];
 }

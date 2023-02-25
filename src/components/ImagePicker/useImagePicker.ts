@@ -13,10 +13,8 @@ const useImagePicker = ({ handleImage }: UseImagePickerProps) => {
       base64: true,
     });
 
-    console.log(result);
-
     if (!!result.assets && result.assets.length > 0)
-      handleImage && handleImage(result.assets[0].base64);
+      handleImage && handleImage(result.assets[0].uri);
   };
 
   return {

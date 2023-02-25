@@ -5,7 +5,8 @@ import { RouteProp } from "@react-navigation/native";
 import { AppDispatch } from "../../store";
 import { batchDetails$ } from "../../store/batches/selectors";
 import { batchDefinition } from "../../types/batch";
-import { deleteBatch } from "../../services/batches";
+import { deleteBatch, fetchBatchById } from "../../services/batches";
+import { useEffect } from "react";
 
 const useBatchPage = ({
   navigation,
@@ -23,8 +24,8 @@ const useBatchPage = ({
   const handleGoBack = () => navigation.goBack();
 
   const handleBatchDeletion = () => {
-    if (batchDetails.id)
-      dispatch(deleteBatch(batchDetails.id)).then((res) => {
+    if (batchDetails._id)
+      dispatch(deleteBatch(batchDetails._id)).then((res) => {
         if (!!res)
           navigation.navigate("Confirmation", {
             label: "Deleted !",
@@ -36,6 +37,11 @@ const useBatchPage = ({
           });
       });
   };
+
+  useEffect(() => {
+    // Need to pass this Id dynamically
+    dispatch(fetchBatchById({ id: "63f762511988747d72bd9b1e" }));
+  }, [dispatch]);
 
   return {
     batchDetails,

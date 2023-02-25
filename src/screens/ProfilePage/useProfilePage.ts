@@ -22,38 +22,36 @@ const useProfilePage = ({
   const dispatch = useDispatch<AppDispatch>();
   const userDetails = useSelector(userDetails$);
   const playerDetails = useSelector(playerDetails$);
-  const playerId = route.params?.playerId || "";
+  const isPlayer = route.params?.player || false;
 
-  const dataToShow = !!playerId ? playerDetails : userDetails;
+  const dataToShow = !!isPlayer ? playerDetails : userDetails;
 
   const handleGoBack = () => navigation.goBack();
 
-  const handlePlayerDeletion = () => {
-    dispatch(deletePlayer(playerId)).then((res) => {
-      if (!!res)
-        navigation.navigate("Confirmation", {
-          label: "Deleted !",
-          navigateTo: "CommonScreen",
-          navigateOption: {
-            title: "Players",
-            shouldRefresh: true,
-          },
-        });
-    });
-  };
+  const handleEditBtn = () =>
+    navigation.navigate("EditProfile", { isEdit: true, isAddPlayer: isPlayer });
 
-  useEffect(() => {
-    if (!!playerId) {
-      dispatch(fetchPlayerById(playerId));
-    }
-  }, [dispatch]);
+  const handlePlayerDeletion = () => {
+    // dispatch(deletePlayer(playerId)).then((res) => {
+    //   if (!!res)
+    //     navigation.navigate("Confirmation", {
+    //       label: "Deleted !",
+    //       navigateTo: "CommonScreen",
+    //       navigateOption: {
+    //         title: "Players",
+    //         shouldRefresh: true,
+    //       },
+    //     });
+    // });
+  };
 
   return {
     userDetails,
     handleGoBack,
     dataToShow,
-    showPlayerDetails: !!playerId,
+    showPlayerDetails: isPlayer,
     handlePlayerDeletion,
+    handleEditBtn,
   };
 };
 

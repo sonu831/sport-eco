@@ -12,6 +12,7 @@ const initialState = {
   error: "",
   isNewUser: false,
   isVerified: false,
+  isLoginVerified: false,
 };
 
 export const UserSlice = createSlice({
@@ -24,29 +25,20 @@ export const UserSlice = createSlice({
     setIsVerified: (s, a) => {
       s.isVerified = a.payload;
     },
+    setIsLoginVerified: (s, a) => {
+      s.isLoginVerified = a.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.fulfilled, (s, a) => {
         s.user = a.payload?.data;
-        storeDataInStorage(
-          StorageKeys.userDetails,
-          JSON.stringify(a.payload?.data?._id)
-        );
       })
       .addCase(updateUserProfile.fulfilled, (s, a) => {
         s.user = a.payload;
-        // storeDataInStorage(
-        //   StorageKeys.userDetails,
-        //   JSON.stringify(a.payload.id)
-        // );
       })
       .addCase(fetchUserById.fulfilled, (s, a) => {
         s.user = a.payload;
-        // storeDataInStorage(
-        //   StorageKeys.userDetails,
-        //   JSON.stringify(a.payload.id)
-        // );
       })
       .addCase(registerUser.rejected, (s, a) => {
         s.error = JSON.stringify(a.payload);
@@ -54,4 +46,4 @@ export const UserSlice = createSlice({
   },
 });
 
-export const { setUser, setIsVerified } = UserSlice.actions;
+export const { setUser, setIsVerified, setIsLoginVerified } = UserSlice.actions;

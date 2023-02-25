@@ -1,10 +1,12 @@
 import { fetchUserById } from "./../../services/users";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { StorageKeys } from "./../../constants/storageKeys";
 import { useEffect } from "react";
-import { fetchFromStorage } from "./../../utils/storage";
-import { isAccountVerified$, userDetails$ } from "../../store/users/selectors";
+import {
+  isAccountVerified$,
+  isLoginVerified$,
+  userDetails$,
+} from "../../store/users/selectors";
 import { AppDispatch } from "../../store";
 import { isLoading$ } from "../../store/common/selectors";
 import * as SplashScreen from "expo-splash-screen";
@@ -32,9 +34,9 @@ const useNavigation = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [appReady, isAppReady] = useState(false);
   const [userData, setUserData] = useState<Partial<UserDataProps>>();
-  const [token, setToken] = useState(false);
   const userDetails = useSelector(userDetails$);
   const isAccountVerified = useSelector(isAccountVerified$);
+  const isLoginVerified = useSelector(isLoginVerified$);
   const isLoading = useSelector(isLoading$);
   const [fontsLoaded] = useFonts({
     "Avenir-Regular": require("../../assets/fonts/Avenir-Regular.ttf"),
@@ -42,13 +44,10 @@ const useNavigation = () => {
 
   useEffect(() => {
     if (fontsLoaded)
-      fetchFromStorage(StorageKeys.tokenKey).then((token) => {
-        if (!!token) {
-          // setToken(true);
-          //dispatch(setIsVerified(true));
-          // dispatch(fetchUserById({ token: JSON.parse(token) })).then((res) =>
+      dispatch(fetchUserById()).then((res) => {
+        if (res?.payload?.success) {
+          dispatch(setIsVerified(true));
           isAppReady(true);
-          // );
         } else {
           isAppReady(true);
         }
@@ -71,8 +70,8 @@ const useNavigation = () => {
     userData,
     isLoading,
     appReady,
-    token,
     isAccountVerified,
+    isLoginVerified,
   };
 };
 

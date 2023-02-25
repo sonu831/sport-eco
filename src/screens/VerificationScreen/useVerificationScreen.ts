@@ -7,13 +7,12 @@ import {
 } from "react-native-confirmation-code-field";
 import { customStyle } from "./style";
 import Layout from "../../constants/Layout";
-import { useDispatch, useSelector } from "react-redux";
-import { userDetails$ } from "../../store/users/selectors";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
 import { UpdateStateRequest } from "../../types/UpdateState";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../Navigation/types";
-import { setIsVerified } from "../../store/users/reducers";
+import { setIsLoginVerified, setIsVerified } from "../../store/users/reducers";
 
 const CELL_COUNT = 4;
 const { window } = Layout;
@@ -71,7 +70,6 @@ export const useVerificationScreen = ({
 
   const isPhNumValid = () => phNumRegex.test(phNum);
 
-  const isEnterCodeValid = () => validationCode.toString() === codeToValidate;
   const handleCreateAccount = () => {
     const request = {
       phNum,
@@ -79,7 +77,7 @@ export const useVerificationScreen = ({
     dispatch(registerUser(request)).then((res) => {
       const { data = {} } = res.payload;
       console.log("data", data);
-      if (!!data.otp)
+      if (!!data.otp) {
         updateState([
           {
             key: "codeToValidate",
@@ -90,19 +88,23 @@ export const useVerificationScreen = ({
             value: true,
           },
         ]);
+
+        setValidationCode(data.otp);
+      }
     });
   };
 
   const handleOTPValidation = () => {
-    const isValid = isEnterCodeValid();
+    const isEnterCodeValid = validationCode === codeToValidate.toString();
 
-    if (isEnterCodeValid()) {
+    if (isEnterCodeValid) {
       const request = {
         contact_no: phNum,
         otp: codeToValidate,
       };
       dispatch(validateOtp(request)).then((res) => {
         dispatch(setIsVerified(true));
+        dispatch(setIsLoginVerified(true));
         navigation.navigate("Confirmation", {
           label: "Account verified!",
           navigateTo: "EditProfile",
@@ -127,7 +129,6 @@ export const useVerificationScreen = ({
     phoneInput,
     styles,
     isPhNumValid,
-    isEnterCodeValid,
     handleCreateAccount,
     updateState,
     state,

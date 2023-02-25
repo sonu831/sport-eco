@@ -4,20 +4,15 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 type AddPlayerProps = {
   data: { [key: string]: any };
-  token: string;
 };
 
 export const addPlayer = createAsyncThunk(
   "addPlayer",
   async (request: AddPlayerProps, { rejectWithValue }) => {
-    const { data, token } = request;
+    const { data } = request;
 
     return axios
-      .post(endpoints.addPlayer, data, {
-        headers: {
-          token,
-        },
-      })
+      .post(endpoints.addPlayer, data)
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);
@@ -31,7 +26,6 @@ export const fetchPlayers = createAsyncThunk(
     return axios
       .get(endpoints.fetchPlayers)
       .then((res) => {
-        console.log("res.data", res.data);
         return res.data;
       })
       .catch((err) => {
@@ -57,6 +51,38 @@ export const deletePlayer = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     return axios
       .delete(endpoints.fetchPlayerById(id))
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);
+
+export const uploadPlayerProfilePicture = createAsyncThunk(
+  "uploadPlayerProfilePicture",
+  async (request: any, { rejectWithValue }) => {
+    return axios
+      .post(endpoints.uploadPlayerProfileImage, request?.formData, {
+        headers: {
+          playerid: request.playerId,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);
+
+export const updatePlayerProfile = createAsyncThunk(
+  "updatePlayerProfile",
+  async (request: any, { rejectWithValue }) => {
+    return axios
+      .post(endpoints.updatePlayerProfile, request.data, {
+        headers: {
+          playerid: request.playerId,
+        },
+      })
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);
