@@ -1,13 +1,6 @@
 import React from "react";
 import Entypo from "react-native-vector-icons/Entypo";
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Colors } from "../../constants/Colors";
 import deleteIcon from "../../assets/images/delete.png";
 import dummyUserIcon from "../../assets/images/dummy-user.png";
@@ -16,6 +9,7 @@ import TextField from "../../components/TextField";
 import useAddBatch from "./useAddBatch";
 import { RootStackScreenProps } from "../Navigation/types";
 import { PlayerDefinition } from "../../types/player";
+import SafeArea from "../../components/SafeArea";
 
 const AddBatch = ({ navigation, route }: RootStackScreenProps<"AddBatch">) => {
   const {
@@ -31,7 +25,7 @@ const AddBatch = ({ navigation, route }: RootStackScreenProps<"AddBatch">) => {
   const { batchName = "", description = "" } = state;
 
   return (
-    <SafeAreaView style={styles.safeView}>
+    <SafeArea classNames={styles.safeView}>
       <ScrollView>
         <View style={[styles.containerView, styles.flex]}>
           <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
@@ -120,7 +114,7 @@ const AddBatch = ({ navigation, route }: RootStackScreenProps<"AddBatch">) => {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

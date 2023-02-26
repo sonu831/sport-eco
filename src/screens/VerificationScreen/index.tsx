@@ -17,6 +17,7 @@ import enterCodeImage from "../../assets/images/enter_code.png";
 import { CodeField, Cursor } from "react-native-confirmation-code-field";
 import { useVerificationScreen } from "./useVerificationScreen";
 import { RootStackScreenProps } from "../Navigation/types";
+import SafeArea from "../../components/SafeArea";
 
 const CELL_COUNT = 4;
 
@@ -41,7 +42,7 @@ const VerificationScreen = ({
   const { accountVerified, codeSent, invalidCode, phNum } = state;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeArea classNames={styles.container}>
       <View style={styles.containerView}>
         <Pressable
           style={styles.backButton}
@@ -164,7 +165,7 @@ const VerificationScreen = ({
           )}
         </View>
       </View>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

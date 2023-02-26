@@ -16,12 +16,13 @@ import SearchBar from "../../components/SearchBar";
 import moment from "moment";
 import { tabs, dummyEvent } from "../../constants/MainScreen";
 import { RootBottomTabProps } from "../Navigation/types";
+import SafeArea from "../../components/SafeArea";
 
 const MainScreen = ({ navigation }: RootBottomTabProps<"Main">) => {
   const { updateState } = useMainScreen();
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeArea classNames={styles.safeArea}>
       <ScrollView style={styles.mainContainer}>
         <TouchableOpacity style={styles.menuIconContainer}>
           <MaterialIcons name="menu" size={30} color="black" />
@@ -75,7 +76,7 @@ const MainScreen = ({ navigation }: RootBottomTabProps<"Main">) => {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

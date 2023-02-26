@@ -1,14 +1,14 @@
 import { Entypo } from "@expo/vector-icons";
 import { Colors } from "../../constants/Colors";
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 import { RootStackScreenProps } from "../Navigation/types";
 import VerifiedIcon from "../../assets/images/account_verified.png";
 import { setIsLoginVerified } from "../../store/users/reducers";
 import { useDispatch } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
+import SafeArea from "../../components/SafeArea";
 
 const Confirmation = ({
   route,
@@ -31,7 +31,7 @@ const Confirmation = ({
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeArea classNames={styles.container}>
       <ScrollView>
         <View style={styles.containerView}>
           <TouchableOpacity
@@ -50,7 +50,7 @@ const Confirmation = ({
           <Image source={VerifiedIcon} />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

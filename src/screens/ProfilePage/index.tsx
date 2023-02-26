@@ -15,6 +15,7 @@ import useProfilePage from "./useProfilePage";
 import { RootStackScreenProps } from "../Navigation/types";
 import Button from "../../components/Button";
 import dummyUser from "../../assets/images/dummy-user.png";
+import SafeArea from "../../components/SafeArea";
 
 const ProfileScreen = ({
   navigation,
@@ -35,7 +36,7 @@ const ProfileScreen = ({
   const userLocationFields = locations(dataToShow);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeArea classNames={styles.container}>
       <ScrollView>
         <View style={styles.containerView}>
           <Pressable style={styles.backButton} onPress={handleGoBack}>
@@ -93,7 +94,7 @@ const ProfileScreen = ({
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 
