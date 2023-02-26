@@ -33,3 +33,44 @@ export const addVenue = createAsyncThunk(
       });
   }
 );
+
+type UpdateVenueProps = {
+  data: any;
+  id: string;
+};
+
+export const updateVenue = createAsyncThunk(
+  "updateVenue",
+  async (request: UpdateVenueProps, { rejectWithValue }) => {
+    const { data, id } = request;
+
+    return axios
+      .post(endpoints.updateVenue, data, {
+        headers: {
+          venueid: id,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);
+
+export const deleteVenue = createAsyncThunk(
+  "deleteVenue",
+  async (request: { id: string }, { rejectWithValue }) => {
+    const { id } = request;
+
+    return axios
+      .get(endpoints.deleteVenue, {
+        headers: {
+          venueid: id,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        rejectWithValue(err);
+      });
+  }
+);

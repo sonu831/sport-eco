@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   Text,
-  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   TextInput,
@@ -17,9 +16,10 @@ import { RootStackScreenProps } from "../Navigation/types";
 import { styles } from "./styles";
 import useAddVenue from "./useAddVenue";
 
-const AddVenue = ({ navigation }: RootStackScreenProps<"AddVenue">) => {
+const AddVenue = ({ navigation, route }: RootStackScreenProps<"AddVenue">) => {
   const { state, updateState, handleSave, handleGoBack } = useAddVenue({
     navigation,
+    route,
   });
   const { name, courtName, sport, address, city, state: userState } = state;
 

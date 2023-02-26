@@ -20,4 +20,6 @@ export const endpoints = {
   // Venues
   listOfVenue: `api/venue/listofvenue`,
   addVenue: `api/venue/addvenuedata`,
+  updateVenue: `api/venue/updatevenuedata`,
+  deleteVenue: `api/venue/deletevenuebyid`,
 };
