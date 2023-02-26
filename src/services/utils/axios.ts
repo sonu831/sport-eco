@@ -24,7 +24,7 @@ const requestHandler = async (request: any) => {
   request.headers["token"] = token;
 
   store.dispatch(showLoader());
-  Sentry.captureException("sport eco request", request);
+  // Sentry.captureException("sport eco request", request);
   return request;
 };
 
