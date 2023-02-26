@@ -16,4 +16,8 @@ export const endpoints = {
   updateBatchDetails: `api/batch/updatebatchdetails`,
   addPlayerInBatch: `api/batch/addplayerinbatch`,
   deletePlayerFromBatch: `api/batch/removeplayerinbatch`,
+
+  // Venues
+  listOfVenue: `api/venue/listofvenue`,
+  addVenue: `api/venue/addvenuedata`,
 };

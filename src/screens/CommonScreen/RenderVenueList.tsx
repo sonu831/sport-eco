@@ -22,7 +22,7 @@ const RenderVenueList = ({
           onPress={() => handleClick(venue)}
         >
           <Image source={locationIcon} />
-          <Text style={styles.playerName}>{venue?.name}</Text>
+          <Text style={styles.playerName}>{venue?.venue_name}</Text>
         </TouchableOpacity>
       ))}
     </View>

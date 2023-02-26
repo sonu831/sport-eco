@@ -1,5 +1,10 @@
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addVenue, fetchVenueList } from "../../services/venue";
+import { AppDispatch } from "../../store";
 import { UpdateStateRequest } from "../../types/UpdateState";
+import { RootStackParamList } from "../Navigation/types";
 
 type InitialState = {
   name: string;
@@ -19,7 +24,16 @@ const initialState = {
   state: "",
 };
 
-const useAddVenue = () => {
+const useAddVenue = ({
+  navigation,
+}: {
+  navigation: NativeStackNavigationProp<
+    RootStackParamList,
+    keyof RootStackParamList,
+    undefined
+  >;
+}) => {
+  const dispatch = useDispatch<AppDispatch>();
   const [state, setState] = useState<InitialState>(initialState);
 
   const updateState = (request: UpdateStateRequest<keyof InitialState>) => {
@@ -33,9 +47,31 @@ const useAddVenue = () => {
     }
   };
 
+  const handleGoBack = () => navigation.goBack();
+
+  const handleSave = () => {
+    const { address, city, courtName, name, sport, state: venueState } = state;
+
+    const request = {
+      venue_name: name,
+      court_name: courtName,
+      sport: sport,
+      address: address,
+      state: venueState,
+      city: city,
+    };
+
+    dispatch(addVenue({ data: request })).then((res) => {
+      console.log("res.payload", res.payload);
+
+      dispatch(fetchVenueList()).then(handleGoBack);
+    });
+  };
+
   return {
     state,
     updateState,
+    handleSave,
   };
 };
 

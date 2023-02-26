@@ -56,11 +56,11 @@ const VenueDetail = ({
         <View style={styles.divider} />
         <View style={styles.containerView}>
           {venueFields.map((detail, detailIndex) => (
-            <View style={styles.listItem} key={detailIndex}>
+            <View style={[styles.listItem]} key={detailIndex}>
               <View style={styles.listItemImage}>
                 <Image source={detail.icon} />
+                <Text style={styles.listItemText}>{detail.title}</Text>
               </View>
-              <Text style={styles.listItemText}>{detail.title}</Text>
               <Text numberOfLines={1} style={styles.listItemTextValue}>
                 {detail.value}
               </Text>

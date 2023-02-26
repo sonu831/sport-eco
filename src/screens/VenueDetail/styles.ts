@@ -65,9 +65,12 @@ export const styles = StyleSheet.create({
   listItem: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     padding: 18,
   },
   listItemImage: {
+    flexDirection: "row",
+    alignItems: "center",
     marginRight: 43,
     width: 20,
   },
@@ -77,7 +80,6 @@ export const styles = StyleSheet.create({
   },
   listItemTextValue: {
     marginRight: 30,
-    width: window.width * 0.4,
   },
   listItemLocationImage: {
     marginRight: 20,

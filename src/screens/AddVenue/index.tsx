@@ -13,11 +13,12 @@ import SafeArea from "../../components/SafeArea";
 import TextField from "../../components/TextField";
 import { Colors } from "../../constants/Colors";
 import { CITY_OPTIONS, STATE_OPTIONS } from "../../constants/EditProfile";
+import { RootStackScreenProps } from "../Navigation/types";
 import { styles } from "./styles";
 import useAddVenue from "./useAddVenue";
 
-const AddVenue = () => {
-  const { state, updateState } = useAddVenue();
+const AddVenue = ({ navigation }: RootStackScreenProps<"AddVenue">) => {
+  const { state, updateState, handleSave } = useAddVenue({ navigation });
   const { name, courtName, sport, address, city, state: userState } = state;
 
   return (
@@ -113,10 +114,16 @@ const AddVenue = () => {
               }}
             />
           </View>
-          <View style={[styles.fieldRow, styles.py16]}>
+          {/* <View style={[styles.fieldRow, styles.py16]}>
             <View style={styles.flex}>
               <Text style={styles.fieldRowLabel}>Map</Text>
             </View>
+          </View> */}
+
+          <View style={[styles.fieldRow, styles.justifyCenter, styles.mv20]}>
+            <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
+              <Text style={styles.saveBtnText}>Save</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
