@@ -109,4 +109,7 @@ export const styles = StyleSheet.create({
   mt85: {
     marginTop: 85,
   },
+  mv20: {
+    marginVertical: 20,
+  },
 });

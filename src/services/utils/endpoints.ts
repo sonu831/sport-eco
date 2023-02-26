@@ -1,15 +1,18 @@
 export const endpoints = {
+  // Users
   userCreation: `/api/masteruser/usercreation`,
   validateOtp: `/api/user/verifyotp`,
   updateUserProfile: `/api/user/updateuserprofile`,
   uploadUserProfileImage: `/api/user/userprofilepicupload`,
   fetchUserById: `/api/user/getuserdetailbyid`,
 
+  // Players
   fetchPlayers: `/api/player/listofplayers`,
   addPlayer: `/api/player/addplayerprofile`,
   updatePlayerProfile: `api/player/updateplayerprofile`,
   uploadPlayerProfileImage: `/api/player/playerprofilepicupload`,
 
+  // Batches
   addBatch: `api/batch/addbatch`,
   fetchBatchById: `api/batch/getbatchdatabyid`,
   deleteBatchById: `api/batch/deletebatchbyid`,
@@ -22,4 +25,7 @@ export const endpoints = {
   addVenue: `api/venue/addvenuedata`,
   updateVenue: `api/venue/updatevenuedata`,
   deleteVenue: `api/venue/deletevenuebyid`,
+
+  // Programs
+  addPrograms: `api/program/addprogram`,
 };

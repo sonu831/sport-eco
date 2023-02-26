@@ -21,11 +21,17 @@ const AddProgram = ({
   navigation,
   route,
 }: RootStackScreenProps<"AddProgram">) => {
-  const { state, updateState, handleGoBack, sessions, handleDeleteSession } =
-    useAddProgram({
-      navigation,
-      route,
-    });
+  const {
+    state,
+    updateState,
+    handleGoBack,
+    sessions,
+    handleDeleteSession,
+    handleSave,
+  } = useAddProgram({
+    navigation,
+    route,
+  });
 
   const { programName = "", description = "" } = state;
 
@@ -102,13 +108,14 @@ const AddProgram = ({
               );
             })}
           </View>
-          <View style={[styles.alignCenter, styles.mt85]}>
+          <View style={[styles.alignCenter, styles.mv20]}>
             <TouchableOpacity
               style={[
                 styles.saveBtn,
+
                 // selectedPlayers.length === 0 && styles.opacity50,
               ]}
-              //   onPress={handleSaveBatches}
+              onPress={handleSave}
               //   disabled={selectedPlayers.length === 0}
             >
               <Text style={styles.saveBtnText}>Save</Text>
