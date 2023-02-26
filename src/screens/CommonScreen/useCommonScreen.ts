@@ -12,6 +12,7 @@ import { setSelectedBatch } from "../../store/batches/reducers";
 import { setSelectedPlayer } from "../../store/players/reducers";
 import { venueList$ } from "../../store/venue/selectors";
 import { setSelectedVenue } from "../../store/venue/reducers";
+import { fetchVenueList } from "../../services/venue";
 
 const useCommonScreen = ({
   navigation,
@@ -29,6 +30,7 @@ const useCommonScreen = ({
   const players: any[] = useSelector(players$);
   const batchList: any[] = useSelector(batches$);
   const venueList: any[] = useSelector(venueList$);
+  console.log("venueList", venueList);
 
   const showPlayers = title.toLowerCase() === "players";
   const showBatches = title.toLowerCase() === "batches";
@@ -76,6 +78,7 @@ const useCommonScreen = ({
   useEffect(() => {
     if (showPlayers) dispatch(fetchPlayers());
     else if (showBatches) dispatch(fetchBatches());
+    else if (showVenues) dispatch(fetchVenueList());
   }, [dispatch, shouldRefresh]);
 
   return {

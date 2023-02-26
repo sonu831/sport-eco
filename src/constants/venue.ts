@@ -6,17 +6,17 @@ export const venueDetails = (venue: any) => {
   return [
     {
       title: "Venue",
-      value: venue.name,
+      value: venue.venue_name,
       icon: venueIcon,
     },
     {
       title: "Court",
-      value: venue.name,
+      value: venue.court_name,
       icon: venueIcon,
     },
     {
       title: "Sport",
-      value: venue.name,
+      value: venue.sport,
       icon: volleyballIcon,
     },
   ];

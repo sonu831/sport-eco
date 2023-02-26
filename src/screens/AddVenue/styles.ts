@@ -58,4 +58,18 @@ export const styles = StyleSheet.create({
   w195: { width: 195 },
   mr10: { marginRight: 10 },
   h104: { height: 104 },
+  mv20: { marginVertical: 20 },
+  saveBtn: {
+    backgroundColor: Colors.orange,
+    width: 64,
+    height: 35,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  saveBtnText: {
+    fontWeight: "700",
+    color: Colors.white,
+    fontFamily: "Avenir-Regular",
+  },
 });

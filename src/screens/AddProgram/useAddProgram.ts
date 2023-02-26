@@ -2,6 +2,7 @@ import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addPrograms } from "../../services/programs";
 import { AppDispatch } from "../../store";
 import { removeSession } from "../../store/programs/reducers";
 import { sessions$ } from "../../store/programs/selectors";
@@ -46,36 +47,22 @@ const useAddProgram = ({
     }
   };
 
-  const handleSaveBatches = () => {
-    if (isEdit) {
-      //   const request = {
-      //     ...selectedBatch,
-      //     name: state.batchName,
-      //     ...(state.description && { description: state.description }),
-      //     playerIds: selectedPlayers?.map((item: PlayerDefinition) => item.id),
-      //   };
-      //   if (request?.players) delete request.players;
-      //   dispatch(updateBatch(request)).then((res) => {
-      //     if (!!res.payload) {
-      //       navigation.navigate("CommonScreen", {
-      //         title: "Batches",
-      //         shouldRefresh: true,
-      //       });
-      //       // dispatch(fetchBatches()).then((res) => res.payload && handleGoBack());
-      //     }
-      //   });
-    } else {
-      //   const request = {
-      //     name: state.batchName,
-      //     ...(state.description && { description: state.description }),
-      //     playerIds: selectedPlayers?.map((item: PlayerDefinition) => item.id),
-      //   };
-      //   dispatch(addBatch(request)).then((res) => {
-      //     if (!!res.payload) {
-      //       dispatch(fetchBatches()).then((res) => res.payload && handleGoBack());
-      //     }
-      //   });
-    }
+  const handleSave = () => {
+    const { description, programName } = state;
+
+    const request = {
+      program_name: programName,
+      description: description,
+      sessions: sessions.map((session) => ({
+        sesionname: session.name,
+        sessiondesc: session.description,
+        sessionduration: session.duration,
+      })),
+    };
+
+    dispatch(addPrograms({ data: request })).then((res) => {
+      console.log("res", res.payload);
+    });
   };
 
   const handleDeleteSession = (id: any) => {
@@ -86,7 +73,7 @@ const useAddProgram = ({
   return {
     state,
     updateState,
-    handleSaveBatches,
+    handleSave,
     handleGoBack,
     sessions,
     handleDeleteSession,

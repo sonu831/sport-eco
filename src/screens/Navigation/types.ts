@@ -30,7 +30,7 @@ export type RootStackParamList = {
     | any;
   SelectPlayer: any;
   AddSession: any;
-  AddVenue: any;
+  AddVenue: { isEdit?: boolean } | undefined;
   BatchScreen: any;
   VenueDetail: any;
   Profile: { player?: boolean } | undefined;

@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   Text,
-  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   TextInput,
@@ -13,18 +12,22 @@ import SafeArea from "../../components/SafeArea";
 import TextField from "../../components/TextField";
 import { Colors } from "../../constants/Colors";
 import { CITY_OPTIONS, STATE_OPTIONS } from "../../constants/EditProfile";
+import { RootStackScreenProps } from "../Navigation/types";
 import { styles } from "./styles";
 import useAddVenue from "./useAddVenue";
 
-const AddVenue = () => {
-  const { state, updateState } = useAddVenue();
+const AddVenue = ({ navigation, route }: RootStackScreenProps<"AddVenue">) => {
+  const { state, updateState, handleSave, handleGoBack } = useAddVenue({
+    navigation,
+    route,
+  });
   const { name, courtName, sport, address, city, state: userState } = state;
 
   return (
     <SafeArea classNames={styles.safeView}>
       <ScrollView>
         <View style={[styles.containerView, styles.flex]}>
-          <TouchableOpacity style={styles.backButton}>
+          <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
             <Entypo name="chevron-left" size={20} color={Colors.darkGray} />
           </TouchableOpacity>
           <View>
@@ -113,10 +116,16 @@ const AddVenue = () => {
               }}
             />
           </View>
-          <View style={[styles.fieldRow, styles.py16]}>
+          {/* <View style={[styles.fieldRow, styles.py16]}>
             <View style={styles.flex}>
               <Text style={styles.fieldRowLabel}>Map</Text>
             </View>
+          </View> */}
+
+          <View style={[styles.fieldRow, styles.justifyCenter, styles.mv20]}>
+            <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
+              <Text style={styles.saveBtnText}>Save</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
