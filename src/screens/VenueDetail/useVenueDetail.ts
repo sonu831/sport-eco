@@ -21,7 +21,16 @@ function useVenueDetail({
 
   const handleDelete = () => {
     dispatch(deleteVenue({ id: venueDetail._id })).then(() =>
-      dispatch(fetchVenueList()).then(handleGoBack)
+      dispatch(fetchVenueList()).then(() => {
+        navigation.navigate("Confirmation", {
+          label: "Deleted !",
+          navigateTo: "CommonScreen",
+          navigateOption: {
+            title: "Venues",
+            shouldRefresh: true,
+          },
+        });
+      })
     );
   };
 
