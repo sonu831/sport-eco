@@ -1,4 +1,5 @@
 import React from "react";
+import ErrorBoundary from "react-native-error-boundary";
 import * as Sentry from "sentry-expo";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
@@ -13,15 +14,31 @@ Sentry.init({
   debug: true, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
 });
 
+import { Text, View, Button } from "react-native";
+
+const CustomFallback = (props: { error: Error; resetError: Function }) => (
+  <View>
+    <Text>Something happened!</Text>
+    <Text>{props.error.toString()}</Text>
+    <Button onPress={() => props.resetError} title={"Try again"} />
+  </View>
+);
+
 const App = () => {
   initializeStore(store);
-
+  const errorHandler = (error: Error, stackTrace: string) => {
+    Sentry.Native.captureException(
+      `Error Boundary error - ${error} stackTrace- ${stackTrace}`
+    );
+  };
   return (
-    <Provider store={store}>
-      <SafeAreaProvider style={styles.container}>
-        <Navigation />
-      </SafeAreaProvider>
-    </Provider>
+    <ErrorBoundary onError={errorHandler} FallbackComponent={CustomFallback}>
+      <Provider store={store}>
+        <SafeAreaProvider style={styles.container}>
+          <Navigation />
+        </SafeAreaProvider>
+      </Provider>
+    </ErrorBoundary>
   );
 };
 
