@@ -72,6 +72,7 @@ const useAddVenue = ({
     state,
     updateState,
     handleSave,
+    handleGoBack,
   };
 };
 

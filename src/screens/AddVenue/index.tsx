@@ -18,14 +18,16 @@ import { styles } from "./styles";
 import useAddVenue from "./useAddVenue";
 
 const AddVenue = ({ navigation }: RootStackScreenProps<"AddVenue">) => {
-  const { state, updateState, handleSave } = useAddVenue({ navigation });
+  const { state, updateState, handleSave, handleGoBack } = useAddVenue({
+    navigation,
+  });
   const { name, courtName, sport, address, city, state: userState } = state;
 
   return (
     <SafeArea classNames={styles.safeView}>
       <ScrollView>
         <View style={[styles.containerView, styles.flex]}>
-          <TouchableOpacity style={styles.backButton}>
+          <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
             <Entypo name="chevron-left" size={20} color={Colors.darkGray} />
           </TouchableOpacity>
           <View>
