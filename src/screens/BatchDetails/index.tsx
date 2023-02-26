@@ -14,6 +14,7 @@ import useBatchPage from "./useBatchDetails";
 import { RootStackScreenProps } from "../Navigation/types";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
+import SafeArea from "../../components/SafeArea";
 
 const BatchScreen = ({
   navigation,
@@ -27,7 +28,7 @@ const BatchScreen = ({
   const players = batchDetails?.players;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeArea classNames={styles.container}>
       <ScrollView>
         <View style={styles.containerView}>
           <View style={styles.flexDirRow}>
@@ -100,7 +101,7 @@ const BatchScreen = ({
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

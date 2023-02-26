@@ -15,6 +15,7 @@ import { styles } from "./styles";
 import useSelectPlayer from "./useSelectPlayer";
 import dummyUserIcon from "../../assets/images/dummy-user.png";
 import CustomCheckbox from "../../components/Checkbox";
+import SafeArea from "../../components/SafeArea";
 
 const SelectPlayer = ({ navigation }: RootStackScreenProps<"SelectPlayer">) => {
   const {
@@ -27,7 +28,7 @@ const SelectPlayer = ({ navigation }: RootStackScreenProps<"SelectPlayer">) => {
   } = useSelectPlayer({ navigation });
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeArea classNames={styles.safeArea}>
       <ScrollView style={styles.mainContainer}>
         <TouchableOpacity
           style={styles.menuIconContainer}
@@ -90,7 +91,7 @@ const SelectPlayer = ({ navigation }: RootStackScreenProps<"SelectPlayer">) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

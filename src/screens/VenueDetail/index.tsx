@@ -10,6 +10,7 @@ import {
 import Entypo from "react-native-vector-icons/Entypo";
 import venueIcon from "../../assets/images/venues.png";
 import Button from "../../components/Button";
+import SafeArea from "../../components/SafeArea";
 import { Colors } from "../../constants/Colors";
 import { venueDetails, venueLocationDetails } from "../../constants/venue";
 import { RootStackScreenProps } from "../Navigation/types";
@@ -27,7 +28,7 @@ const VenueDetail = ({
   const venueLocationFields = venueLocationDetails(venueDetail);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeArea classNames={styles.container}>
       <ScrollView>
         <View style={styles.containerView}>
           <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
@@ -80,7 +81,7 @@ const VenueDetail = ({
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

@@ -26,6 +26,7 @@ import CustomDropdown from "../../components/Dropdown";
 import { RootStackScreenProps } from "../Navigation/types";
 import ImagePicker from "../../components/ImagePicker";
 import FilePicker from "../../components/FilePicker";
+import SafeArea from "../../components/SafeArea";
 
 const EditProfile = ({
   navigation,
@@ -62,7 +63,7 @@ const EditProfile = ({
   const monthOptions = MONTH_OPTIONS();
 
   return (
-    <SafeAreaView style={styles.safeView}>
+    <SafeArea classNames={styles.safeView}>
       <ScrollView>
         <View style={[styles.containerView, styles.flex]}>
           <Pressable style={styles.backButton} onPress={handleGoBack}>
@@ -282,14 +283,14 @@ const EditProfile = ({
               </View>
             </View>
           )}
-          <View style={[styles.fieldRow, styles.justifyCenter, styles.mt21]}>
+          <View style={[styles.fieldRow, styles.justifyCenter, styles.mv20]}>
             <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
               <Text style={styles.saveBtnText}>Save</Text>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

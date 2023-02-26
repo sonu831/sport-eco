@@ -1,5 +1,5 @@
 import { Colors } from "../../constants/Colors";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export const customStyle = ({ window }: { window: any }) =>
   StyleSheet.create({
@@ -139,12 +139,13 @@ export const customStyle = ({ window }: { window: any }) =>
       shadowOffset: { width: 0, height: 2 },
       shadowRadius: 4,
       shadowOpacity: 0.6,
+      elevation: 40,
       borderRadius: 10,
       borderWidth: 2,
-      borderColor: Colors.white,
+      borderColor: Platform.OS === "android" ? Colors.black : Colors.white,
       backgroundColor: Colors.white,
-      // backgroundColor: "red",
       textAlign: "center",
+      textAlignVertical: "center",
     },
     createBtn: {
       height: 48,

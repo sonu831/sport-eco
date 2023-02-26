@@ -16,6 +16,7 @@ import useAddSession from "./useAddSession";
 import { RootStackScreenProps } from "../Navigation/types";
 import DateTimePicker from "../../components/DateTimePicker";
 import moment from "moment";
+import SafeArea from "../../components/SafeArea";
 
 const AddSession = ({
   navigation,
@@ -31,7 +32,7 @@ const AddSession = ({
   const { description = "", sessionDuration, sessionName } = state;
 
   return (
-    <SafeAreaView style={styles.safeView}>
+    <SafeArea classNames={styles.safeView}>
       <ScrollView>
         <View style={[styles.containerView, styles.flex]}>
           <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
@@ -100,7 +101,7 @@ const AddSession = ({
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

@@ -118,8 +118,7 @@ export const useVerificationScreen = ({
         dispatch(setIsLoginVerified(true));
         navigation.navigate("Confirmation", {
           label: "Account verified!",
-          navigateTo: "EditProfile",
-          isNewUser: !res.payload.redirecttodashboard,
+          navigateTo: res.payload.redirecttodashboard ? "Main" : "EditProfile",
         });
       });
     } else {

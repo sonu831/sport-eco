@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import CustomDropdown from "../../components/Dropdown";
+import SafeArea from "../../components/SafeArea";
 import TextField from "../../components/TextField";
 import { Colors } from "../../constants/Colors";
 import { CITY_OPTIONS, STATE_OPTIONS } from "../../constants/EditProfile";
@@ -20,7 +21,7 @@ const AddVenue = () => {
   const { name, courtName, sport, address, city, state: userState } = state;
 
   return (
-    <SafeAreaView style={styles.safeView}>
+    <SafeArea classNames={styles.safeView}>
       <ScrollView>
         <View style={[styles.containerView, styles.flex]}>
           <TouchableOpacity style={styles.backButton}>
@@ -119,7 +120,7 @@ const AddVenue = () => {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

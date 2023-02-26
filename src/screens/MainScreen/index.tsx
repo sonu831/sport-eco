@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from "react-native";
+import { Text, View, TouchableOpacity, ScrollView, Image } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { styles } from "./styles";
@@ -16,12 +9,13 @@ import SearchBar from "../../components/SearchBar";
 import moment from "moment";
 import { tabs, dummyEvent } from "../../constants/MainScreen";
 import { RootBottomTabProps } from "../Navigation/types";
+import SafeArea from "../../components/SafeArea";
 
 const MainScreen = ({ navigation }: RootBottomTabProps<"Main">) => {
   const { updateState } = useMainScreen();
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeArea classNames={styles.safeArea}>
       <ScrollView style={styles.mainContainer}>
         <TouchableOpacity style={styles.menuIconContainer}>
           <MaterialIcons name="menu" size={30} color="black" />
@@ -75,7 +69,7 @@ const MainScreen = ({ navigation }: RootBottomTabProps<"Main">) => {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

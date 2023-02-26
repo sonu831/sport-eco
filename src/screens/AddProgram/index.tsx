@@ -15,6 +15,7 @@ import TextField from "../../components/TextField";
 import useAddProgram from "./useAddProgram";
 import { RootStackScreenProps } from "../Navigation/types";
 import { SessionDefinition } from "../../types/session";
+import SafeArea from "../../components/SafeArea";
 
 const AddProgram = ({
   navigation,
@@ -29,7 +30,7 @@ const AddProgram = ({
   const { programName = "", description = "" } = state;
 
   return (
-    <SafeAreaView style={styles.safeView}>
+    <SafeArea classNames={styles.safeView}>
       <ScrollView>
         <View style={[styles.containerView, styles.flex]}>
           <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
@@ -115,7 +116,7 @@ const AddProgram = ({
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

@@ -18,6 +18,7 @@ import { Colors } from "../../constants/Colors";
 import RenderPlayerList from "./RenderPlayerList";
 import RenderBatchList from "./RenderbatchList";
 import RenderVenueList from "./RenderVenueList";
+import SafeArea from "../../components/SafeArea";
 
 const Players = ({
   navigation,
@@ -39,7 +40,7 @@ const Players = ({
   } = useCommonScreen({ navigation, route });
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeArea classNames={styles.safeArea}>
       <ScrollView style={styles.mainContainer}>
         <TouchableOpacity
           style={styles.menuIconContainer}
@@ -87,7 +88,7 @@ const Players = ({
       <TouchableOpacity style={styles.floatingBtn} onPress={handleAddIcon}>
         <Image source={addIcon} />
       </TouchableOpacity>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 
