@@ -46,7 +46,7 @@ const useNavigation = () => {
     if (fontsLoaded)
       dispatch(fetchUserById()).then((res) => {
         if (res?.payload?.success) {
-          // dispatch(setIsVerified(true));
+          dispatch(setIsVerified(true));
           isAppReady(true);
         } else {
           isAppReady(true);

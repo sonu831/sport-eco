@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
   safeArea: {
     backgroundColor: Colors.white,
     height: window.height - bottomNavigationHeight,
-    paddingBottom: Platform.OS === "android" ? 30 : 15,
   },
   mainContainer: {
     paddingHorizontal: 40,

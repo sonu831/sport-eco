@@ -114,7 +114,6 @@ export const useVerificationScreen = ({
       span.finish(); // Remember that only finished spans will be sent with the transaction
       transaction.finish(); // Finishing the transaction will send it to Sentry
       dispatch(validateOtp(request)).then((res) => {
-        console.log("res", res.payload);
         dispatch(setIsVerified(true));
         dispatch(setIsLoginVerified(true));
         navigation.navigate("Confirmation", {

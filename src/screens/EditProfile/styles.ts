@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
   mr27: { marginRight: 27 },
   mt10: { marginTop: 10 },
   mt21: { marginTop: 21 },
+  mv20: { marginVertical: 20 },
   category: {
     width: 87,
     height: 55,

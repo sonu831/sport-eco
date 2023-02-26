@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from "react-native";
+import { Text, View, TouchableOpacity, ScrollView, Image } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { styles } from "./styles";

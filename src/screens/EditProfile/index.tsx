@@ -283,7 +283,7 @@ const EditProfile = ({
               </View>
             </View>
           )}
-          <View style={[styles.fieldRow, styles.justifyCenter, styles.mt21]}>
+          <View style={[styles.fieldRow, styles.justifyCenter, styles.mv20]}>
             <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
               <Text style={styles.saveBtnText}>Save</Text>
             </TouchableOpacity>
