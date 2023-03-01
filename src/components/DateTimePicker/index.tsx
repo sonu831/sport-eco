@@ -9,12 +9,14 @@ type DateTimePickerProps = {
   type: "date" | "time" | "datetime";
   value: Moment;
   onChange: any;
+  formatToShow: string;
 };
 
 const DateTimePicker = ({
   type = "date",
   value,
   onChange,
+  formatToShow,
 }: DateTimePickerProps) => {
   const { state, handleConfirm, handleShowDatePicker, hideDatePicker } =
     useDateTimePicker({ value, onChange });
@@ -26,7 +28,7 @@ const DateTimePicker = ({
         style={[styles.w195, styles.timeInputContainer]}
         onPress={handleShowDatePicker}
       >
-        <Text>{date?.format("HH:mm:ss")}</Text>
+        <Text>{date?.format(formatToShow)}</Text>
       </TouchableOpacity>
       <DateTimePickerModal
         isVisible={showDatePicker}

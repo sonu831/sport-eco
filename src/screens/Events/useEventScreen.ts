@@ -20,19 +20,7 @@ const useEventScreen = ({
   const handleGoBack = () => navigation.goBack();
 
   const handleAddIcon = () => {
-    // const route = showPlayers
-    //   ? "EditProfile"
-    //   : showPrograms
-    //   ? "AddProgram"
-    //   : showVenues
-    //   ? "AddVenue"
-    //   : "AddBatch";
-    // const option = showPlayers
-    //   ? {
-    //       isAddPlayer: true,
-    //     }
-    //   : {};
-    // navigation.navigate(route, option);
+    navigation.navigate("AddEvents");
   };
 
   return {
