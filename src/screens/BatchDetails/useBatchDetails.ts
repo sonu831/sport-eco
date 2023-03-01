@@ -38,11 +38,6 @@ const useBatchPage = ({
       });
   };
 
-  useEffect(() => {
-    // Need to pass this Id dynamically
-    dispatch(fetchBatchById({ id: "63f762511988747d72bd9b1e" }));
-  }, [dispatch]);
-
   return {
     batchDetails,
     handleGoBack,

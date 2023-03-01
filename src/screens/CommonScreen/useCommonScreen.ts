@@ -30,7 +30,6 @@ const useCommonScreen = ({
   const players: any[] = useSelector(players$);
   const batchList: any[] = useSelector(batches$);
   const venueList: any[] = useSelector(venueList$);
-  console.log("venueList", venueList);
 
   const showPlayers = title.toLowerCase() === "players";
   const showBatches = title.toLowerCase() === "batches";

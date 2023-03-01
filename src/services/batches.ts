@@ -34,7 +34,7 @@ export const fetchBatches = createAsyncThunk(
   "fetchBatches",
   async (_, { rejectWithValue }) => {
     return axios
-      .get(endpoints.addBatch)
+      .get(endpoints.fetchBatchList)
       .then((res) => res.data)
       .catch((err) => {
         rejectWithValue(err);

@@ -22,7 +22,7 @@ const RenderBatchList = ({
           onPress={() => handleClickOnProfile(batch)}
         >
           <Image source={batchIcon} style={styles.playerAvatar} />
-          <Text style={styles.playerName}>{batch?.name}</Text>
+          <Text style={styles.playerName}>{batch?.batch_name}</Text>
         </TouchableOpacity>
       ))}
     </View>

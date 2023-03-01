@@ -43,7 +43,6 @@ const useAddBatch = ({
   const [state, setState] = useState<Partial<InitialState>>(initialState);
   const selectedPlayers = useSelector(selectedPlayers$);
   const selectedBatch: Partial<batchDefinition> = useSelector(batchDetails$);
-
   const handleGoBack = () => navigation.goBack();
 
   const updateState = (request: any) => {
@@ -64,8 +63,7 @@ const useAddBatch = ({
         player_id: player.playerid,
       })
     ).then(() => {
-      // Need to pass this Id dynamically
-      dispatch(fetchBatchById({ id: "63f762511988747d72bd9b1e" }));
+      dispatch(deletePlayer(player));
     });
   };
 
@@ -112,20 +110,22 @@ const useAddBatch = ({
 
       dispatch(addBatch(request)).then((res) => {
         if (!!res.payload) {
-          handleGoBack();
+          dispatch(fetchBatches()).then(() => handleGoBack());
         }
       });
     }
   };
 
   useEffect(() => {
-    setState((preState) => ({
-      ...preState,
-      batchName: selectedBatch?.batch_name,
-      description: selectedBatch?.description,
-    }));
+    if (!!selectedBatch._id) {
+      setState((preState) => ({
+        ...preState,
+        batchName: selectedBatch?.batch_name,
+        description: selectedBatch?.description,
+      }));
 
-    dispatch(setSelectedPlayers(selectedBatch?.players));
+      dispatch(setSelectedPlayers(selectedBatch?.players));
+    }
   }, [selectedBatch]);
 
   return {
