@@ -48,8 +48,12 @@ export const styles = StyleSheet.create({
     color: Colors.red,
   },
   w195: { width: 195 },
+  w94: { width: 94 },
   h104: { height: 104 },
   py16: { paddingVertical: 16 },
+  px25: {
+    paddingHorizontal: 25,
+  },
   m42: { marginTop: 42 },
   calendarOption: {
     backgroundColor: Colors.gray1,
@@ -59,8 +63,15 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     fontFamily: "Avenir-Regular",
   },
+  justifyCenter: { justifyContent: "center" },
   ml5: {
     marginLeft: 5,
+  },
+  ml10: {
+    marginLeft: 10,
+  },
+  mlAuto: {
+    marginLeft: "auto",
   },
   selected: {
     backgroundColor: Colors.orange,
@@ -68,4 +79,39 @@ export const styles = StyleSheet.create({
   selectedText: {
     color: Colors.white,
   },
+  timeField: {
+    backgroundColor: "transparent",
+    width: 60,
+  },
+  arrow: {
+    marginHorizontal: 8,
+  },
+  borderBottom: {
+    borderBottomColor: Colors.gray1,
+    borderBottomWidth: 1,
+  },
+  mt24: {
+    marginTop: 24,
+  },
+  fieldInput: {
+    backgroundColor: Colors.gray1,
+    width: 95,
+    height: 35,
+    padding: 10,
+    borderRadius: 10,
+  },
+  saveBtn: {
+    backgroundColor: Colors.orange,
+    width: 64,
+    height: 35,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  saveBtnText: {
+    fontWeight: "700",
+    color: Colors.white,
+    fontFamily: "Avenir-Regular",
+  },
+  mv20: { marginVertical: 20 },
 });

@@ -9,12 +9,30 @@ type InitialState = {
   title: string;
   calenderOption: string;
   date: Moment;
+  startTime: Moment;
+  endTime: Moment;
+  repeatOption: string;
+  allDay: boolean;
+  customEmail: string;
+  participant: any;
+  description: string;
+  program: string;
+  venue: string;
 };
 
 const initialState = {
   title: "",
   calenderOption: "Today",
   date: moment(),
+  startTime: moment(),
+  endTime: moment().add(1, "hours"),
+  repeatOption: "",
+  allDay: false,
+  customEmail: "",
+  participant: "",
+  description: "",
+  program: "",
+  venue: "",
 };
 
 const useAddEvent = ({
