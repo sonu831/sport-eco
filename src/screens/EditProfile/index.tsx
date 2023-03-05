@@ -113,7 +113,9 @@ const EditProfile = ({
             </View>
           </View>
           <View style={[styles.fieldRow, styles.py16]}>
-            <Text style={styles.fieldRowLabel}>Middle Name</Text>
+            <Text style={styles.fieldRowLabel}>
+              {isAddPlayer ? "Phone Number" : `Middle Name`}
+            </Text>
             <TextInput
               value={mName}
               onChangeText={(newName) =>

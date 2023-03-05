@@ -49,33 +49,4 @@ export const styles = StyleSheet.create({
     right: 30,
     bottom: 30,
   },
-  playerListContainer: {
-    display: "flex",
-    borderTopRightRadius: 40,
-    borderTopLeftRadius: 40,
-    backgroundColor: Colors.gray1,
-    padding: 40,
-    flexGrow: 1,
-  },
-  playerListItem: {
-    flexDirection: "row",
-    paddingHorizontal: 20,
-    alignItems: "center",
-  },
-  pb60: { paddingBottom: 60 },
-  playerAvatar: {
-    height: 75,
-    width: 75,
-    borderRadius: 50,
-  },
-  playerName: {
-    marginLeft: 20,
-    fontFamily: "Avenir-Regular",
-    fontSize: 12,
-    lineHeight: 14,
-  },
-  programIcon: {
-    width: 75,
-    height: 75,
-  },
 });

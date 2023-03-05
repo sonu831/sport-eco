@@ -1,12 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchPrograms } from "../../services/programs";
 import { SessionDefinition } from "../../types/session";
 
 type InitialState = {
   sessions: SessionDefinition[];
+  programList: any;
+  selectedProgram: any;
 };
 
 const initialState: InitialState = {
   sessions: [],
+  programList: [],
+  selectedProgram: null,
 };
 
 export const ProgramSlice = createSlice({
@@ -19,7 +24,16 @@ export const ProgramSlice = createSlice({
     removeSession: (s, a) => {
       s.sessions = s.sessions.filter((e) => e.id !== a.payload);
     },
+    setSelectedProgram: (s, a) => {
+      s.selectedProgram = a.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchPrograms.fulfilled, (s, a) => {
+      s.programList = a.payload || [];
+    });
   },
 });
 
-export const { addSession, removeSession } = ProgramSlice.actions;
+export const { addSession, removeSession, setSelectedProgram } =
+  ProgramSlice.actions;

@@ -13,6 +13,9 @@ import { setSelectedPlayer } from "../../store/players/reducers";
 import { venueList$ } from "../../store/venue/selectors";
 import { setSelectedVenue } from "../../store/venue/reducers";
 import { fetchVenueList } from "../../services/venue";
+import { fetchPrograms } from "../../services/programs";
+import { programList$ } from "../../store/programs/selectors";
+import { setSelectedProgram } from "../../store/programs/reducers";
 
 const useCommonScreen = ({
   navigation,
@@ -30,7 +33,7 @@ const useCommonScreen = ({
   const players: any[] = useSelector(players$);
   const batchList: any[] = useSelector(batches$);
   const venueList: any[] = useSelector(venueList$);
-  console.log("venueList", venueList);
+  const programList: any[] = useSelector(programList$);
 
   const showPlayers = title.toLowerCase() === "players";
   const showBatches = title.toLowerCase() === "batches";
@@ -57,28 +60,34 @@ const useCommonScreen = ({
     navigation.navigate("VenueDetail");
   };
 
-  const handleAddIcon = () => {
-    const route = showPlayers
-      ? "EditProfile"
-      : showPrograms
-      ? "AddProgram"
-      : showVenues
-      ? "AddVenue"
-      : "AddBatch";
-    const option = showPlayers
-      ? {
-          isAddPlayer: true,
-        }
-      : {};
-    navigation.navigate(route, option);
+  const handleProgramListItemClick = (program: any) => {
+    dispatch(setSelectedProgram(program));
+    navigation.navigate("ProgramDetails");
   };
 
-  const dataToShow = showPlayers ? players : showVenues ? venueList : batchList;
+  const handleAddIcon = () => {
+    if (showPlayers)
+      navigation.navigate("EditProfile", {
+        isAddPlayer: true,
+      });
+    else if (showPrograms) navigation.navigate("AddProgram");
+    else if (showVenues) navigation.navigate("AddVenue");
+    else navigation.navigate("AddBatch");
+  };
+
+  const dataToShow = showPlayers
+    ? players
+    : showVenues
+    ? venueList
+    : showPrograms
+    ? programList
+    : batchList;
 
   useEffect(() => {
     if (showPlayers) dispatch(fetchPlayers());
     else if (showBatches) dispatch(fetchBatches());
     else if (showVenues) dispatch(fetchVenueList());
+    else if (showPrograms) dispatch(fetchPrograms());
   }, [dispatch, shouldRefresh]);
 
   return {
@@ -94,6 +103,7 @@ const useCommonScreen = ({
     showVenues,
     venueList,
     handleVenueListItemClick,
+    handleProgramListItemClick,
   };
 };
 

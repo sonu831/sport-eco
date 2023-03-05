@@ -22,6 +22,9 @@ import AddProgram from "../AddProgram";
 import AddSession from "../AddSession";
 import AddVenue from "../AddVenue";
 import VenueDetail from "../VenueDetail";
+import Events from "../Events";
+import AddEvents from "../AddEvents";
+import ProgramDetails from "../ProgramDetails";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -51,6 +54,9 @@ const Navigation = () => {
               <Stack.Screen name="SelectPlayer" component={SelectPlayer} />
               <Stack.Screen name="AddVenue" component={AddVenue} />
               <Stack.Screen name="VenueDetail" component={VenueDetail} />
+              <Stack.Screen name="Events" component={Events} />
+              <Stack.Screen name="AddEvents" component={AddEvents} />
+              <Stack.Screen name="ProgramDetails" component={ProgramDetails} />
             </Stack.Group>
           ) : (
             <Stack.Group>

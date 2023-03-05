@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
   placeholderStyle: {
     fontFamily: "Avenir-Regular",
     fontSize: 12,
+    color: Colors.gray,
   },
   selectedTextStyle: {
     fontFamily: "Avenir-Regular",

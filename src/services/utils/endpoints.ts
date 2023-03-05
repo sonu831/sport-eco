@@ -19,6 +19,7 @@ export const endpoints = {
   updateBatchDetails: `api/batch/updatebatchdetails`,
   addPlayerInBatch: `api/batch/addplayerinbatch`,
   deletePlayerFromBatch: `api/batch/removeplayerinbatch`,
+  fetchBatchList: `api/batch/listofbatches`,
 
   // Venues
   listOfVenue: `api/venue/listofvenue`,
@@ -28,4 +29,5 @@ export const endpoints = {
 
   // Programs
   addPrograms: `api/program/addprogram`,
+  fetchPrograms: `api/program/listofprograms`,
 };

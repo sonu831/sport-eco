@@ -43,8 +43,9 @@ const useAddBatch = ({
   const [state, setState] = useState<Partial<InitialState>>(initialState);
   const selectedPlayers = useSelector(selectedPlayers$);
   const selectedBatch: Partial<batchDefinition> = useSelector(batchDetails$);
-
   const handleGoBack = () => navigation.goBack();
+
+  console.log("selectedPlayers", selectedPlayers);
 
   const updateState = (request: any) => {
     if (Array.isArray(request)) {
@@ -58,45 +59,44 @@ const useAddBatch = ({
   };
 
   const removeSelectedPlayer = (player: any) => {
-    dispatch(
-      deletePlayerFromBatch({
-        id: selectedBatch?._id,
-        player_id: player.playerid,
-      })
-    ).then(() => {
-      // Need to pass this Id dynamically
-      dispatch(fetchBatchById({ id: "63f762511988747d72bd9b1e" }));
-    });
+    // dispatch(
+    //   deletePlayerFromBatch({
+    //     id: selectedBatch?._id,
+    //     player_id: player.playerid,
+    //   })
+    // ).then(() => {
+    dispatch(deletePlayer(player));
+    // });
   };
 
   const handleSaveBatches = () => {
     if (isEdit) {
       const request = {
         batch_name: state.batchName,
-        ...(state.description && { description: state.description }),
+        description: state.description,
         players: selectedPlayers?.map((item: PlayerDefinition) => ({
-          playerid: item._id,
-          name: item.name,
+          playerid: item._id || item.playerid,
+          name: item.name || `${item.first_name} ${item.last_name}}`,
         })),
       };
 
-      const playersPayload = {
-        batch_id: selectedBatch?._id,
-        players: selectedPlayers?.map((item: PlayerDefinition) => ({
-          playerid: item._id,
-          name: item.name || `${item.first_name} ${item.last_name}`,
-        })),
-      };
+      // const playersPayload = {
+      //   batch_id: selectedBatch?._id,
+      //   players: selectedPlayers?.map((item: PlayerDefinition) => ({
+      //     playerid: item._id,
+      //     name: item.name || `${item.first_name} ${item.last_name}`,
+      //   })),
+      // };
 
       dispatch(updateBatch({ data: request, id: selectedBatch?._id })).then(
         (res) => {
           if (!!res.payload) {
-            dispatch(addPlayersInBatch(playersPayload)).then(() =>
-              navigation.navigate("CommonScreen", {
-                title: "Batches",
-                shouldRefresh: true,
-              })
-            );
+            // dispatch(addPlayersInBatch(playersPayload)).then(() =>
+            navigation.navigate("CommonScreen", {
+              title: "Batches",
+              shouldRefresh: true,
+            });
+            // );
           }
         }
       );
@@ -112,20 +112,22 @@ const useAddBatch = ({
 
       dispatch(addBatch(request)).then((res) => {
         if (!!res.payload) {
-          handleGoBack();
+          dispatch(fetchBatches()).then(() => handleGoBack());
         }
       });
     }
   };
 
   useEffect(() => {
-    setState((preState) => ({
-      ...preState,
-      batchName: selectedBatch?.batch_name,
-      description: selectedBatch?.description,
-    }));
+    if (!!selectedBatch._id) {
+      setState((preState) => ({
+        ...preState,
+        batchName: selectedBatch?.batch_name,
+        description: selectedBatch?.description,
+      }));
 
-    dispatch(setSelectedPlayers(selectedBatch?.players));
+      dispatch(setSelectedPlayers(selectedBatch?.players));
+    }
   }, [selectedBatch]);
 
   return {

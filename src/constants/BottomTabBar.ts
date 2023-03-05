@@ -1,6 +1,3 @@
-import ProfileScreen from "../screens/ProfilePage";
-import MainScreen from "../screens/MainScreen";
-import AddScreen from "../screens/CommonScreen";
 import homeIcon from "../assets/images/home.png";
 import calendarIcon from "../assets/images/calender.png";
 import messageIcon from "../assets/images/message.png";
@@ -27,7 +24,7 @@ export const BottomTabBar: ({
   },
   {
     name: "Calendar",
-    onPress: () => navigation.navigate("Calendar"),
+    onPress: () => navigation.navigate("Events"),
     title: "",
     tabBarIcon: calendarIcon,
   },

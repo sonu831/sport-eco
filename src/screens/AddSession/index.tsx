@@ -89,6 +89,7 @@ const AddSession = ({
                   value: moment(value),
                 })
               }
+              formatToShow="HH:mm:ss"
             />
           </View>
           <View style={[styles.alignCenter, styles.mt85]}>

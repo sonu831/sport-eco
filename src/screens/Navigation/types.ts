@@ -1,7 +1,6 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { CompositeScreenProps } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { GestureResponderEvent } from "react-native";
 
 declare global {
   namespace ReactNavigation {
@@ -30,8 +29,10 @@ export type RootStackParamList = {
     | any;
   SelectPlayer: any;
   AddSession: any;
+  AddEvents: any;
   AddVenue: { isEdit?: boolean } | undefined;
   BatchScreen: any;
+  ProgramDetails: any;
   VenueDetail: any;
   Profile: { player?: boolean } | undefined;
   Confirmation:
@@ -42,6 +43,7 @@ export type RootStackParamList = {
         isNewUser?: boolean;
       }
     | undefined;
+  Events: any;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

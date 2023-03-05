@@ -60,9 +60,12 @@ const useAddProgram = ({
       })),
     };
 
-    dispatch(addPrograms({ data: request })).then((res) => {
-      console.log("res", res.payload);
-    });
+    dispatch(addPrograms({ data: request })).then(() =>
+      navigation.navigate("CommonScreen", {
+        title: "Programs",
+        shouldRefresh: true,
+      })
+    );
   };
 
   const handleDeleteSession = (id: any) => {

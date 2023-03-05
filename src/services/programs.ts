@@ -19,3 +19,16 @@ export const addPrograms = createAsyncThunk(
       });
   }
 );
+
+export const fetchPrograms = createAsyncThunk(
+  "fetchPrograms",
+  async (_, { rejectWithValue }) => {
+    return axios
+      .get(endpoints.fetchPrograms)
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log("err", err);
+        rejectWithValue(err);
+      });
+  }
+);

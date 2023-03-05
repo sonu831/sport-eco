@@ -1,5 +1,10 @@
-import { fetchBatchById, fetchBatches } from "./../../services/batches";
+import {
+  deleteBatch,
+  fetchBatchById,
+  fetchBatches,
+} from "./../../services/batches";
 import { createSlice } from "@reduxjs/toolkit";
+import { PlayerDefinition } from "../../types/player";
 
 const initialState = {
   batches: [],
@@ -20,7 +25,8 @@ export const BatchSlice = createSlice({
     },
     deletePlayer: (s, a) => {
       s.selectedPlayers = s.selectedPlayers.filter(
-        (item) => item.playerid !== a.payload.playerid
+        (item: PlayerDefinition) =>
+          item.playerid !== a.payload.playerid || item._id !== a.payload._id
       );
     },
   },
@@ -29,8 +35,9 @@ export const BatchSlice = createSlice({
       .addCase(fetchBatches.fulfilled, (s, a) => {
         s.batches = a.payload;
       })
-      .addCase(fetchBatchById.fulfilled, (s, a) => {
-        s.batchDetails = a.payload;
+      .addCase(deleteBatch.fulfilled, (s, a) => {
+        s.batchDetails = initialState.batchDetails;
+        s.selectedPlayers = initialState.selectedPlayers;
       });
   },
 });

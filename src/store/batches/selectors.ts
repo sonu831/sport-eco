@@ -4,11 +4,11 @@ import { RootState } from "../index";
 
 const batch$ = (s: RootState) => s[BatchSlice.name];
 
-export const batches$ = createSelector([batch$], (batch) => batch.batches);
+export const batches$ = createSelector([batch$], (batch) => batch.batches.data);
 
 export const batchDetails$ = createSelector(
   [batch$],
-  (batch) => batch.batchDetails?.data || {}
+  (batch) => batch.batchDetails || {}
 );
 
 export const selectedPlayers$ = createSelector(

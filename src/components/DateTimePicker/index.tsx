@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity } from "react-native";
+import { StyleProp, Text, TouchableOpacity, ViewStyle } from "react-native";
 import React from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import useDateTimePicker from "./useDateTimePicker";
@@ -9,12 +9,16 @@ type DateTimePickerProps = {
   type: "date" | "time" | "datetime";
   value: Moment;
   onChange: any;
+  formatToShow: string;
+  classNames?: StyleProp<ViewStyle>;
 };
 
 const DateTimePicker = ({
   type = "date",
   value,
   onChange,
+  formatToShow,
+  classNames,
 }: DateTimePickerProps) => {
   const { state, handleConfirm, handleShowDatePicker, hideDatePicker } =
     useDateTimePicker({ value, onChange });
@@ -23,10 +27,10 @@ const DateTimePicker = ({
   return (
     <>
       <TouchableOpacity
-        style={[styles.w195, styles.timeInputContainer]}
+        style={[styles.w195, styles.timeInputContainer, classNames]}
         onPress={handleShowDatePicker}
       >
-        <Text>{date?.format("HH:mm:ss")}</Text>
+        <Text>{date?.format(formatToShow)}</Text>
       </TouchableOpacity>
       <DateTimePickerModal
         isVisible={showDatePicker}

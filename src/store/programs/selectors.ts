@@ -8,3 +8,13 @@ export const sessions$ = createSelector(
   [programs$],
   (programs) => programs.sessions
 );
+
+export const programList$ = createSelector(
+  [programs$],
+  (programs) => programs.programList.data
+);
+
+export const selectedProgramDetails$ = createSelector(
+  [programs$],
+  (programs) => programs.selectedProgram
+);
