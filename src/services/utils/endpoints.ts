@@ -29,4 +29,5 @@ export const endpoints = {
 
   // Programs
   addPrograms: `api/program/addprogram`,
+  fetchPrograms: `api/program/listofprograms`,
 };

@@ -149,7 +149,7 @@ const useEditProfile = ({
     const request = {
       first_name: fName,
       last_name: lName,
-      middle_name: mName,
+      ...(isAddPlayer ? { contact_no: mName } : { middle_name: mName }),
       DOB: {
         date: dobDate,
         month: dobMonth,

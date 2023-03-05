@@ -1,6 +1,7 @@
 export interface PlayerDefinition {
   __v: number;
   _id: string;
+  playerid: string;
   account_createdAt: Date;
   city: string;
   contact_no: string;

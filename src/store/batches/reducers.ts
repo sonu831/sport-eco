@@ -4,6 +4,7 @@ import {
   fetchBatches,
 } from "./../../services/batches";
 import { createSlice } from "@reduxjs/toolkit";
+import { PlayerDefinition } from "../../types/player";
 
 const initialState = {
   batches: [],
@@ -24,7 +25,7 @@ export const BatchSlice = createSlice({
     },
     deletePlayer: (s, a) => {
       s.selectedPlayers = s.selectedPlayers.filter(
-        (item) =>
+        (item: PlayerDefinition) =>
           item.playerid !== a.payload.playerid || item._id !== a.payload._id
       );
     },

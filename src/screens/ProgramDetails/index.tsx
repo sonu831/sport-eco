@@ -1,0 +1,99 @@
+import React from "react";
+import Entypo from "react-native-vector-icons/Entypo";
+import { Text, View, Pressable, Image, ScrollView } from "react-native";
+import { Colors } from "../../constants/Colors";
+import { styles } from "./styles";
+import useProgramDetails from "./useProgramDetails";
+import { RootStackScreenProps } from "../Navigation/types";
+import Button from "../../components/Button";
+import TextField from "../../components/TextField";
+import SafeArea from "../../components/SafeArea";
+import badmintonIcon from "../../assets/images/badminton.png";
+
+const ProgramDetails = ({
+  navigation,
+  route,
+}: RootStackScreenProps<"ProgramDetails">) => {
+  const { handleGoBack, programDetails } = useProgramDetails({
+    navigation,
+    route,
+  });
+
+  console.log("programDetails", programDetails);
+
+  const sessions = programDetails?.sessions;
+
+  return (
+    <SafeArea classNames={styles.container}>
+      <ScrollView>
+        <View style={styles.containerView}>
+          <View style={styles.flexDirRow}>
+            <Pressable style={styles.backButton} onPress={handleGoBack}>
+              <Entypo name="chevron-left" size={20} color={Colors.darkGray} />
+            </Pressable>
+            <Text style={styles.username}>{programDetails?.program_name}</Text>
+          </View>
+          <View style={[styles.headerContainer, styles.py16]}>
+            <View style={styles.flexRow}>
+              <Button
+                label="Edit Program"
+                icon="chevron-right"
+                // onPress={() =>
+                //   navigation.navigate("AddBatch", {
+                //     isEdit: true,
+                //   })
+                // }
+              />
+              <Button
+                type="cancel"
+                label="Delete Program"
+                icon="chevron-right"
+                iconColor={Colors.orange}
+                // onPress={handleBatchDeletion}
+                style={styles.ml10}
+              />
+            </View>
+          </View>
+          <View style={[styles.fieldRow, styles.py16]}>
+            <View style={styles.flex}>
+              <Text style={styles.fieldRowLabel}>Program Name</Text>
+              <Text style={styles.required}>*</Text>
+            </View>
+            <TextField
+              value={programDetails?.program_name}
+              isEditable={false}
+              classNames={styles.w195}
+            />
+          </View>
+          <View style={[styles.fieldRow, styles.py16]}>
+            <Text style={styles.fieldRowLabel}>Description</Text>
+            <TextField
+              value={programDetails?.description}
+              classNames={[styles.w195, styles.h104]}
+              isMultiline={true}
+              isEditable={false}
+            />
+          </View>
+          <View style={styles.playerListContainer}>
+            {Array.isArray(sessions) &&
+              sessions?.length > 0 &&
+              sessions.map((session, sessionIndex) => (
+                <View
+                  style={[
+                    styles.playerListItem,
+                    sessionIndex !== sessions.length - 1 && styles.pb60,
+                  ]}
+                  key={sessionIndex}
+                >
+                  <Image source={badmintonIcon} style={styles.playerAvatar} />
+                  <Text style={styles.playerName}>{session?.sesionname}</Text>
+                </View>
+              ))}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeArea>
+  );
+};
+
+export default ProgramDetails;

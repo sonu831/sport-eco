@@ -19,6 +19,7 @@ import RenderPlayerList from "./RenderPlayerList";
 import RenderBatchList from "./RenderbatchList";
 import RenderVenueList from "./RenderVenueList";
 import SafeArea from "../../components/SafeArea";
+import RenderProgramList from "./RenderProgramList";
 
 const Players = ({
   navigation,
@@ -26,7 +27,6 @@ const Players = ({
 }: RootStackScreenProps<"CommonScreen">) => {
   const {
     title,
-    players = [],
     handleGoBack,
     handleClickOnProfile,
     showPlayers,
@@ -35,8 +35,8 @@ const Players = ({
     showPrograms,
     handleAddIcon,
     showVenues,
-    venueList,
     handleVenueListItemClick,
+    handleProgramListItemClick,
   } = useCommonScreen({ navigation, route });
 
   return (
@@ -71,8 +71,13 @@ const Players = ({
             />
           ) : showVenues ? (
             <RenderVenueList
-              data={venueList}
+              data={dataToShow}
               handleClick={handleVenueListItemClick}
+            />
+          ) : showPrograms ? (
+            <RenderProgramList
+              data={dataToShow}
+              handleClick={handleProgramListItemClick}
             />
           ) : null)
         ) : (

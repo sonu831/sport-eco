@@ -74,4 +74,8 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 14,
   },
+  programIcon: {
+    width: 75,
+    height: 75,
+  },
 });

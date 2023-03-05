@@ -32,6 +32,7 @@ export type RootStackParamList = {
   AddEvents: any;
   AddVenue: { isEdit?: boolean } | undefined;
   BatchScreen: any;
+  ProgramDetails: any;
   VenueDetail: any;
   Profile: { player?: boolean } | undefined;
   Confirmation:

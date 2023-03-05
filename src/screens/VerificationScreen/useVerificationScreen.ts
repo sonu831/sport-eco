@@ -1,4 +1,8 @@
-import { registerUser, validateOtp } from "./../../services/users";
+import {
+  fetchUserById,
+  registerUser,
+  validateOtp,
+} from "./../../services/users";
 import * as Sentry from "@sentry/react-native";
 import { phNumRegex, mockCode } from "./../../constants/index";
 import { useRef, useState } from "react";
@@ -103,6 +107,16 @@ export const useVerificationScreen = ({
     });
   };
 
+  const navigateToConfirmation = (isUserExist: boolean) => {
+    dispatch(setIsVerified(true));
+    dispatch(setIsLoginVerified(true));
+
+    navigation.navigate("Confirmation", {
+      label: "Account verified!",
+      navigateTo: isUserExist ? "Main" : "EditProfile",
+    });
+  };
+
   const handleOTPValidation = () => {
     const isEnterCodeValid = validationCode === codeToValidate.toString();
 
@@ -114,12 +128,13 @@ export const useVerificationScreen = ({
       span.finish(); // Remember that only finished spans will be sent with the transaction
       transaction.finish(); // Finishing the transaction will send it to Sentry
       dispatch(validateOtp(request)).then((res) => {
-        dispatch(setIsVerified(true));
-        dispatch(setIsLoginVerified(true));
-        navigation.navigate("Confirmation", {
-          label: "Account verified!",
-          navigateTo: res.payload.redirecttodashboard ? "Main" : "EditProfile",
-        });
+        const isUserExist = res.payload.redirecttodashboard;
+
+        if (isUserExist)
+          dispatch(fetchUserById()).then(() =>
+            navigateToConfirmation(isUserExist)
+          );
+        else navigateToConfirmation(isUserExist);
       });
     } else {
       updateState({
