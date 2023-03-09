@@ -32,3 +32,20 @@ export const fetchPrograms = createAsyncThunk(
       });
   }
 );
+
+export const deleteProgram = createAsyncThunk(
+  "deleteProgram",
+  async ({ programId }: { programId: string }, { rejectWithValue }) => {
+    return axios
+      .get(endpoints.deleteProgram, {
+        headers: {
+          program_id: programId,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log("err", err);
+        rejectWithValue(err);
+      });
+  }
+);

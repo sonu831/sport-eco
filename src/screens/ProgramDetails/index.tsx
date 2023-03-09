@@ -14,12 +14,11 @@ const ProgramDetails = ({
   navigation,
   route,
 }: RootStackScreenProps<"ProgramDetails">) => {
-  const { handleGoBack, programDetails } = useProgramDetails({
-    navigation,
-    route,
-  });
-
-  console.log("programDetails", programDetails);
+  const { handleGoBack, programDetails, handleDeleteProgram } =
+    useProgramDetails({
+      navigation,
+      route,
+    });
 
   const sessions = programDetails?.sessions;
 
@@ -49,7 +48,7 @@ const ProgramDetails = ({
                 label="Delete Program"
                 icon="chevron-right"
                 iconColor={Colors.orange}
-                // onPress={handleBatchDeletion}
+                onPress={handleDeleteProgram}
                 style={styles.ml10}
               />
             </View>
