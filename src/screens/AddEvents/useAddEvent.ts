@@ -2,6 +2,7 @@ import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import moment, { Moment } from "moment";
 import { useState } from "react";
+import { DateData } from "react-native-calendars";
 import { UpdateStateRequest } from "../../types/UpdateState";
 import { RootStackParamList } from "../Navigation/types";
 
@@ -18,6 +19,7 @@ type InitialState = {
   description: string;
   program: string;
   venue: string;
+  calendarDate: Moment;
 };
 
 const initialState = {
@@ -33,6 +35,7 @@ const initialState = {
   description: "",
   program: "",
   venue: "",
+  calendarDate: moment(),
 };
 
 const useAddEvent = ({

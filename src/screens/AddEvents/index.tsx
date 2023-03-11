@@ -23,6 +23,11 @@ import DateTimePicker from "../../components/DateTimePicker";
 import CustomDropdown from "../../components/Dropdown";
 import moment from "moment";
 import CustomSwitch from "../../components/Switch";
+import { Calendar } from "react-native-calendars";
+import Layout from "../../constants/Layout";
+import CustomCalendar from "../../components/Calendar";
+
+const { window } = Layout;
 
 const AddEvents = ({
   navigation,
@@ -46,12 +51,19 @@ const AddEvents = ({
     description,
     program,
     venue,
+    calendarDate,
   } = state;
 
   const diffInMinutes = endTime.diff(startTime, "minutes");
   const diffInHours = Math.floor(diffInMinutes / 60);
   const diffInMinutesRemainder = diffInMinutes % 60;
   const minutesToShow = !!diffInMinutesRemainder ? diffInMinutesRemainder : "";
+
+  const markedDates = {
+    [calendarDate.format("YYYY-MM-DD")]: {
+      selected: true,
+    },
+  };
 
   return (
     <SafeArea classNames={styles.safeView}>
@@ -109,16 +121,14 @@ const AddEvents = ({
             <Image source={calendarIcon} />
           </View>
           <View style={styles.fieldRow}>
-            <DateTimePicker
-              type="date"
-              value={date}
-              onChange={(value: any) =>
+            <CustomCalendar
+              value={calendarDate}
+              onChange={(day) =>
                 updateState({
-                  key: "date",
-                  value: moment(value),
+                  key: "calendarDate",
+                  value: moment(day.dateString),
                 })
               }
-              formatToShow="DD-MM-YYYY"
             />
           </View>
           <View style={[styles.flex, styles.py16, styles.px25]}>
