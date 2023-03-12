@@ -45,8 +45,6 @@ const useAddBatch = ({
   const selectedBatch: Partial<batchDefinition> = useSelector(batchDetails$);
   const handleGoBack = () => navigation.goBack();
 
-  console.log("selectedPlayers", selectedPlayers);
-
   const updateState = (request: any) => {
     if (Array.isArray(request)) {
       request.forEach(({ key, value }) =>

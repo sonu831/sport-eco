@@ -16,5 +16,8 @@ export const Colors = {
   green: "#0BD273",
   blue1: "#A1E2FF",
   black: "#00000010",
+  black2: "#00000040",
   toggleHead: "#0BD27380",
+  calendarDayColor: "#69695D",
+  calendarBgColor: "rgba(255, 79, 0, 0.09)",
 };

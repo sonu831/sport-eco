@@ -24,7 +24,7 @@ export const BottomTabBar: ({
   },
   {
     name: "Calendar",
-    onPress: () => navigation.navigate("Events"),
+    onPress: () => navigation.navigate("CalendarScreen"),
     title: "",
     tabBarIcon: calendarIcon,
   },

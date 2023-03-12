@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import venueIcon from "../../assets/images/venues.png";
 import Button from "../../components/Button";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import SafeArea from "../../components/SafeArea";
 import { Colors } from "../../constants/Colors";
 import { venueDetails, venueLocationDetails } from "../../constants/venue";
@@ -11,9 +12,12 @@ import { styles } from "./styles";
 import useVenueDetail from "./useVenueDetail";
 
 const VenueDetail = ({ navigation }: RootStackScreenProps<"VenueDetail">) => {
-  const { venueDetail, handleGoBack, handleDelete } = useVenueDetail({
-    navigation,
-  });
+  const { venueDetail, handleGoBack, handleDelete, state, updateState } =
+    useVenueDetail({
+      navigation,
+    });
+
+  const { showConfirmation } = state;
 
   const venueFields = venueDetails(venueDetail);
   const venueLocationFields = venueLocationDetails(venueDetail);
@@ -40,7 +44,13 @@ const VenueDetail = ({ navigation }: RootStackScreenProps<"VenueDetail">) => {
                 label="Delete Venue"
                 icon="chevron-right"
                 iconColor={Colors.orange}
-                onPress={handleDelete}
+                onPress={() =>
+                  updateState({
+                    key: "showConfirmation",
+                    value: !showConfirmation,
+                  })
+                }
+                // onPress={handleDelete}
                 style={styles.ml10}
               />
             </View>
@@ -74,6 +84,33 @@ const VenueDetail = ({ navigation }: RootStackScreenProps<"VenueDetail">) => {
           ))}
         </View>
       </ScrollView>
+
+      <ConfirmationModal
+        open={showConfirmation}
+        onHide={() =>
+          updateState({
+            key: "showConfirmation",
+            value: !showConfirmation,
+          })
+        }
+      >
+        <View>
+          <Text>Are you sure want to delete?</Text>
+          <View style={styles.flexRow}>
+            <Button
+              label="Cancel"
+              type="cancel"
+              onPress={() =>
+                updateState({
+                  key: "showConfirmation",
+                  value: !showConfirmation,
+                })
+              }
+            />
+            <Button label="Delete" onPress={handleDelete} style={styles.ml10} />
+          </View>
+        </View>
+      </ConfirmationModal>
     </SafeArea>
   );
 };
