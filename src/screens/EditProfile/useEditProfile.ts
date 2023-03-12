@@ -91,6 +91,27 @@ const useEditProfile = ({
       key: "image",
       value: image,
     });
+
+    if (!!image) {
+      fetch(image)
+        .then(async (res) => {
+          const data = await res.blob();
+
+          const formData = new FormData();
+
+          formData.append("profile_pic", data);
+
+          if (!isAddPlayer)
+            dispatch(
+              uploadPlayerProfilePicture({
+                formData,
+                playerId: playerDetails?._id,
+              })
+            );
+          else dispatch(uploadUserProfilePicture({ formData }));
+        })
+        .catch((err) => console.log("err", err));
+    }
   }, []);
 
   const handleUploadID = useCallback((file: any) => {
@@ -161,41 +182,6 @@ const useEditProfile = ({
       state: userState,
       ...(!isAddPlayer && { role: role }),
     };
-
-    if (!!image && !isAddPlayer) {
-      fetch(image)
-        .then(async (res) => {
-          const data = await res.blob();
-
-          const formData = new FormData();
-
-          formData.append("profile_pic", data);
-
-          // if(isAddPlayer) {
-          // dispatch(uploadPlayerProfilePicture({ formData,  }));
-          // } else {
-          dispatch(uploadUserProfilePicture({ formData }));
-          // }
-        })
-        .catch((err) => console.log("err", err));
-    } else if (!!image && isAddPlayer && isEdit) {
-      fetch(image)
-        .then(async (imageRes) => {
-          const data = await imageRes.blob();
-
-          const formData = new FormData();
-
-          formData.append("profile_pic", data);
-
-          dispatch(
-            uploadPlayerProfilePicture({
-              formData,
-              playerId: playerDetails?._id,
-            })
-          );
-        })
-        .catch((err) => console.log("err", err));
-    }
 
     if (isAddPlayer && !isEdit) {
       dispatch(addPlayer({ data: request })).then((res) => {

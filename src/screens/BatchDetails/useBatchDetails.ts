@@ -6,7 +6,16 @@ import { AppDispatch } from "../../store";
 import { batchDetails$ } from "../../store/batches/selectors";
 import { batchDefinition } from "../../types/batch";
 import { deleteBatch, fetchBatchById } from "../../services/batches";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { UpdateStateRequest } from "../../types/UpdateState";
+
+type InitialState = {
+  showConfirmation: boolean;
+};
+
+const initialState = {
+  showConfirmation: false,
+};
 
 const useBatchPage = ({
   navigation,
@@ -19,7 +28,19 @@ const useBatchPage = ({
   route: RouteProp<RootStackParamList, "BatchScreen">;
 }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const [state, setState] = useState<Partial<InitialState>>(initialState);
   const batchDetails: Partial<batchDefinition> = useSelector(batchDetails$);
+
+  const updateState = (request: UpdateStateRequest<keyof InitialState>) => {
+    if (Array.isArray(request)) {
+      request.forEach(({ key, value }) =>
+        setState((preState) => ({ ...preState, [key]: value }))
+      );
+    } else {
+      const { key, value } = request;
+      setState((preState) => ({ ...preState, [key]: value }));
+    }
+  };
 
   const handleGoBack = () => navigation.goBack();
 
@@ -39,6 +60,8 @@ const useBatchPage = ({
   };
 
   return {
+    state,
+    updateState,
     batchDetails,
     handleGoBack,
     handleBatchDeletion,

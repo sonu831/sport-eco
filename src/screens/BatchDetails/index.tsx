@@ -15,15 +15,24 @@ import { RootStackScreenProps } from "../Navigation/types";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import SafeArea from "../../components/SafeArea";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 const BatchScreen = ({
   navigation,
   route,
 }: RootStackScreenProps<"BatchScreen">) => {
-  const { handleGoBack, handleBatchDeletion, batchDetails } = useBatchPage({
+  const {
+    handleGoBack,
+    handleBatchDeletion,
+    batchDetails,
+    state,
+    updateState,
+  } = useBatchPage({
     navigation,
     route,
   });
+
+  const { showConfirmation } = state;
 
   const players = batchDetails?.players;
 
@@ -53,7 +62,12 @@ const BatchScreen = ({
                 label="Delete Batch"
                 icon="chevron-right"
                 iconColor={Colors.orange}
-                onPress={handleBatchDeletion}
+                onPress={() =>
+                  updateState({
+                    key: "showConfirmation",
+                    value: !showConfirmation,
+                  })
+                }
                 style={styles.ml10}
               />
             </View>
@@ -101,6 +115,37 @@ const BatchScreen = ({
           </View>
         </View>
       </ScrollView>
+
+      <ConfirmationModal
+        open={showConfirmation}
+        onHide={() =>
+          updateState({
+            key: "showConfirmation",
+            value: !showConfirmation,
+          })
+        }
+      >
+        <View>
+          <Text>Are you sure want to delete?</Text>
+          <View style={styles.flexRow}>
+            <Button
+              label="Cancel"
+              type="cancel"
+              onPress={() =>
+                updateState({
+                  key: "showConfirmation",
+                  value: !showConfirmation,
+                })
+              }
+            />
+            <Button
+              label="Delete"
+              onPress={handleBatchDeletion}
+              style={styles.ml10}
+            />
+          </View>
+        </View>
+      </ConfirmationModal>
     </SafeArea>
   );
 };
