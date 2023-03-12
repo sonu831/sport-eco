@@ -44,6 +44,7 @@ export type RootStackParamList = {
       }
     | undefined;
   Events: any;
+  CalendarScreen: any;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

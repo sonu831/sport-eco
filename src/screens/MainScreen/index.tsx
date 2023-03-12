@@ -27,10 +27,13 @@ const MainScreen = ({ navigation }: RootBottomTabProps<"Main">) => {
         />
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>Upcoming Events</Text>
-          <View style={styles.viewMore}>
+          <TouchableOpacity
+            style={styles.viewMore}
+            onPress={() => navigation.navigate("Events")}
+          >
             <Text style={styles.viewMoreText}>View All Events</Text>
             <AntDesign name="eyeo" size={16} color={Colors.lightOrange1} />
-          </View>
+          </TouchableOpacity>
         </View>
 
         <ScrollView
